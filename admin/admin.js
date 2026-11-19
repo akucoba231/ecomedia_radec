@@ -402,6 +402,12 @@ function openProfileModal() {
   const modal = document.getElementById('profileEditModal');
   if (!modal) return;
 
+  // Tutup sidebar otomatis di mobile jika sedang terbuka
+  const sidebar = document.getElementById('ecoSidebar');
+  if (sidebar && sidebar.classList.contains('open')) {
+    toggleSidebar();
+  }
+
   const savedData = JSON.parse(localStorage.getItem(KEY_GURU) || '{}');
   document.getElementById('editGuruName').value = savedData.nama || '';
   document.getElementById('editGuruClass').value = savedData.kelas || '';
@@ -542,7 +548,7 @@ async function loadDataSiswa(isManualRefresh = false) {
   if (tableBody) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="6" style="text-align: center; padding: 36px 20px; color: var(--text3);">
+        <td colspan="5" style="text-align: center; padding: 36px 20px; color: var(--text3);">
           <div style="display: inline-block; font-size: 1.8rem; margin-bottom: 8px;">⏳</div>
           <div style="font-weight: 700; color: var(--text2);">Sedang mengambil data siswa dari server...</div>
           <div style="font-size: 0.82rem; margin-top: 4px;">Menyesuaikan dengan kelas ${escapeHtml(guruKelas || '-')} di ${escapeHtml(guruSekolah || '-')}</div>
@@ -615,7 +621,7 @@ async function loadDataSiswa(isManualRefresh = false) {
     if (tableBody) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="6" style="text-align: center; padding: 32px 20px; color: #DC2626;">
+          <td colspan="5" style="text-align: center; padding: 32px 20px; color: #DC2626;">
             <div style="font-size: 1.8rem; margin-bottom: 6px;">⚠️</div>
             <div style="font-weight: 800;">Gagal memuat data siswa dari server.</div>
             <div style="font-size: 0.85rem; color: var(--text3); margin: 6px 0 14px;">${escapeHtml(err.message || 'Koneksi terputus')}</div>
@@ -647,7 +653,7 @@ function renderSiswaTable(students, searchQuery = '') {
     if (searchQuery) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="6" class="siswa-empty-state">
+          <td colspan="5" class="siswa-empty-state">
             <span class="siswa-empty-icon">🔍</span>
             <strong>Tidak ditemukan siswa yang cocok dengan "${escapeHtml(searchQuery)}"</strong>
             <div style="font-size: 0.82rem; color: var(--text3); margin-top: 4px;">Coba gunakan kata kunci nama atau nomor absen lain.</div>
@@ -657,7 +663,7 @@ function renderSiswaTable(students, searchQuery = '') {
     } else {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="6" class="siswa-empty-state">
+          <td colspan="5" class="siswa-empty-state">
             <span class="siswa-empty-icon">🎒</span>
             <strong>Belum ada siswa yang terdaftar untuk kelas ini.</strong>
             <div style="font-size: 0.85rem; color: var(--text3); margin-top: 4px;">
@@ -686,10 +692,6 @@ function renderSiswaTable(students, searchQuery = '') {
         <td><strong>${nama}</strong></td>
         <td><span class="kelas-badge">${kelas}</span></td>
         <td>${sekolah}</td>
-        <td style="text-align: center; white-space: nowrap;">
-          <button class="btn-action" onclick="alert('Fitur edit siswa (${nama}) akan segera hadir.')" title="Edit Data Siswa">✏️ Edit</button>
-          <button class="btn-action delete" onclick="alert('Fitur hapus siswa (${nama}) akan segera hadir.')" title="Hapus Siswa">🗑️ Hapus</button>
-        </td>
       </tr>
     `;
   });
