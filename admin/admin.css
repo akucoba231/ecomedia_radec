@@ -34,7 +34,8 @@ body {
 .eco-login-section {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -396,8 +397,35 @@ body {
 }
 
 .eco-sidebar-footer {
-  padding: 24px 16px;
+  padding: 20px 16px;
   border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.eco-btn-sidebar-profile {
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  color: var(--c-accent-d);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.eco-btn-sidebar-profile:hover {
+  background: #ffffff;
+  color: var(--c-main-d);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 .eco-btn-logout {
   width: 100%;
@@ -407,6 +435,7 @@ body {
   padding: 10px;
   border-radius: 10px;
   font-family: inherit;
+  font-size: 0.88rem;
   font-weight: 800;
   cursor: pointer;
   transition: 0.2s;
@@ -663,29 +692,44 @@ body {
    RESPONSIVE DESIGN (MOBILE)
 ═══════════════════════════════════ */
 @media (max-width: 960px) {
+  .eco-login-section {
+    padding: 30px 16px;
+    align-items: flex-start;
+  }
   .eco-login-container {
     grid-template-columns: 1fr;
-    gap: 36px;
-    max-width: 520px;
+    gap: 20px;
+    max-width: 480px;
   }
   .eco-login-hero {
     text-align: center;
     align-items: center;
+    gap: 10px;
   }
   .eco-brand-badge {
     align-self: center;
+    font-size: 0.72rem;
+    padding: 6px 14px;
   }
   .eco-hero-title {
-    font-size: 2.1rem;
+    font-size: 1.6rem;
+    line-height: 1.25;
   }
   .eco-hero-desc {
-    font-size: 0.92rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    max-width: 100%;
   }
   .eco-hero-badges {
-    justify-content: center;
+    display: none;
+  }
+  .eco-journey-preview {
+    display: none;
   }
   .eco-login-card {
     max-width: 100%;
+    padding: 26px 22px 22px;
+    border-radius: 20px;
   }
 }
 
@@ -708,7 +752,13 @@ body {
   .eco-mobile-toggle { display: block; }
   .eco-admin-header { padding: 16px 20px; }
   .admin-title { font-size: 1.2rem; }
-  .eco-admin-profile span { display: none; }
+  .eco-admin-profile span {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   
   .eco-admin-content { padding: 20px; }
   .card-action-bar { flex-direction: column; }
@@ -952,6 +1002,15 @@ body {
   color: #12291B;
 }
 
+.eco-btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.back-text-short {
+  display: none;
+}
+
 /* DATA SISWA: FILTER INFO, BADGES & EMPTY STATES */
 .siswa-filter-info {
   display: flex;
@@ -1067,4 +1126,478 @@ body {
 }
 .read-item-card.ecomedia {
   border-left: 4.5px solid #168246;
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+═══════════════════════════════════ */
+@media (max-width: 600px) {
+  .eco-leaf {
+    font-size: 1.8rem !important;
+    opacity: 0.12 !important;
+  }
+  .eco-admin-header {
+    padding: 14px 16px;
+  }
+  .eco-admin-content {
+    padding: 16px 14px;
+  }
+  .admin-card {
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+  .eco-table th, .eco-table td {
+    padding: 10px 10px;
+    font-size: 0.84rem;
+  }
+  .stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .read-block-card {
+    padding: 16px 14px;
+  }
+  .read-item-card {
+    padding: 14px 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .back-text-full {
+    display: none;
+  }
+  .back-text-short {
+    display: inline;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Halaman Login Guru Mobile */
+  .eco-login-section {
+    padding: 20px 12px 32px;
+    align-items: flex-start;
+  }
+  .eco-login-container {
+    gap: 14px;
+    max-width: 100%;
+  }
+  .eco-login-hero {
+    gap: 8px;
+  }
+  .eco-brand-badge {
+    white-space: normal;
+    text-align: center;
+    font-size: 0.68rem;
+    padding: 5px 10px;
+    line-height: 1.35;
+    max-width: 100%;
+  }
+  .eco-hero-title {
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+  .eco-hero-desc {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+  .eco-login-card {
+    padding: 20px 16px 18px;
+    border-radius: 18px;
+  }
+  .eco-login-card .icon-wrap {
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
+    border-radius: 12px;
+  }
+  .eco-login-card h2 {
+    font-size: 1.12rem;
+  }
+  .card-subtext {
+    font-size: 0.76rem;
+    margin: 4px 0 12px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  .form-group label {
+    font-size: 0.76rem;
+    margin-bottom: 3px;
+  }
+  .form-group .eco-input {
+    padding: 9px 12px;
+    font-size: 0.86rem;
+    border-radius: 10px;
+  }
+  .eco-login-btn {
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    margin-top: 4px;
+  }
+  .card-footer-note {
+    font-size: 0.65rem;
+    padding-top: 8px;
+    margin-top: 10px;
+  }
+
+  /* Admin Header */
+  .eco-admin-header {
+    padding: 12px 12px;
+    gap: 8px;
+  }
+  .admin-title {
+    font-size: 1.05rem;
+    line-height: 1.25;
+    margin: 0;
+  }
+  .admin-subtitle {
+    font-size: 0.72rem;
+    margin-top: 2px;
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .eco-mobile-toggle {
+    font-size: 1.35rem;
+    padding: 2px 4px;
+  }
+  .eco-admin-profile span {
+    padding: 5px 10px;
+    font-size: 0.76rem;
+    max-width: 130px;
+  }
+
+  /* Admin Content & Cards */
+  .eco-admin-content {
+    padding: 12px 10px;
+  }
+  .admin-card {
+    padding: 15px 12px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+  .card-action-bar {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .card-action-bar > div {
+    width: 100%;
+  }
+  .card-action-bar .eco-btn-secondary,
+  .card-action-bar .eco-btn-primary {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+    padding: 9px 12px;
+    font-size: 0.82rem;
+  }
+  .eco-input, .eco-select {
+    padding: 9px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* Kotak Filter Info */
+  .siswa-filter-info {
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  /* Tabel Responsif & Touch Scrolling */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+  .eco-table th, .eco-table td {
+    padding: 8px 8px;
+    font-size: 0.8rem;
+  }
+  .eco-table th {
+    white-space: nowrap;
+  }
+  .btn-action {
+    padding: 5px 8px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  /* Detail Siswa (READ & Tanggapan) */
+  .read-detail-header-card {
+    margin-bottom: 14px;
+  }
+  .read-detail-header-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .read-student-info {
+    text-align: left;
+    width: 100%;
+  }
+  .read-student-info h3 {
+    font-size: 1.1rem !important;
+  }
+  .read-student-info p {
+    font-size: 0.78rem !important;
+  }
+  .read-detail-grid {
+    gap: 14px;
+  }
+  .read-block-card {
+    padding: 14px 10px;
+  }
+  .read-block-header h4 {
+    font-size: 0.95rem !important;
+  }
+  .read-item-card {
+    padding: 12px 10px;
+  }
+  .read-item-card h4 {
+    font-size: 0.92rem !important;
+  }
+  .read-item-card p, .read-item-card .response-box {
+    font-size: 0.82rem;
+  }
+
+  /* Response Card */
+  .response-card {
+    padding: 14px 10px;
+    margin-bottom: 12px;
+  }
+  .response-box {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+  }
+
+  /* Modals & Dialogs */
+  .eco-overlay-backdrop {
+    padding: 12px 8px;
+  }
+  .eco-overlay-modal {
+    padding: 26px 16px 20px;
+    border-radius: 20px;
+    max-width: 100%;
+  }
+  .eco-modal-edit-profile {
+    padding: 22px 14px 18px;
+    border-radius: 18px;
+  }
+  .eco-mascot-wrapper {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px;
+  }
+  .eco-mascot-svg {
+    width: 90px;
+    height: 90px;
+  }
+  .eco-overlay-title {
+    font-size: 1.1rem;
+  }
+  .eco-overlay-sub {
+    font-size: 0.82rem;
+  }
+  .eco-overlay-error-box {
+    padding: 10px 12px;
+    margin: 12px 0 14px;
+  }
+  .eco-error-desc {
+    font-size: 0.78rem;
+  }
+  .eco-modal-button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .eco-modal-button-group button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Laporan & Progress */
+  .stat-card {
+    padding: 14px;
+  }
+  .stat-card h3 {
+    font-size: 1.8rem;
+  }
+  .prog-row {
+    gap: 8px;
+    font-size: 0.8rem;
+  }
+  .prog-name {
+    width: 90px;
+  }
+  .prog-val {
+    width: 35px;
+  }
+}
+
+/* ═══════════════════════════════════
+   OPTIMASI KHUSUS HP KECIL (≤ 380px / 360px)
+═══════════════════════════════════ */
+@media (max-width: 380px) {
+  /* Extra compact Login untuk HP 360px */
+  .eco-login-section {
+    padding: 14px 8px 24px;
+    align-items: flex-start;
+  }
+  .eco-login-container {
+    gap: 10px;
+  }
+  .eco-hero-title {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+  .eco-brand-badge {
+    font-size: 0.62rem;
+    padding: 4px 8px;
+  }
+  .eco-hero-desc {
+    display: none;
+  }
+  .eco-login-card {
+    padding: 16px 12px 14px;
+    border-radius: 14px;
+  }
+  .eco-login-card .icon-wrap {
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+  }
+  .eco-login-card h2 {
+    font-size: 1.02rem;
+  }
+  .card-subtext {
+    font-size: 0.72rem;
+    margin: 3px 0 10px;
+  }
+  .form-group {
+    margin-bottom: 8px;
+  }
+  .form-group label {
+    font-size: 0.74rem;
+    margin-bottom: 2px;
+  }
+  .form-group .eco-input {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+  .eco-login-btn {
+    padding: 9px 12px;
+    font-size: 0.84rem;
+    margin-top: 4px;
+  }
+  .card-footer-note {
+    font-size: 0.62rem;
+    padding-top: 6px;
+    margin-top: 8px;
+  }
+
+  /* Header compact */
+  .eco-admin-header {
+    padding: 10px 8px;
+    gap: 6px;
+  }
+  .admin-title {
+    font-size: 0.96rem;
+  }
+  .admin-subtitle {
+    max-width: 105px;
+    font-size: 0.68rem;
+  }
+  .eco-admin-profile span {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    max-width: 105px;
+  }
+  .eco-mobile-toggle {
+    font-size: 1.25rem;
+  }
+
+  /* Content & Table */
+  .eco-admin-content {
+    padding: 10px 6px;
+  }
+  .admin-card {
+    padding: 12px 8px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .eco-table th, .eco-table td {
+    padding: 7px 5px;
+    font-size: 0.75rem;
+  }
+  .btn-action {
+    padding: 4px 6px;
+    font-size: 0.72rem;
+  }
+
+  /* Detail Card */
+  .read-block-card {
+    padding: 12px 8px;
+  }
+  .read-item-card {
+    padding: 10px 8px;
+  }
+  .read-item-card h4 {
+    font-size: 0.88rem !important;
+  }
+  .read-item-card p, .read-item-card .response-box {
+    font-size: 0.78rem;
+  }
+  .read-student-info h3 {
+    font-size: 1rem !important;
+  }
+  .read-student-info p {
+    font-size: 0.74rem !important;
+  }
+
+  /* Modal Extra Compact */
+  .eco-overlay-modal {
+    padding: 20px 10px 16px;
+    border-radius: 16px;
+  }
+  .eco-mascot-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 8px;
+  }
+  .eco-mascot-svg {
+    width: 70px;
+    height: 70px;
+  }
+  .eco-overlay-title {
+    font-size: 0.98rem;
+  }
+  .eco-overlay-sub {
+    font-size: 0.76rem;
+  }
+  .eco-modal-header {
+    gap: 8px;
+  }
+  .eco-modal-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.15rem;
+  }
+  #confirmClassMsg {
+    font-size: 0.8rem !important;
+  }
+
+  /* Progress list */
+  .prog-name {
+    width: 70px;
+    font-size: 0.72rem;
+  }
+  .prog-val {
+    width: 28px;
+    font-size: 0.72rem;
+  }
 }
