@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoMedia RADEC – Perubahan Iklim SD | Revisi Hasil Bimbingan Promotor</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/welcome.css">
+  <link rel="stylesheet" href="css/adventure-map.css">
+  <link rel="stylesheet" href="css/read.css">
+  <link rel="stylesheet" href="css/answer.css">
+  <link rel="stylesheet" href="css/discuss.css">
+  <link rel="stylesheet" href="css/explain.css">
+  <link rel="stylesheet" href="css/create.css">
+  <link rel="stylesheet" href="css/finish.css">
+  <link rel="stylesheet" href="css/loading.css">
+</head>
+<body class="eco-locked">
+
+<!-- ══════════ FLOWCHART · HALAMAN AWAL / PILIH PERAN ══════════ -->
+<section id="flowLanding" class="flow-screen eco-hidden" aria-label="Halaman Awal Ecomedia">
+  <div class="flow-shell">
+    <div class="flow-hero">
+      <span class="flow-chip">🌱 ECOMEDIA DIGITAL BERBASIS RADEC</span>
+      <h1>Bumi Kita &amp; Perubahan Iklim</h1>
+      <p>Masuk sebagai siswa untuk mengikuti perjalanan belajar Ecomedia berbasis RADEC, menyimpan progres, dan menyelesaikan seluruh aktivitas pembelajaran.</p>
+    </div>
+    <div class="flow-role-grid">
+      <article class="flow-role-card" onclick="flowOpenStudentLogin()"><div class="flow-role-icon">🎒</div><h3>Siswa</h3><p>Masuk sebagai siswa untuk belajar, menyimpan progres, dan menyelesaikan aktivitas RADEC.</p><button type="button">Login Siswa →</button></article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FLOWCHART · PROFIL & BANTUAN ══════════ -->
+<section id="flowProfileHelp" class="flow-screen eco-hidden" aria-label="Profil dan Bantuan">
+  <div class="flow-shell">
+    <div class="flow-topbar"><div class="flow-brand">👤 Profil &amp; Bantuan</div><button class="flow-back" onclick="ecoShowHome()">← Panduan &amp; Tujuan</button></div>
+    <div class="flow-two-col">
+      <div class="flow-panel"><h3>Profil Pengguna</h3><div class="flow-profile-row"><span>ID Siswa</span><strong id="flowProfileId">-</strong></div><div class="flow-profile-row"><span>Nama</span><strong id="flowProfileName">Sahabat Bumi</strong></div><div class="flow-profile-row"><span>Kelas</span><strong id="flowProfileClass">-</strong></div><div class="flow-profile-row"><span>No. Absen</span><strong id="flowProfileNumber">-</strong></div><div class="flow-profile-row"><span>Sekolah</span><strong id="flowProfileSchool">-</strong></div><div class="flow-profile-row"><span>Mode</span><strong id="flowProfileRole">Siswa</strong></div><div class="flow-action-row"><button class="flow-btn secondary" onclick="ecoEditIdentity()">✏️ Edit Identitas</button><button class="flow-btn" onclick="ecoShowMap()">🗺️ Buka RADEC</button></div></div>
+      <div class="flow-panel"><h3>Bantuan Singkat</h3><div class="flow-help-list"><div class="flow-help-item"><b>1. READ</b><br>Baca dan amati materi satu per satu, lalu tuliskan hal yang membuatmu penasaran.</div><div class="flow-help-item"><b>2. ANSWER</b><br>Jawab pertanyaan secara mandiri berdasarkan materi READ.</div><div class="flow-help-item"><b>3. DISCUSS &amp; EXPLAIN</b><br>Bandingkan pemikiran dan susun penjelasan bersama.</div><div class="flow-help-item"><b>4. CREATE</b><br>Ubah pengetahuan menjadi karya, keputusan, atau aksi lingkungan.</div><div class="flow-help-item"><b>5. Evaluasi</b><br>Isi refleksi dengan jujur dan lihat perkembangan ecoliterasimu.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ECOMEDIA WELCOME / LOGIN ══════════ -->
+<section id="ecoWelcome" class="eco-screen eco-opening-ref" aria-label="Halaman Pembuka Ecomedia RADEC">
+  <div class="eco-opening-scene" aria-hidden="true">
+    <span class="eco-cloud c1"></span>
+    <span class="eco-cloud c2"></span>
+    <span class="eco-cloud c3"></span>
+    <span class="eco-leaf l1">🌿</span>
+    <span class="eco-leaf l2">🍃</span>
+    <span class="eco-leaf l3">🌱</span>
+  </div>
+
+  <div class="eco-opening-wrap">
+    <div class="eco-opening-left">
+      <div class="eco-chip-logo">🌱 ECOMEDIA RADEC</div>
+      <h1 class="eco-opening-title">
+        <span class="dark">Bumi Kita &amp;</span>
+        <span class="blue">Perubahan</span>
+        <span class="blue">Iklim</span>
+      </h1>
+      <p class="eco-opening-desc">
+        Yuk belajar bagaimana perubahan iklim memengaruhi kehidupan kita dan apa yang dapat kita lakukan untuk menjaga Bumi melalui petualangan belajar RADEC.
+      </p>
+
+      <div class="eco-opening-badges">
+        <span>🎒 Siswa Kelas V SD</span>
+        <span>🧠 Model RADEC</span>
+        <span>🌍 Ecoliteracy</span>
+      </div>
+
+      <div class="eco-opening-planet-wrap">
+        <div class="eco-opening-step read">📖 READ</div>
+        <div class="eco-opening-step answer">✏️ ANSWER</div>
+        <div class="eco-opening-step discuss">💬 DISCUSS</div>
+        <div class="eco-opening-step explain">🗣️ EXPLAIN</div>
+        <div class="eco-opening-step create">🎨 CREATE</div>
+        <div class="eco-opening-planet">
+          <div class="eco-planet-glow"></div>
+          <div class="eco-planet">🌍</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-opening-right">
+      <div class="eco-open-card">
+        <div class="eco-open-card-icon">👋</div>
+        <h2>Halo, Sahabat Bumi!</h2>
+        <p class="eco-open-card-lead">Sebelum memulai petualangan belajar, tuliskan namamu terlebih dahulu.</p>
+
+        <div class="eco-open-form">
+          <label for="ecoStudentName">Nama Siswa <em>*</em></label>
+          <input id="ecoStudentName" class="eco-input" type="text" maxlength="50" autocomplete="name" placeholder="Contoh: Aisyah" aria-required="true">
+
+          <div class="eco-form-row-2col">
+            <div>
+              <label for="ecoStudentClass">Kelas <em>*</em></label>
+              <input id="ecoStudentClass" class="eco-input" type="text" maxlength="20" placeholder="Contoh: 5-A (pisahkan dengan strip)" aria-required="true">
+            </div>
+            <div>
+              <label for="ecoStudentNumber">No. Absen <em>*</em></label>
+              <input id="ecoStudentNumber" class="eco-input" type="text" inputmode="numeric" maxlength="10" placeholder="Contoh: 12" aria-required="true">
+            </div>
+          </div>
+
+          <label for="ecoStudentSchool">Sekolah <em>*</em></label>
+          <input id="ecoStudentSchool" class="eco-input" type="text" maxlength="80" placeholder="Contoh: SD Negeri ..." aria-required="true">
+        </div>
+
+        <button class="eco-open-start" onclick="ecoLogin()">
+          <span>🚀 MULAI BELAJAR</span>
+        </button>
+
+        <div id="ecoFormMsg" class="eco-form-msg eco-form-msg-ref" role="alert" aria-live="polite"></div>
+
+        <div class="eco-open-steps-mini">
+          <span>READ</span><b>→</b>
+          <span>ANSWER</span><b>→</b>
+          <span>DISCUSS</span><b>→</b>
+          <span>EXPLAIN</span><b>→</b>
+          <span>CREATE</span>
+        </div>
+
+        <div class="eco-open-footer">🌱 Belajar hari ini, menjaga Bumi untuk masa depan.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HALAMAN 2 — ORIENTASI PEMBELAJARAN ══════════ -->
+<section id="ecoHome" class="eco-orientation eco-hidden" aria-label="Orientasi pembelajaran Ecomedia RADEC">
+  <div class="eco-home-shell">
+    <div class="eco-home-hero">
+      <div class="eco-home-top">
+        <div class="eco-logo">🌍 ECOMEDIA RADEC</div>
+        <div class="eco-page-nav-top">
+          <button class="eco-page-back" type="button" onclick="ecoBackToOpening()">← Halaman Pembuka</button>
+          <button class="eco-page-next" type="button" onclick="ecoShowMap()">Learning Journey →</button>
+        </div>
+      </div>
+
+      <div class="eco-home-welcome">
+        <span class="eco-home-kicker">HALAMAN 2 · ORIENTASI BELAJAR</span>
+        <h2>👋 Halo, <span data-eco-name>Sahabat Bumi</span>!</h2>
+        <div class="eco-home-profile-row">
+          <button type="button" class="eco-home-edit-btn" onclick="openEditProfileModal()">
+            <span>✏️ Ubah Profilku</span>
+          </button>
+          <span id="ecoHomeProfileBadge" class="eco-home-profile-badge">
+            🌱 <span id="ecoHomeBadgeClass">Kelas -</span> · <span id="ecoHomeBadgeNumber">No. -</span> · <span id="ecoHomeBadgeSchool">Sekolah -</span>
+          </span>
+        </div>
+        <p>Sebelum menjelajahi tahapan RADEC, kenali dulu cara belajar dan misi yang akan membantumu membaca hubungan manusia, lingkungan, dan perubahan iklim dengan lebih kritis.</p>
+      </div>
+    </div>
+
+    <div class="eco-home-content">
+      <section class="eco-home-card eco-home-card-white" aria-labelledby="caraBelajarTitle">
+        <h3 id="caraBelajarTitle">🧭 Cara Belajar</h3>
+        <p class="sub">Tiga kebiasaan sederhana ini akan membantumu mengikuti petualangan dengan nyaman.</p>
+
+        <div class="eco-home-learn-grid">
+          <article class="eco-home-learn-item">
+            <div class="eco-home-learn-head">
+              <span class="n">1</span>
+              <span class="i">🗺️</span>
+            </div>
+            <h4>Ikuti Tahapan</h4>
+            <p>Ikuti pembelajaran secara berurutan mulai dari READ sampai CREATE.</p>
+          </article>
+
+          <article class="eco-home-learn-item">
+            <div class="eco-home-learn-head">
+              <span class="n">2</span>
+              <span class="i">🔎</span>
+            </div>
+            <h4>Amati dan Pikirkan</h4>
+            <p>Baca, amati gambar atau media, lalu pikirkan hubungan antara manusia dan lingkungan.</p>
+          </article>
+
+          <article class="eco-home-learn-item">
+            <div class="eco-home-learn-head">
+              <span class="n">3</span>
+              <span class="i">💬</span>
+            </div>
+            <h4>Sampaikan dan Bertindak</h4>
+            <p>Sampaikan pendapatmu, dengarkan teman, lalu tentukan tindakan yang dapat dilakukan untuk menjaga lingkungan.</p>
+          </article>
+        </div>
+
+        <div class="eco-home-note"><strong>💡 Ingat!</strong> Tidak apa-apa jika jawabanmu berbeda dengan teman. Yang penting kamu dapat menjelaskan alasanmu dengan baik.</div>
+      </section>
+
+      <section class="eco-home-card eco-home-card-mission" aria-labelledby="misiTitle">
+        <h3 id="misiTitle">🌱 Misi Sahabat Bumi</h3>
+        <p class="sub">Dalam petualangan ini, kamu tidak hanya belajar tentang perubahan iklim. Kamu akan belajar melihat hubungan manusia dan alam, menemukan penyebab dan akibat masalah lingkungan, menilai berbagai pilihan, serta menentukan tindakan untuk menjaga Bumi.</p>
+
+        <div class="eco-home-mission-flow" aria-label="Alur misi Sahabat Bumi">
+          <div class="eco-home-mission-item">
+            <span>🔎</span>
+            <b>AMATI</b>
+            <small>Temukan apa yang terjadi di lingkungan.</small>
+          </div>
+          <div class="eco-home-mission-item">
+            <span>🔗</span>
+            <b>HUBUNGKAN</b>
+            <small>Cari hubungan manusia, alam, penyebab, dan akibat.</small>
+          </div>
+          <div class="eco-home-mission-item">
+            <span>💡</span>
+            <b>PIKIRKAN</b>
+            <small>Nilai masalah dan berbagai pilihan tindakan.</small>
+          </div>
+          <div class="eco-home-mission-item">
+            <span>🌱</span>
+            <b>BERTINDAK</b>
+            <small>Tentukan aksi sederhana yang dapat kamu lakukan.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="eco-home-card eco-home-card-cta" aria-label="Mulai petualangan belajar">
+        <div class="eco-home-cta-copy">
+          <div class="rocket">🚀</div>
+          <div>
+            <h3>Siap Memulai Petualangan?</h3>
+            <p><strong><span data-eco-name>Sahabat Bumi</span></strong>, sekarang kamu siap menjelajahi lima tahap RADEC. Lanjutkan ke halaman berikutnya untuk memulai petualangan belajarmu.</p>
+          </div>
+        </div>
+        <div class="eco-home-cta-actions">
+          <button class="secondary" type="button" onclick="ecoBackToOpening()">← Kembali</button>
+          <button class="primary" type="button" onclick="ecoShowMap()">LANJUT KE LEARNING JOURNEY →</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HALAMAN 3 — PETA PETUALANGAN RADEC ══════════ -->
+<section id="ecoMap" class="eco-hidden" aria-label="Peta Petualangan RADEC">
+  <div class="eco-map-sky"></div>
+  <header class="eco-map-header">
+    <div class="eco-map-top">
+      <button class="eco-map-back" type="button" onclick="ecoShowHome()">← Orientasi Belajar</button>
+      <div class="eco-logo">🌍 ECOMEDIA RADEC</div>
+      <button class="eco-map-next" type="button" onclick="ecoEnterLearning(0)">Mulai READ →</button>
+    </div>
+    <div class="eco-map-title"><span class="chip">HALAMAN 3 · LEARNING JOURNEY</span><h2>🗺️ Petualangan RADEC-mu</h2><p>Halo, <strong><span data-eco-name>Sahabat Bumi</span></strong>! Selesaikan lima tahap RADEC secara berurutan. Setelah CREATE, lanjutkan ke <strong>Evaluasi &amp; Refleksi</strong> untuk melihat perkembangan dan hasil perjalanan belajarmu.</p></div>
+  </header>
+
+  <main class="eco-map-main">
+    <section id="eco-map-progress" class="eco-map-progress" aria-label="Progress petualangan">
+      <div class="eco-progress-head"><strong>🌱 Perjalanan Belajarmu</strong><span id="ecoProgressText">0 dari 5 tahap selesai · 0%</span></div>
+      <div class="eco-progress-track"><div id="ecoProgressFill" class="eco-progress-fill"></div></div>
+      <div id="ecoProgressDots" class="eco-progress-dots"><span>R</span><span>A</span><span>D</span><span>E</span><span>C</span></div>
+      <div class="eco-map-legend"><span class="lg-done">✅ Selesai</span><span class="lg-active">🟡 Siap / sedang dipelajari</span><span>⚪ Belum dimulai</span></div>
+    </section>
+
+    <section class="eco-adventure-path" aria-label="Lima tahapan RADEC">
+      <div class="eco-path-start">🌍 MULAI PETUALANGAN</div>
+      <div id="ecoAdventurePathList" style="display:contents;"></div>
+
+      <div class="eco-path-finish">🌱 PERJALANAN BELAJAR SELESAI</div>
+      <div class="eco-map-landscape" aria-hidden="true">🌾 🏡 🌳 ⛰️ 🌊 🌱</div>
+    </section>
+
+    <div class="eco-map-page-nav">
+      <button class="secondary" type="button" onclick="ecoShowHome()">← Kembali ke Orientasi</button>
+      <button class="primary" type="button" onclick="ecoEnterLearning(0)">Mulai Tahap READ →</button>
+    </div>
+  </main>
+</section>
+
+<!-- ══════════ GLOBAL LEARNING NAV ══════════ -->
+<nav id="ecoGlobalNav" class="eco-hidden" aria-label="Navigasi utama pembelajaran">
+  <div class="eco-nav-inner">
+    <button class="eco-nav-home" onclick="ecoShowHome()">🧭 Panduan &amp; Tujuan</button>
+    <button class="eco-nav-map" onclick="ecoShowMap()">🗺️ Peta RADEC</button>
+    <button class="eco-nav-step" style="--nc:var(--c-read)" onclick="goStep(0)">📖 Read</button>
+    <button class="eco-nav-step" style="--nc:var(--c-answer)" onclick="goStep(1)">✏️ Answer</button>
+    <button class="eco-nav-step" style="--nc:var(--c-discuss)" onclick="goStep(2)">💬 Discuss</button>
+    <button class="eco-nav-step" style="--nc:var(--c-explain)" onclick="goStep(3)">🗣️ Explain</button>
+    <button class="eco-nav-step" style="--nc:var(--c-create)" onclick="goStep(4)">🎨 Create</button>
+    <span class="eco-student-mini">👤 <span data-eco-name>Sahabat Bumi</span></span>
+  </div>
+</nav>
+<div id="ecoPersonalGreet" class="eco-personal-greet eco-hidden"><div id="ecoGreetingText">🌱 Selamat belajar!</div></div>
+
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero" id="ecoLegacyHero">
+  <div class="hero-orbs"></div>
+  <span class="earth-spin">🌍</span>
+  <div class="model-badge">
+    <span class="dot"></span>
+    Model RADEC × EcoMedia Digital
+  </div>
+  <h1>Bumi Kita &amp; <em>Perubahan Iklim</em></h1>
+  <p class="hero-sub">
+    Belajar dengan tahapan <strong style="color:#78E6A0">Read → Answer → Discuss → Explain → Create</strong>
+    sambil mengasah kemampuan membaca media lingkungan secara kritis.
+  </p>
+  <div class="radec-pills">
+    <button class="radec-pill rp-active" onclick="goStep(0)">📖 Read</button>
+    <button class="radec-pill" onclick="goStep(1)">✏️ Answer</button>
+    <button class="radec-pill" onclick="goStep(2)">💬 Discuss</button>
+    <button class="radec-pill" onclick="goStep(3)">🗣️ Explain</button>
+    <button class="radec-pill" onclick="goStep(4)">🎨 Create</button>
+  </div>
+</header>
+
+<!-- ══════════ RADEC TRACKER ══════════ -->
+<div id="ecoTrackerShell" style="max-width:820px;margin:0 auto;">
+  <div class="tracker-wrap">
+    <div class="tracker-steps" id="trackerSteps"></div>
+  </div>
+</div>
+
+
+
+<!-- ══════════ READ MAIN ══════════ -->
+<div class="main" id="ecoLearningMain">
+
+  <!-- ①  READ ─────────────────────── -->
+  <div class="section show" id="sec-0">
+    <div class="step-header sh-read">
+      <div class="step-header-bg">📖</div>
+      <div class="step-header-inner">
+        <span class="step-num-badge">Tahap 1 &nbsp;•&nbsp; READ (Membaca)</span>
+        <h2>Baca, Amati, Pahami, dan Ajukan Pertanyaanmu!</h2>
+        <p>Belajarlah <strong>bertahap</strong>: baca satu materi, berhenti sejenak untuk berpikir, lalu gunakan video dan infografis sebagai sumber bukti. Kamu tidak perlu membuka semuanya sekaligus. Saat membaca dan mengamati, perhatikan hal-hal yang membuatmu penasaran — <strong>jika ada sesuatu yang ingin kamu ketahui lebih jauh, tuliskan pertanyaanmu</strong> pada kotak di akhir setiap materi.</p>
+        <div class="badges-row read-tool-row" aria-label="Pilih sumber belajar pada tahap Read">
+          <button type="button" class="badge badge-blue read-tool-btn tool-active" onclick="openReadTool('text', this)">📰 Teks Bacaan</button>
+          <button type="button" class="badge badge-blue read-tool-btn" onclick="openReadTool('info', this)">📊 Data Infografis</button>
+          <button type="button" class="badge badge-blue read-tool-btn" onclick="openReadTool('media', this)">🎬 Ecomedia</button>
+          <button type="button" class="badge badge-blue read-tool-btn" onclick="openReadTool('all', this)">📚 Tampilkan Semua</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card read-tab-active" id="teks-bacaan-card">
+      <div class="card-title"><span class="icon">📰</span>Materi Bacaan: Perubahan Iklim</div>
+      <p style="font-size:.88rem;color:var(--text2);line-height:1.8;margin-bottom:12px;">
+        Ada <strong>5 materi pokok</strong>. Buka <strong>satu materi pada satu waktu</strong>, cari ide pentingnya, lalu lanjutkan. Dengan membaca secara bertahap, kamu dapat memahami informasi dengan lebih baik dan menemukan hal-hal penting dari bacaan.
+      </p>
+      <div class="read-reflection-instruction">
+        💡 Setelah membaca satu materi, <strong>berhentilah sejenak</strong>. Pikirkan:
+        <strong>“Apa yang sudah kupahami? Apa yang masih membuatku penasaran?”</strong>
+        Tuliskan pertanyaanmu pada kotak <strong>💭 Apa yang Membuatmu Penasaran?</strong> di akhir materi.
+      </div>
+
+      <div class="read-grid" id="readMaterialsGrid">
+        <!-- Dirender secara dinamis oleh renderReadMaterials() dari js/data/materi-read.js -->
+      </div>
+    </div>
+
+    <!-- INFOGRAFIS DATA -->
+    <div class="card" id="infografis-card" style="display:none;">
+      <div class="card-title"><span class="icon">📊</span>Data Perubahan Iklim — Amati Angka-Angkanya!</div>
+      <p class="info-intro">Angka-angka berikut menunjukkan beberapa perubahan penting yang terjadi pada Bumi. Perhatikan setiap data dan baca penjelasan singkatnya untuk memahami hubungan perubahan iklim dengan lingkungan dan kehidupan.</p>
+      <div class="infografis" id="readInfografisGrid">
+        <!-- Dirender secara dinamis oleh renderReadInfographics() dari js/data/materi-read.js -->
+      </div>
+      <p style="font-size:.78rem;color:var(--text3);margin-top:10px;line-height:1.6;">
+        💡 <em>Sumber data: NASA, UNEP, dan IPBES.</em>
+      </p>
+    </div>
+
+    <!-- ECOMEDIA -->
+    <div class="card" id="ecomedia-video-card" style="display:none;">
+      <div class="card-title"><span class="icon">🎬</span>Ecomedia</div>
+      <div style="position:relative;width:100%;overflow:hidden;border-radius:16px;background:#08140d;border:1.5px solid var(--border);box-shadow:var(--shadow);">
+        <video
+          id="ecomediaVideo"
+          controls
+          playsinline
+          preload="metadata"
+          style="display:block;width:100%;height:auto;max-height:72vh;background:#000;"
+          aria-label="Video edukasi Ecomedia tentang perubahan iklim">
+          Browser Anda belum mendukung pemutaran video HTML5.
+          <source src="assets/video_pembelajaran.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+
+      <div class="ecomedia-after-video-intro">
+        <span class="eavi-icon">🔍</span>
+        <div>
+          <b>Setelah Menonton, Amati Video dengan Empat Lensa Ecomedia</b>
+          <p>Gunakan empat lensa di bawah ini untuk melihat <strong>pesan dan nilai</strong> dalam video, <strong>siapa yang berperan</strong>, <strong>bahan, energi, dan limbah</strong> yang terkait dengan media, serta <strong>apa yang kamu rasakan atau ingin lakukan</strong> setelah menontonnya.</p>
+        </div>
+      </div>
+      <div class="ecomedia-lens-card ecomedia-lens-inside" id="lopez-lens-card">
+        <div class="ecomediasphere-title">🔭 Empat Lensa Ecomedia</div>
+        <div class="ecomediasphere-grid">
+          <div class="eco-zone-card z-culture">
+            <span>📖</span><b>Cerita &amp; Nilai</b>
+            <p>Pesan apa tentang manusia dan alam yang disampaikan media? Nilai apa yang dianggap penting?</p>
+          </div>
+          <div class="eco-zone-card z-politic">
+            <span>👥</span><b>Siapa yang Berperan?</b>
+            <p>Siapa yang membuat keputusan, mendapat manfaat, terkena dampak, atau belum terdengar suaranya?</p>
+          </div>
+          <div class="eco-zone-card z-material">
+            <span>🔋</span><b>Bahan, Energi &amp; Limbah</b>
+            <p>Perangkat dan media ini membutuhkan bahan atau energi apa? Apa yang terjadi ketika perangkat atau bahan tidak dipakai lagi?</p>
+          </div>
+          <div class="eco-zone-card z-life">
+            <span>❤️</span><b>Pengalaman Kita</b>
+            <p>Apa yang kamu rasakan, perhatikan, atau ingin lakukan setelah menggunakan media ini?</p>
+          </div>
+        </div>
+
+        <details class="ecomedia-mini-lab">
+          <summary>🔍 Coba Analisis Satu Media yang Kamu Gunakan</summary>
+          <div class="eco-lab-body">
+            <label class="eco-lab-label" for="ecoObjectSelect">Pilih media yang ingin kamu amati</label>
+            <select id="ecoObjectSelect" class="eco-lab-select" onchange="saveEcoLens()">
+              <option value="Video Ecomedia">Video Ecomedia</option>
+              <option value="Infografis">Infografis</option>
+              <option value="HP/Tablet yang digunakan">HP/Tablet yang digunakan</option>
+              <option value="Buku atau kertas">Buku atau kertas</option>
+            </select>
+
+            <div class="eco-lab-grid">
+              <label><b>📖 Cerita &amp; Nilai</b><textarea id="ecoLensCulture" placeholder="Media ini membuatku melihat alam sebagai..." oninput="saveEcoLens()"></textarea></label>
+              <label><b>👥 Siapa yang Berperan?</b><textarea id="ecoLensPolitics" placeholder="Yang terlihat/terdengar suaranya adalah... Yang belum terlihat..." oninput="saveEcoLens()"></textarea></label>
+              <label><b>🔋 Bahan, Energi &amp; Limbah</b><textarea id="ecoLensMaterial" placeholder="Untuk menggunakan media ini diperlukan... Dampaknya bagi lingkungan..." oninput="saveEcoLens()"></textarea></label>
+              <label><b>❤️ Pengalaman Kita</b><textarea id="ecoLensLife" placeholder="Setelah melihat media ini, aku merasa/menyadari/ingin melakukan..." oninput="saveEcoLens()"></textarea></label>
+            </div>
+            <div class="eco-lab-progress"><span id="ecoLensProgress">0/4 lensa terisi</span><div><i id="ecoLensBar"></i></div></div>
+            <div class="eco-lab-action-row" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:12px 0 6px;">
+              <span id="ecoLensMsg" class="q-wonder-msg" style="margin:0;font-size:0.85rem;" role="status" aria-live="polite"></span>
+              <button type="button" id="btnSubmitEcoLens" class="btn btn-save" onclick="kirimEcoLens()" style="background:var(--c-read, #1b6fb5);color:#fff;border:none;padding:10px 22px;border-radius:12px;font-weight:700;font-size:0.92rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(27,111,181,0.25);">
+                <span>🚀 Kirim Jawaban</span>
+              </button>
+            </div>
+            <p class="eco-theory-note">💡 <strong>Ingat:</strong> media bukan hanya menyampaikan pesan. Media juga menggunakan bahan dan energi, melibatkan banyak orang, serta dapat memengaruhi cara kita melihat dan menjaga lingkungan.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <span></span>
+      <button class="btn btn-next btn-read" onclick="goStep(1)">Lanjut: Answer ✏️</button>
+    </div>
+  </div>
+
+
+  <!-- ②  ANSWER ─────────────────────── -->
+  <div class="section" id="sec-1">
+    <div class="step-header sh-answer answer-hero-rev">
+      <div class="step-header-bg">✏️</div>
+      <div class="step-header-inner">
+        <span class="step-num-badge">Tahap 2 &nbsp;•&nbsp; ANSWER (Menjawab)</span>
+        <h2>Aktifkan Pemikiranmu Sebelum Belajar Bersama</h2>
+        <p>Setelah membaca pada tahap <strong>READ</strong>, jawablah pertanyaan pra-pembelajaran <strong>secara individual</strong>. Tujuannya bukan mencari jawaban sempurna, tetapi menunjukkan apa yang sudah kamu pahami, bagian yang masih membingungkan, dan alasan yang nanti akan kamu bawa ke tahap DISCUSS.</p>
+      </div>
+    </div>
+
+    <div class="ans-radec-instruction">
+      <div class="ans-ri-icon">🏠</div>
+      <div>
+        <strong>Petunjuk ANSWER</strong>
+        <p>Kerjakan <strong>secara mandiri di rumah masing-masing</strong> setelah menyelesaikan READ dan sebelum pembelajaran bersama di kelas. Jawablah dengan kemampuanmu sendiri berdasarkan materi yang sudah kamu pelajari pada tahap READ.</p>
+      </div>
+    </div>
+
+    <div class="ans-purpose-card">
+      <div class="ans-purpose-title">Mengapa kamu perlu menjawab sendiri?</div>
+      <div class="ans-purpose-flow">
+        <div><span>🧠</span><b>Aktifkan</b><small>pengetahuan awal</small></div>
+        <i>→</i>
+        <div><span>🔍</span><b>Cek</b><small>pemahamanmu</small></div>
+        <i>→</i>
+        <div><span>❓</span><b>Temukan</b><small>yang masih sulit</small></div>
+        <i>→</i>
+        <div><span>💬</span><b>Siapkan</b><small>bahan diskusi</small></div>
+      </div>
+    </div>
+
+
+
+    <div class="ans-progress-card ans-progress-rev">
+      <div class="ans-progress-row">
+        <b>🌱 Progres Prapembelajaran</b>
+        <span id="ansEssayProgressText">0 dari 25 selesai</span>
+      </div>
+      <div class="ans-progress-bg"><div id="ansEssayProgressFill"></div></div>
+      <div class="ans-progress-meta">
+        <span>💾 Jawaban tersimpan otomatis</span>
+        <span id="ansFlagCount">🔖 0 soal ditandai untuk DISCUSS</span>
+      </div>
+    </div>
+
+    <div class="ans-material-tabs" id="ansMaterialTabs"></div>
+    <div class="ans-material-title" id="ansMaterialTitle"></div>
+    <div id="ansEssayContainer"></div>
+
+    <div class="ans-review-box ans-review-rev">
+      <div>
+        <b>💡 Jawaban awalmu adalah bahan belajar</b>
+        <p id="ansEssayStatus">Kerjakan satu materi demi satu materi. Jika belum yakin, tandai soal untuk dibahas saat DISCUSS.</p>
+      </div>
+      <button type="button" onclick="findUnansweredEssay()">🔎 Cari soal yang belum dijawab</button>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-prev" onclick="goStep(0)">← Read</button>
+      <button class="btn btn-next btn-answer" onclick="answerGoDiscuss()">Lanjut: Discuss 💬</button>
+    </div>
+  </div>
+
+  <!-- ③  DISCUSS ─────────────────────── -->
+  <div class="section" id="sec-2">
+    <div class="step-header sh-discuss discuss-header-simple">
+      <div class="step-header-bg">💬</div>
+      <div class="step-header-inner">
+        <span class="step-num-badge">Tahap 3 &nbsp;•&nbsp; DISCUSS (Berdiskusi)</span>
+        <h2>Bahas Semua Jawaban, Lalu Tuliskan Hasil Diskusimu</h2>
+        <p>Gunakan seluruh jawaban dari tahap <strong>ANSWER</strong> sebagai bahan diskusi. Bandingkan pendapat, dengarkan alasan teman, periksa kembali materi, lalu tuliskan <strong>jawaban kelompok setelah berdiskusi</strong> untuk setiap soal.</p>
+      </div>
+    </div>
+
+    <div class="discuss-radec-focus discuss-focus-simple">
+      <div class="drf-icon">💬</div>
+      <div class="drf-content">
+        <strong>Fokus tahap DISCUSS</strong>
+        <p>Setiap soal pada ANSWER dibahas kembali bersama kelompok. Gunakan jawaban yang sudah kalian kerjakan sebagai bahan berpikir, lalu tuliskan <strong>hasil kesepakatan kelompok</strong> pada kotak yang tersedia.</p>
+        <div class="discuss-flow-inline" aria-label="Alur diskusi">
+          <span>1. Bahas soal</span><i>→</i>
+          <span>2. Bandingkan pendapat</span><i>→</i>
+          <span>3. Beri alasan &amp; bukti</span><i>→</i>
+          <span>4. Sepakati jawaban</span><i>→</i>
+          <span>5. Tulis hasil diskusi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card discuss-all-card">
+      <div class="card-title"><span class="icon">👥</span>Hasil Diskusi untuk Semua Jawaban ANSWER</div>
+      <p class="discuss-help">Selesaikan kelima soal pada setiap materi. Total ada <strong>25 jawaban hasil diskusi</strong> yang akan dibawa ke tahap EXPLAIN.</p>
+
+      <div class="discuss-group-meta discuss-group-meta-simple">
+        <label>Nama kelompok / anggota
+          <input id="discussGroupNameAll" type="text" placeholder="Contoh: Kelompok Mangrove — Ali, Aisyah, Umar" oninput="saveDiscussMeta()">
+        </label>
+      </div>
+
+      <div class="radec-all-progress">
+        <div class="radec-all-progress-top">
+          <strong>💬 Progres Hasil Diskusi</strong>
+          <span id="discussAllProgressText">0 dari 25 selesai</span>
+        </div>
+        <div class="radec-all-progress-track"><div id="discussAllProgressFill"></div></div>
+        <small>Jawaban tersimpan otomatis pada perangkat ini.</small><div class="product-check-note">Mode pengecekan: Anda dapat melanjutkan tanpa mengisi semua kolom.</div>
+      </div>
+
+      <div class="discuss-material-tabs" id="discussAllMaterialTabs"></div>
+      <div class="radec-material-heading" id="discussAllMaterialTitle"></div>
+      <div id="discussAllAnswersContainer" class="radec-all-answer-list"></div>
+
+      <div class="radec-all-review">
+        <div>
+          <b>🤝 Pastikan semua soal sudah dibahas</b>
+          <p id="discussAllStatus">Bahas satu materi demi satu materi sampai seluruh 25 jawaban terisi.</p>
+        </div>
+        <button type="button" onclick="findIncompleteDiscussAnswer()">🔎 Cari yang belum diisi</button>
+      </div>
+    </div>
+
+    <details class="card discuss-optional-card">
+      <summary>👥 Pembagian Peran Kelompok <span>Opsional</span></summary>
+      <p class="discuss-help">Jika diperlukan, bagi peran agar semua anggota mendapat kesempatan terlibat.</p>
+      <div class="group-roles" id="discussGroupRoles"></div>
+    </details>
+
+    <details class="card wonder-discuss-bridge discuss-optional-card" id="wonder-discuss-bridge">
+      <summary>💭 Pertanyaan Tambahan dari READ <span>Opsional</span></summary>
+      <p style="font-size:.88rem;line-height:1.7;color:var(--text2);margin-bottom:12px">Jika kelompok masih memiliki waktu, pilih satu pertanyaan rasa ingin tahu yang muncul pada READ untuk memperkaya dialog.</p>
+      <div id="wonderDiscussList" class="wonder-discuss-list"></div>
+      <div class="wonder-discuss-selected"><strong>Pertanyaan yang dipilih:</strong><div id="wonderDiscussSelectedText">Belum ada pertanyaan yang dipilih.</div></div>
+      <label for="wonderDiscussNote" style="display:block;font-size:.8rem;font-weight:800;color:var(--c-discuss-d);margin:12px 0 6px">Apa dugaan, bukti, atau sudut pandang baru dari kelompokmu?</label>
+      <textarea id="wonderDiscussNote" class="q-wonder-area" placeholder="Temanku berpendapat... Bukti yang kami temukan..."></textarea>
+      <div class="q-wonder-actions"><button type="button" class="q-wonder-btn wonder-discuss-save" onclick="saveWonderDiscuss()">💾 Simpan Diskusi Tambahan</button><span class="q-wonder-msg" id="wonder-discuss-msg" role="status" aria-live="polite"></span></div>
+    </details>
+
+    <details class="card ecomedia-discuss-card discuss-optional-card">
+      <summary>🌿 Uji dengan Lensa Ecomedia <span>Opsional</span></summary>
+      <p class="discuss-help">Gunakan bagian ini jika jawabanmu berkaitan dengan video, gambar, bacaan, atau media yang dipelajari.</p>
+      <div class="eco-discuss-grid" id="discussLensesContainer"></div>
+      <div class="eco-discuss-status" id="ecoDiscussStatus">💾 Refleksi ecomedia tersimpan otomatis.</div>
+    </details>
+
+    <div class="step-nav">
+      <button class="btn btn-prev" onclick="goStep(1)">← Answer</button>
+      <button class="btn btn-next btn-discuss" onclick="discussGoExplain()">Lanjut: Explain 🗣️</button>
+    </div>
+  </div>
+
+
+  <!-- ④  EXPLAIN ─────────────────────── -->
+  <div class="section" id="sec-3">
+    <div class="step-header sh-explain explain-header-all">
+      <div class="step-header-bg">🗣️</div>
+      <div class="step-header-inner">
+        <span class="step-num-badge">Tahap 4 &nbsp;•&nbsp; EXPLAIN (Menjelaskan)</span>
+        <h2>Jelaskan Kembali Semua Jawaban Setelah Belajar Bersama</h2>
+        <p>Hasil diskusi dibawa ke forum kelas. Setelah mendengar penjelasan, alasan, pertanyaan, dan umpan balik dari teman maupun guru, tuliskan kembali <strong>jawaban yang sudah diperbaiki</strong> untuk setiap soal dengan kata-katamu sendiri.</p>
+      </div>
+    </div>
+
+    <div class="explain-all-focus">
+      <span>🗣️</span>
+      <div>
+        <strong>Fokus tahap EXPLAIN</strong>
+        <p>Gunakan pemahaman yang sudah dibangun saat DISCUSS sebagai dasar. Dengarkan penjelasan di kelas, periksa alasan dan bukti, lalu tuliskan <strong>jawaban setelah EXPLAIN</strong>. Perbandingan hasil DISCUSS dan EXPLAIN akan ditampilkan pada evaluasi akhir.</p>
+      </div>
+    </div>
+
+    <div class="card explain-all-card">
+      <div class="card-title"><span class="icon">✍️</span>Jawaban Setelah Tahap EXPLAIN</div>
+      <p class="discuss-help">Selesaikan kelima soal pada setiap materi. Total ada <strong>25 jawaban hasil EXPLAIN</strong>.</p>
+
+      <div class="radec-all-progress explain-all-progress">
+        <div class="radec-all-progress-top"><strong>🗣️ Progres Hasil EXPLAIN</strong><span id="explainAllProgressText">0 dari 25 selesai</span></div>
+        <div class="radec-all-progress-track"><div id="explainAllProgressFill"></div></div>
+        <small>Gunakan hasil diskusi sebagai dasar, lalu perbaiki jawaban setelah memperoleh penjelasan dan umpan balik.</small>
+      </div>
+
+      <div class="exp-material-tabs" id="explainAllMaterialTabs"></div>
+      <div class="radec-material-heading explain-material-heading" id="explainAllMaterialTitle"></div>
+      <div id="explainAllAnswersContainer" class="radec-all-answer-list"></div>
+
+      <div class="radec-all-review explain-review">
+        <div><b>💡 Pastikan semua jawaban sudah dijelaskan kembali</b><p id="explainAllStatus">Lengkapi jawaban hasil EXPLAIN untuk seluruh 25 soal.</p></div>
+        <button type="button" onclick="findIncompleteExplainAnswer()">🔎 Cari yang belum diisi</button>
+      </div>
+    </div>
+
+    <details class="card explain-ecomedia-reflection discuss-optional-card">
+      <summary>🌿 Refleksi Ecomedia <span>Penutup</span></summary>
+      <p class="discuss-help">Setelah mengikuti penjelasan kelas, tuliskan satu hal yang kamu sadari tentang cara media memengaruhi pemahamanmu atau dampak penggunaan media/perangkat terhadap lingkungan.</p>
+      <textarea class="my-textarea" id="explainEcomediaReflectionAll" placeholder="Contoh: Setelah melihat video dan berdiskusi, saya menyadari bahwa..." oninput="saveExplainMeta()"></textarea>
+      <div id="explainMetaMsg" class="exp-save-msg" style="display:block">💾 Refleksi tersimpan otomatis.</div>
+    </details>
+
+    <div class="step-nav">
+      <button class="btn btn-prev" onclick="goStep(2)">← Discuss</button>
+      <button class="btn btn-next btn-explain" onclick="explainGoCreate()">Lanjut: Create 🎨</button>
+    </div>
+  </div>
+
+
+  <!-- ⑤  CREATE ─────────────────────── -->
+  <div class="section" id="sec-4">
+    <div class="step-header sh-create">
+      <div class="step-header-bg">🎨</div>
+      <div class="step-header-inner">
+        <span class="step-num-badge">Tahap 5 &nbsp;•&nbsp; CREATE (Mencipta)</span>
+        <h2>Ubah Pengetahuan Menjadi Aksi!</h2>
+        <p>CREATE bukan hanya membuat karya. Gunakan pemahamanmu untuk <strong>memilih solusi, merencanakan tindakan, melakukannya, mencatat bukti, dan merefleksikan hasilnya</strong>. Karya media dapat membantu menyebarkan pesan, tetapi aksi nyata adalah inti tahap ini. 🌱</p>
+        <div class="badges-row">
+          <span class="badge badge-red">🧠 Mengambil Keputusan</span>
+          <span class="badge badge-red">🌱 Ecological Agency</span>
+          <span class="badge badge-red">🔎 Bukti &amp; Refleksi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🌱</span>Pilih Cara Mewujudkan Aksimu</div>
+      <div class="ecomedia-create-principles">
+        <div class="ecp-head"><span>🌿</span><div><b>Buat Media yang Ramah Bumi dan Bertanggung Jawab</b><p>Media yang baik tidak hanya menyampaikan pesan lingkungan, tetapi juga dibuat dengan mempertimbangkan dampak, keadilan, dan penggunaan sumber daya.</p></div></div>
+        <div class="ecp-checks" id="ecpChecksContainer"></div>
+        <div class="ecp-progress"><span id="ecoCreateCheckText">0/6 prinsip terpenuhi</span><div><i id="ecoCreateCheckBar"></i></div></div>
+      </div>
+
+      <div class="create-tabs">
+        <button class="create-tab-btn active" onclick="switchCreate('poster',this)">🖼️ Poster Digital</button>
+        <button class="create-tab-btn" onclick="switchCreate('pledge',this)">📜 Ikrar Lingkungan</button>
+        <button class="create-tab-btn" onclick="switchCreate('news',this)">📰 Berita Eco Mini</button>
+        <button class="create-tab-btn" onclick="switchCreate('action',this)">🌱 Aksi Sahabat Bumi</button>
+      </div>
+
+      <!-- POSTER MAKER -->
+      <div class="create-panel show" id="cp-poster">
+        <div class="poster-builder">
+          <h3>🖼️ Buat Poster Iklim Digitalmu</h3>
+          <div class="pb-row">
+            <div class="pb-label">Judul Postermu:</div>
+            <input class="pb-input" type="text" id="posterTitle" placeholder="Contoh: Selamatkan Bumi dari Perubahan Iklim!">
+          </div>
+          <div class="pb-row">
+            <div class="pb-label">Pesan Utama (1–2 kalimat):</div>
+            <input class="pb-input" type="text" id="posterMsg" placeholder="Contoh: Setiap tindakan kecilmu berarti besar bagi Bumi!">
+          </div>
+          <div class="pb-row">
+            <div class="pb-label">Piliih emoji sebagai visual utama:</div>
+            <div id="posterEmojiPicker" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+          </div>
+          <div class="pb-row">
+            <div class="pb-label">Janji/Aksimu:</div>
+            <input class="pb-input" type="text" id="posterPledge" placeholder="Contoh: Aku berjanji akan mengurangi penggunaan plastik!">
+          </div>
+          <div class="pb-row">
+            <div class="pb-label">Nama Pembuat:</div>
+            <input class="pb-input" type="text" id="posterName" placeholder="Nama &amp; Kelas">
+          </div>
+          <button class="btn" style="background:#fff;color:#0A3D1F;font-weight:800;margin-top:4px;" onclick="generatePoster()">
+            ✨ Buat Poster!
+          </button>
+        </div>
+
+        <div class="poster-preview" id="posterPreview">
+          <div class="pp-inner">
+            <div class="pp-title" id="pp-title"></div>
+            <span class="pp-emo" id="pp-emo">🌍</span>
+            <div class="pp-border">
+              <div class="pp-msg" id="pp-msg"></div>
+              <div class="pp-pledge" id="pp-pledge"></div>
+            </div>
+            <div class="pp-name" id="pp-name"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IKRAR LINGKUNGAN -->
+      <div class="create-panel" id="cp-pledge">
+        <div class="pledge-builder">
+          <h3>📜 Buat Ikrar Lingkunganmu</h3>
+          <p style="font-size:.85rem;color:var(--c-create-d);margin-bottom:14px;">Pilih kategori aksi yang ingin kamu ikrarkan, lalu tulis ikrarmu dengan kalimat yang kuat dan penuh semangat!</p>
+          <div class="pledge-cat" id="pledgeCatButtons"></div>
+          <div class="pledge-area">
+            <label style="font-size:.85rem;font-weight:700;color:var(--c-create-d);display:block;margin-bottom:8px;">✍️ Tulis ikrarmu di sini:</label>
+            <textarea class="my-textarea" id="pledgeText" style="border-color:#FFC0C0;" placeholder="Contoh: Aku, _______, berjanji mulai hari ini akan membawa botol minum sendiri ke sekolah setiap hari demi mengurangi sampah plastik dan menjaga Bumi kita tetap sehat!"></textarea>
+            <input class="pb-input" type="text" id="pledgeName" placeholder="Nama &amp; Kelas" style="background:#fff;border:1.5px solid #FFC0C0;color:var(--text);margin-top:8px;border-radius:10px;padding:10px 14px;width:100%;font-family:'Nunito',sans-serif;font-size:.88rem;">
+            <button class="btn" style="background:var(--c-create);color:#fff;margin-top:12px;font-size:.88rem;" onclick="savePledgeFull()">
+              📜 Buat Ikrar Resmi!
+            </button>
+          </div>
+          <div class="pledge-display" id="pledgeDisplay">
+            <span class="pd-emoji" id="pd-emoji">🌍</span>
+            <div class="pd-text" id="pd-text"></div>
+            <div class="pd-name" id="pd-name"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BERITA ECO MINI -->
+      <div class="create-panel" id="cp-news">
+        <div class="media-maker">
+          <div class="mm-toolbar">
+            <span>📰 Editor Berita Eco Mini</span>
+            <button class="mm-btn" onclick="insertTemplate('who')">Siapa</button>
+            <button class="mm-btn" onclick="insertTemplate('what')">Apa</button>
+            <button class="mm-btn" onclick="insertTemplate('where')">Di Mana</button>
+            <button class="mm-btn" onclick="insertTemplate('why')">Mengapa</button>
+            <button class="mm-btn" onclick="insertTemplate('how')">Bagaimana</button>
+          </div>
+          <div class="mm-canvas">
+            <p style="font-size:.82rem;color:var(--text3);margin-bottom:14px;font-style:italic;">
+              Tulis berita singkat (150–200 kata) tentang kondisi lingkungan di sekitarmu atau tentang perubahan iklim yang kamu pelajari. Gunakan pertanyaan 5W+1H!
+            </p>
+            <p style="font-size:.82rem;color:var(--text3);margin-bottom:6px;font-weight:700;">📌 Panduan Berita Ecomedia yang Baik:</p>
+            <p style="font-size:.8rem;color:var(--text3);margin-bottom:14px;">1) Mulai dengan fakta (bukan opini) · 2) Cantumkan sumber data · 3) Tanyakan siapa/apa yang terdampak dan siapa yang belum terdengar · 4) Hindari kata-kata yang menakut-nakuti tanpa solusi · 5) Tambahkan satu aksi nyata yang bisa dilakukan pembaca</p>
+            <div id="newsMsg1" class="mm-msg"></div>
+            <div id="newsMsg2" class="mm-msg"></div>
+            <div id="newsMsg3" class="mm-msg"></div>
+            <div id="newsMsg4" class="mm-msg"></div>
+            <div id="newsMsg5" class="mm-msg"></div>
+            <textarea class="my-textarea" id="newsText" style="min-height:140px;border:1.5px solid #FFC0C0;" placeholder="[JUDUL BERITA]&#10;&#10;Tulis beritamu di sini..."></textarea>
+            <button class="btn" style="background:var(--c-create);color:#fff;margin-top:12px;font-size:.88rem;" onclick="saveNews()">
+              📰 Publikasi Berita Mini!
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AKSI SAHABAT BUMI -->
+      <div class="create-panel" id="cp-action">
+        <div class="pledge-builder" style="background:linear-gradient(135deg,#F0FDF4,#ECFEFF);border:1.5px solid #86EFAC;">
+          <h3 style="color:#14532D;">🌱 Proyek Aksi Sahabat Bumi</h3>
+          <p style="font-size:.85rem;color:#31543A;line-height:1.7;margin-bottom:16px;">Pilih satu masalah lingkungan yang benar-benar ada di rumah, sekolah, atau gampongmu. <strong>Buatlah satu aksi sederhana yang bisa kamu lakukan untuk membantu mengatasi masalah tersebut. Jika kamu belum memiliki ide, pilih salah satu contoh aksi yang tersedia di bawah ini.</strong> Lakukan aksimu, lalu catat bukti kegiatan dan perubahan yang kamu lihat.</p>
+          <div class="pledge-cat" id="ecoActionCats"></div>
+          <div class="pledge-area" style="border-color:#86EFAC;">
+            <div class="pb-row"><label class="pb-label" style="color:#14532D;">1. Masalah yang kulihat</label><textarea class="my-textarea" id="actionProblem" placeholder="Contoh: Banyak lembar kosong pada buku semester lalu dibuang dan siswa membeli buku baru."></textarea></div>
+            <div class="pb-row"><label class="pb-label" style="color:#14532D;">2. Mengapa masalah ini penting?</label><textarea class="my-textarea" id="actionWhy" placeholder="Jelaskan hubungan tindakan tersebut dengan penggunaan sumber daya, sampah, energi, atau lingkungan."></textarea></div>
+            <div class="pb-row"><label class="pb-label" style="color:#14532D;">3. Aksi yang kupilih</label><textarea class="my-textarea" id="actionPlan" placeholder="Contoh: Menggunakan kembali buku yang masih memiliki halaman kosong untuk catatan latihan."></textarea></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+              <div class="pb-row"><label class="pb-label" style="color:#14532D;">Tempat</label><input class="pb-input" id="actionPlace" style="background:#fff;color:var(--text);border-color:#86EFAC;" placeholder="Rumah / sekolah / gampong"></div>
+              <div class="pb-row"><label class="pb-label" style="color:#14532D;">Waktu</label><input class="pb-input" id="actionWhen" style="background:#fff;color:var(--text);border-color:#86EFAC;" placeholder="Contoh: mulai Senin ini"></div>
+              <div class="pb-row"><label class="pb-label" style="color:#14532D;">Siapa yang membantu?</label><input class="pb-input" id="actionHelper" style="background:#fff;color:var(--text);border-color:#86EFAC;" placeholder="Teman / keluarga / guru"></div>
+            </div>
+            <div class="pb-row"><label class="pb-label" style="color:#14532D;">4. Bukti tindakan</label><textarea class="my-textarea" id="actionEvidence" placeholder="Tuliskan bukti: catatan sebelum-sesudah, jumlah sampah yang berkurang, tanda tangan guru/orang tua, atau deskripsi foto yang kamu ambil."></textarea></div>
+            <div class="pb-row"><label class="pb-label" style="color:#14532D;">5. Apa yang berubah setelah aksi?</label><textarea class="my-textarea" id="actionChange" placeholder="Apa perubahan yang kamu lihat? Apakah aksimu berhasil? Apa yang belum berhasil?"></textarea></div>
+            <div class="pb-row"><label class="pb-label" style="color:#14532D;">6. Langkah berikutnya</label><textarea class="my-textarea" id="actionNext" placeholder="Apa yang akan kamu pertahankan, perbaiki, atau ajak orang lain lakukan?"></textarea></div>
+            <button type="button" class="btn" style="background:#15803D;color:#fff;margin-top:6px;" onclick="saveEcoAction()">✅ Simpan Proyek Aksiku</button>
+            <div id="actionFeedback" style="display:none;margin-top:12px;padding:12px 14px;border-radius:10px;background:#DCFCE7;color:#14532D;font-size:.84rem;font-weight:700;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-prev" onclick="goStep(3)">← Explain</button>
+      <button class="btn btn-next btn-create" onclick="showFinish()">🏆 Selesaikan Pembelajaran!</button>
+    </div>
+  </div>
+
+
+  <!-- ⑥  FINISH · digabung dari komponen SELESAI file EcoMedia terlampir ───────── -->
+  <div class="section" id="sec-5">
+    <div class="finish finish-merged">
+      <span class="finish-trophy" aria-hidden="true">🏆</span>
+      <h2 id="h-finish">Kamu sudah melewati kelima tahapnya</h2>
+      <p>Dari membaca, menjawab sendiri, berdiskusi, menjelaskan, sampai menciptakan dan melakukan aksi. Sekarang satu langkah terakhir: menilai dirimu sendiri dengan jujur.</p>
+      <div class="medals" id="medals"></div>
+    </div>
+
+
+    <div class="card finish-card learning-report-card" id="learningReportCard">
+      <div class="card-head"><span class="ico">📘</span>Laporan Hasil Kerja: DISCUSS &amp; EXPLAIN</div>
+      <p class="card-lead">Bandingkan jawaban kelompok setelah <strong>DISCUSS</strong> dengan jawaban setelah <strong>EXPLAIN</strong>. Perhatikan bagian yang menjadi lebih lengkap, lebih jelas, atau berubah setelah memperoleh penjelasan dan umpan balik.</p>
+
+      <div class="learning-report-summary">
+        <div><span>💬</span><b id="reportDiscussCount">0/25</b><small>Hasil DISCUSS</small></div>
+        <div class="report-arrow">→</div>
+        <div><span>🗣️</span><b id="reportExplainCount">0/25</b><small>Hasil EXPLAIN</small></div>
+      </div>
+
+      <div class="report-material-tabs" id="reportMaterialTabs"></div>
+      <div id="learningReportContainer" class="learning-report-list"></div>
+
+      <div class="report-reflection-box">
+        <label for="compareReflection"><strong>🔎 Setelah membandingkan keduanya, perubahan apa yang paling kamu sadari?</strong></label>
+        <textarea id="compareReflection" class="my-textarea" placeholder="Contoh: Saat DISCUSS saya berpikir..., setelah EXPLAIN saya menjadi paham bahwa..." oninput="saveCompareReflection()"></textarea>
+        <small id="compareReflectionStatus">💾 Refleksi perbandingan tersimpan otomatis.</small>
+      </div>
+
+      <div class="finish-actions report-actions">
+        <button class="btn btn-main btn-sm" type="button" onclick="finishPrintLearningReport()">🖨️ Cetak Laporan DISCUSS–EXPLAIN</button>
+      </div>
+    </div>
+
+    <div class="card finish-card" style="margin-top:16px">
+      <div class="card-head"><span class="ico">🌿</span>Seberapa jauh ekoliterasimu?</div>
+      <p class="card-lead">Ekoliterasi bukan hanya soal <em>tahu</em>. Ada tiga bagian: <strong>apa yang kamu tahu</strong>, <strong>seberapa kamu peduli</strong>, dan <strong>apa yang benar-benar kamu lakukan</strong>. Jawab sejujurnya — ini bukan ulangan dan tidak ada nilai bagus atau jelek.</p>
+      <div class="eco-scale" id="ecoScale"></div>
+      <button class="btn btn-main btn-sm" id="btnEco" type="button" style="margin-top:14px">📊 Lihat profil ekoliterasiku</button>
+      <div class="eco-result" id="ecoResult">
+        <div class="eco-bars" id="ecoBars"></div>
+        <div class="eco-verdict" id="ecoVerdict"></div>
+      </div>
+    </div>
+
+    <div class="card finish-card">
+      <div class="card-head"><span class="ico">🖨️</span>Simpan hasil belajarmu</div>
+      <p class="card-lead">Kamu dapat mencetak halaman hasil belajar ini untuk disimpan atau ditunjukkan di rumah.</p>
+      <div class="finish-actions">
+        <button class="btn btn-main btn-sm" id="btnPrintAll" type="button">🖨️ Cetak laporan belajar</button>
+        <button class="btn btn-ghost btn-sm" id="btnRestart" type="button">🔄 Mulai dari awal</button>
+        <button class="btn btn-ghost btn-sm" id="btnClear" type="button">🗑️ Hapus semua jawabanku</button>
+      </div>
+      <p class="hint" style="margin-top:11px">Jawabanmu tersimpan di perangkat ini saja, tidak dikirim ke mana pun.</p>
+    </div>
+
+
+    <div class="card finish-card flow-cert-card">
+      <div class="card-head"><span class="ico">🏅</span>Selesai / Sertifikat</div>
+      <p class="card-lead">Setelah menyelesaikan perjalanan RADEC dan refleksi, tampilkan sertifikat penyelesaian sebagai bukti telah mengikuti pembelajaran.</p>
+      <button class="btn btn-main btn-sm" type="button" onclick="flowBuildCertificate()">🏅 Tampilkan Sertifikat</button>
+      <div id="flowCertificate" class="flow-certificate">
+        <div style="font-size:.72rem;letter-spacing:2px;font-weight:900;color:#9a7419">SERTIFIKAT PENYELESAIAN</div>
+        <h3>ECOMEDIA DIGITAL BERBASIS RADEC</h3>
+        <p>Diberikan kepada</p><div class="flow-cert-name" id="flowCertName">Sahabat Bumi</div>
+        <p>telah menyelesaikan pembelajaran <strong>Perubahan Iklim</strong> melalui tahapan<br><strong>Read · Answer · Discuss · Explain · Create</strong></p>
+        <div class="flow-cert-seal">🌍🏅🌱</div>
+        <p id="flowCertMeta"></p>
+        <button class="btn btn-ghost btn-sm" type="button" style="margin-top:12px" onclick="flowPrintCertificate()">🖨️ Cetak Sertifikat</button>
+      </div>
+    </div>
+
+    <div class="stage-nav finish-back-nav">
+      <button class="btn btn-ghost" type="button" onclick="goStep(4)">← Create</button>
+      <button class="btn btn-soft" type="button" onclick="ecoShowMap()">🗺️ Peta RADEC</button>
+       <button class="btn btn-soft" type="button" onclick="ecoShowHome()">🧭 Panduan &amp; Tujuan</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<footer id="ecoLegacyFooter" style="text-align:center;padding:18px 24px;color:var(--text3);font-size:.72rem;line-height:1.7;">
+  🌿 EcoMedia RADEC · Pembelajaran Perubahan Iklim untuk Siswa Kelas V SD
+</footer>
+
+<!-- ══════════ MODAL DIALOG UBAH PROFIL SISWA ══════════ -->
+<div id="ecoEditProfileModal" class="eco-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="editProfileTitle">
+  <div class="eco-modal-card">
+    <button type="button" class="eco-modal-close-x" onclick="closeEditProfileModal()" aria-label="Tutup Dialog">✕</button>
+    
+    <div class="eco-modal-header">
+      <div class="eco-modal-mascot">
+        <svg class="eco-modal-mascot-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Maskot Bumi Mengubah Profil">
+          <defs>
+            <filter id="ecoModalGlow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#2d6a4f" flood-opacity="0.18"/>
+            </filter>
+          </defs>
+          <!-- Tunas Daun di kepala -->
+          <path d="M50 20 C50 10, 38 7, 34 14 C30 21, 42 22, 50 20Z" fill="#52b788"/>
+          <path d="M50 20 C50 9, 62 6, 66 12 C70 19, 58 22, 50 20Z" fill="#74c69d"/>
+          <path d="M50 28 L50 18" stroke="#2d6a4f" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Badan Bumi -->
+          <circle cx="50" cy="56" r="34" fill="#52b788" filter="url(#ecoModalGlow)"/>
+          <path d="M26 48 C32 44, 38 52, 44 47 C48 42, 55 45, 60 40 C65 45, 73 47, 78 52 C73 65, 66 76, 50 81 C35 78, 27 68, 26 48 Z" fill="#40916c" opacity="0.45"/>
+          <!-- Pipi Merona -->
+          <ellipse cx="37" cy="61" rx="4.5" ry="3" fill="#f48c96" opacity="0.7"/>
+          <ellipse cx="63" cy="61" rx="4.5" ry="3" fill="#f48c96" opacity="0.7"/>
+          <!-- Mata Lucu -->
+          <ellipse cx="40" cy="53" rx="3.5" ry="4.5" fill="#10351f"/>
+          <circle cx="38.5" cy="51.5" r="1.5" fill="#ffffff"/>
+          <ellipse cx="60" cy="53" rx="3.5" ry="4.5" fill="#10351f"/>
+          <circle cx="58.5" cy="51.5" r="1.5" fill="#ffffff"/>
+          <!-- Senyum Ceria -->
+          <path d="M45 61 Q50 67 55 61" stroke="#10351f" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+          <!-- Pensil Lucu di Samping -->
+          <g transform="translate(68, 38) rotate(25)">
+            <rect x="0" y="8" width="8" height="24" rx="2" fill="#f59e0b"/>
+            <polygon points="0,8 8,8 4,0" fill="#fed7aa"/>
+            <polygon points="2,4 6,4 4,0" fill="#1e293b"/>
+            <rect x="0" y="28" width="8" height="5" rx="1" fill="#f43f5e"/>
+            <line x1="0" y1="28" x2="8" y2="28" stroke="#cbd5e1" stroke-width="1.2"/>
+          </g>
+        </svg>
+      </div>
+      <h3 id="editProfileTitle" class="eco-modal-title">Ubah Profil Siswa</h3>
+      <p class="eco-modal-desc">Ada kesalahan nama, kelas, atau nomor absen? Perbaiki profilmu di sini tanpa kehilangan progres belajar!</p>
+    </div>
+
+    <form class="eco-modal-form" onsubmit="event.preventDefault(); saveEditProfile();">
+      <div>
+        <label for="editStudentName">Nama Siswa <em>*</em></label>
+        <input id="editStudentName" class="eco-input" type="text" maxlength="50" autocomplete="name" placeholder="Contoh: Aisyah" required>
+      </div>
+
+      <div class="eco-form-row-2col">
+        <div>
+          <label for="editStudentClass">Kelas <em>*</em></label>
+          <input id="editStudentClass" class="eco-input" type="text" maxlength="20" placeholder="Contoh: 5-A" required>
+        </div>
+        <div>
+          <label for="editStudentNumber">No. Absen <em>*</em></label>
+          <input id="editStudentNumber" class="eco-input" type="text" inputmode="numeric" maxlength="10" placeholder="Contoh: 12" required>
+        </div>
+      </div>
+
+      <div>
+        <label for="editStudentSchool">Sekolah <em>*</em></label>
+        <input id="editStudentSchool" class="eco-input" type="text" maxlength="80" placeholder="Contoh: SD Negeri ..." required>
+      </div>
+
+      <div id="editProfileMsg" class="eco-form-msg" role="alert" aria-live="polite"></div>
+
+      <div class="eco-modal-actions">
+        <button type="button" class="eco-modal-btn secondary" onclick="closeEditProfileModal()">Batal</button>
+        <button type="submit" class="eco-modal-btn primary">
+          <span>💾 Simpan Perubahan</span>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+
+<!-- ══════════ MODAL KONFIRMASI PERUBAHAN KELAS (SMART MATCHING) ══════════ -->
+<div id="ecoConfirmClassModal" class="eco-loading-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ecoConfirmClassTitle">
+  <div class="eco-loading-card" style="max-width: 440px;">
+    <button type="button" class="eco-modal-close-x" onclick="closeConfirmClassModal()" aria-label="Batal dan Tutup Dialog">✕</button>
+
+    <!-- Cute Mascot Box (Sahabat Bumi Penasaran / Bertanya) -->
+    <div class="eco-loading-mascot-box" style="margin-bottom: 12px;">
+      <svg class="eco-mascot-svg" style="display:block;" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Maskot Bumi Bertanya">
+        <defs>
+          <filter id="ecoConfirmGlow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#2d6a4f" flood-opacity="0.18"/>
+          </filter>
+        </defs>
+        <!-- Daun / Tunas di kepala -->
+        <path d="M60 26 C60 14, 46 10, 42 18 C38 26, 52 28, 60 26Z" fill="#52b788"/>
+        <path d="M60 26 C60 12, 74 8, 78 16 C82 24, 68 28, 60 26Z" fill="#74c69d"/>
+        <path d="M60 36 L60 24" stroke="#2d6a4f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Badan Bumi -->
+        <circle cx="60" cy="68" r="42" fill="#52b788" filter="url(#ecoConfirmGlow)"/>
+        <!-- Pulau pada Bumi -->
+        <path d="M30 58 C38 52, 45 62, 52 56 C58 50, 66 54, 72 48 C78 54, 88 56, 94 62 C88 78, 80 92, 60 98 C42 94, 32 82, 30 58 Z" fill="#40916c" opacity="0.45"/>
+        <circle cx="36" cy="74" r="7" fill="#74c69d" opacity="0.6"/>
+        <circle cx="82" cy="76" r="6" fill="#74c69d" opacity="0.6"/>
+        <!-- Pipi Merona -->
+        <ellipse cx="44" cy="74" rx="5" ry="3.5" fill="#f48c96" opacity="0.65"/>
+        <ellipse cx="76" cy="74" rx="5" ry="3.5" fill="#f48c96" opacity="0.65"/>
+        <!-- Mata Berbinar Penasaran -->
+        <ellipse cx="48" cy="64" rx="4.5" ry="5.5" fill="#10351f"/>
+        <circle cx="46.5" cy="62" r="1.8" fill="#ffffff"/>
+        <ellipse cx="72" cy="64" rx="4.5" ry="5.5" fill="#10351f"/>
+        <circle cx="70.5" cy="62" r="1.8" fill="#ffffff"/>
+        <!-- Alis Ramah Bertanya -->
+        <path d="M44 54 Q49 51 54 54" stroke="#10351f" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <path d="M66 52 Q71 49 76 52" stroke="#10351f" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <!-- Mulut 'O' Lucu Ramah -->
+        <ellipse cx="60" cy="75" rx="3.5" ry="4" fill="#10351f"/>
+        <!-- Balon Tanda Tanya Kecil -->
+        <g transform="translate(80, 16)">
+          <circle cx="16" cy="16" r="14" fill="#fef08a" stroke="#ca8a04" stroke-width="1.5"/>
+          <text x="16" y="22" font-family="'Sora', sans-serif" font-weight="900" font-size="16" fill="#854d0e" text-anchor="middle">?</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Judul & Teks Penjelasan -->
+    <h3 id="ecoConfirmClassTitle" class="eco-loading-title" style="margin-bottom: 8px;">Konfirmasi Akun Siswa</h3>
+    
+    <div id="ecoConfirmClassBox" style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:16px;padding:14px 16px;margin:8px 0 18px;text-align:left;font-size:0.88rem;color:#166534;line-height:1.6;">
+      <p style="margin:0 0 8px;">
+        Kami menemukan nama <strong id="confirmStudentName" style="color:#14532d;">-</strong> sebelumnya terdaftar di 
+        <strong id="confirmOldClass" style="color:#b45309;background:#fef3c7;padding:2px 6px;border-radius:6px;">Kelas -</strong> 
+        dari <strong id="confirmSchoolName" style="color:#14532d;">-</strong>.
+      </p>
+      <p style="margin:0;font-weight:700;">
+        Apakah kamu ingin mengubah kelasmu menjadi <span id="confirmNewClass" style="color:#15803d;background:#dcfce7;padding:2px 6px;border-radius:6px;">Kelas -</span>?
+      </p>
+    </div>
+
+    <!-- Tombol Aksi Pilihan -->
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
+      <!-- Tombol 1: Konfirmasi Update Kelas (PATCH) -->
+      <button id="btnConfirmChangeClass" type="button" class="eco-loading-btn" style="background:#1a8c4a;box-shadow:0 4px 14px rgba(26,140,74,0.25);">
+        <span>✅ Ya, Ubah Kelasku</span>
+      </button>
+
+      <!-- Tombol 2: Bukan Saya, Buat Akun Baru (POST) -->
+      <button id="btnConfirmNewAccount" type="button" class="eco-loading-btn" style="background:#f8fafc;color:#334155;border:1.5px solid #cbd5e1;box-shadow:none;">
+        <span>👤 Bukan, Buat Akun Baru</span>
+      </button>
+
+      <!-- Tombol 3: Batal / Cek Lagi -->
+      <button type="button" onclick="closeConfirmClassModal()" style="appearance:none;background:none;border:none;color:#64748b;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;padding:6px;cursor:pointer;text-decoration:underline;">
+        Kembali periksa data login
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ ECOMEDIA CONFIRM CLOSE / COLLAPSE READ MATERIAL MODAL ══════════ -->
+<div id="ecoCloseReadModal" class="eco-loading-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ecoCloseReadTitle">
+  <div class="eco-loading-card" style="max-width:440px;position:relative;">
+    
+    <!-- Tombol Tutup X di sudut kanan atas -->
+    <button type="button" class="eco-modal-close-x" onclick="closeCloseReadModal()" aria-label="Batal dan Tetap Membaca">✕</button>
+
+    <!-- Cute Mascot Box (Sahabat Bumi Sedang Membaca / Menutup Buku) -->
+    <div class="eco-loading-mascot-box" style="margin-bottom: 12px;">
+      <svg class="eco-mascot-svg" style="display:block;" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Maskot Bumi Membaca Buku">
+        <defs>
+          <filter id="ecoCloseReadGlow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1b6fb5" flood-opacity="0.18"/>
+          </filter>
+        </defs>
+        <!-- Daun / Tunas di kepala -->
+        <path d="M60 26 C60 14, 46 10, 42 18 C38 26, 52 28, 60 26Z" fill="#52b788"/>
+        <path d="M60 26 C60 12, 74 8, 78 16 C82 24, 68 28, 60 26Z" fill="#74c69d"/>
+        <path d="M60 36 L60 24" stroke="#2d6a4f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Badan Bumi -->
+        <circle cx="60" cy="68" r="42" fill="#52b788" filter="url(#ecoCloseReadGlow)"/>
+        <!-- Benua / Pulau pada Bumi -->
+        <path d="M30 58 C38 52, 45 62, 52 56 C58 50, 66 54, 72 48 C78 54, 88 56, 94 62 C88 78, 80 92, 60 98 C42 94, 32 82, 30 58 Z" fill="#40916c" opacity="0.45"/>
+        <circle cx="36" cy="74" r="7" fill="#74c69d" opacity="0.6"/>
+        <circle cx="82" cy="76" r="6" fill="#74c69d" opacity="0.6"/>
+        <!-- Pipi Merona -->
+        <ellipse cx="44" cy="74" rx="5" ry="3.5" fill="#f48c96" opacity="0.65"/>
+        <ellipse cx="76" cy="74" rx="5" ry="3.5" fill="#f48c96" opacity="0.65"/>
+        <!-- Mata Berbinar Ramah -->
+        <ellipse cx="48" cy="64" rx="4" ry="5.5" fill="#10351f"/>
+        <circle cx="46.5" cy="62" r="1.8" fill="#ffffff"/>
+        <ellipse cx="72" cy="64" rx="4" ry="5.5" fill="#10351f"/>
+        <circle cx="70.5" cy="62" r="1.8" fill="#ffffff"/>
+        <!-- Senyum Hangat -->
+        <path d="M54 73 Q60 79 66 73" stroke="#10351f" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <!-- Buku Biru Terbuka di Tangan Bumi -->
+        <g transform="translate(38, 76)">
+          <path d="M22 6 C16 4, 6 6, 2 8 L2 24 C8 22, 16 20, 22 22 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>
+          <path d="M22 6 C28 4, 38 6, 42 8 L42 24 C36 22, 28 20, 22 22 Z" fill="#7dd3fc" stroke="#0284c7" stroke-width="1.5"/>
+          <line x1="22" y1="6" x2="22" y2="22" stroke="#0369a1" stroke-width="2"/>
+          <line x1="8" y1="12" x2="17" y2="10" stroke="#0284c7" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="8" y1="16" x2="16" y2="14" stroke="#0284c7" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="27" y1="10" x2="36" y2="12" stroke="#0284c7" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="28" y1="14" x2="36" y2="16" stroke="#0284c7" stroke-width="1.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Judul & Teks Penjelasan -->
+    <h3 id="ecoCloseReadTitle" class="eco-loading-title" style="margin-bottom: 8px;">Tutup Materi Bacaan?</h3>
+    
+    <div id="ecoCloseReadBox" style="background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:16px;padding:14px 16px;margin:8px 0 18px;text-align:left;font-size:0.88rem;color:#0369a1;line-height:1.6;">
+      <p style="margin:0 0 6px;">
+        Kamu sedang membuka <strong id="closeReadMaterialName" style="color:#0284c7;">Materi Bacaan</strong>.
+      </p>
+      <p style="margin:0;font-weight:700;color:#075985;">
+        Apakah kamu yakin ingin menutup dan menggulung materi ini kembali?
+      </p>
+    </div>
+
+    <!-- Tombol Aksi Pilihan -->
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
+      <!-- Tombol 1: Konfirmasi Tutup Materi -->
+      <button id="btnConfirmCloseRead" type="button" class="eco-loading-btn" onclick="confirmCloseRead()" style="background:#0284c7;box-shadow:0 4px 14px rgba(2,132,199,0.25);">
+        <span>📖 Ya, Tutup Materi</span>
+      </button>
+
+      <!-- Tombol 2: Batal / Tetap Lanjut Membaca -->
+      <button id="btnCancelCloseRead" type="button" class="eco-loading-btn" onclick="closeCloseReadModal()" style="background:#f8fafc;color:#334155;border:1.5px solid #cbd5e1;box-shadow:none;">
+        <span>↩ Lanjut Membaca</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ ECOMEDIA TANTANGAN BERPIKIR INPUT MODAL ══════════ -->
+<div id="ecoTantanganModal" class="eco-loading-overlay" style="z-index: 10;" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ecoTantanganTitle">
+  <div class="eco-loading-card" style="max-width:480px;position:relative;text-align:left;">
+    
+    <!-- Tombol Tutup X di sudut kanan atas -->
+    <button type="button" class="eco-modal-close-x" onclick="closeTantanganModal()" aria-label="Batal dan Tutup">✕</button>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <span style="font-size:2rem;" aria-hidden="true">💡</span>
+      <div>
+        <h3 id="ecoTantanganTitle" class="eco-loading-title" style="margin:0;font-size:1.15rem;text-align:left;">Tantangan Berpikir</h3>
+        <p id="tantanganSubtitle" style="font-size:0.82rem;color:#64748b;margin:2px 0 0;">Tuliskan jawaban dan alasan terbaikmu</p>
+      </div>
+    </div>
+
+    <input type="hidden" id="tantanganIdMateri" value="" />
+
+    <div style="margin:14px 0 6px;width:100%;">
+      <label for="tantanganJawaban" style="display:block;font-size:0.84rem;font-weight:700;color:#334155;margin-bottom:6px;">
+        Jawaban &amp; Alasanku:
+      </label>
+      <textarea id="tantanganJawaban" class="q-wonder-area" style="min-height:130px;width:100%;resize:vertical;font-family:'Nunito',sans-serif;font-size:0.92rem;line-height:1.5;box-sizing:border-box;border-radius:14px;padding:12px 14px;" placeholder="Berikan jawabanmu beserta alasannya..."></textarea>
+      <span id="tantanganMsg" class="q-wonder-msg" style="display:block;margin-top:6px;min-height:1.2rem;" role="status" aria-live="polite"></span>
+    </div>
+
+    <!-- Tombol Aksi: Batal [Tutup] dan Kirim -->
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px;width:100%;">
+      <button type="button" id="btnCancelTantangan" onclick="closeTantanganModal()" class="eco-loading-btn" style="background:#f1f5f9;color:#475569;border:1.5px solid #cbd5e1;box-shadow:none;width:auto;padding:8px 18px;font-size:0.88rem;">
+        <span>Batal [Tutup]</span>
+      </button>
+      <button type="button" id="btnSubmitTantangan" onclick="kirimTantangan()" class="eco-loading-btn" style="background:var(--c-read, #1b6fb5);color:#fff;width:auto;padding:8px 24px;font-size:0.88rem;box-shadow:0 4px 14px rgba(27,111,181,0.25);">
+        <span>🚀 Kirim</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ══════════ ECOMEDIA FULL-SCREEN LOADING & PROCESSING OVERLAY ══════════ -->
+<div id="ecoLoadingOverlay" class="eco-loading-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ecoLoadingTitle">
+  <div id="ecoLoadingCard" class="eco-loading-card state-loading">
+    
+    <!-- Cute Mascot Box (Sahabat Bumi Cilik) -->
+    <div class="eco-loading-mascot-box">
+      <!-- 1. Mascot Loading (Animasi Mengambang) -->
+      <svg class="eco-mascot-svg eco-mascot-loading" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Karakter Bumi Sedang Memproses">
+        <defs>
+          <filter id="ecoMascotGlow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#2d6a4f" flood-opacity="0.18"/>
+          </filter>
+        </defs>
+        <!-- Daun / Tunas di kepala -->
+        <path d="M60 26 C60 14, 46 10, 42 18 C38 26, 52 28, 60 26Z" fill="#52b788"/>
+        <path d="M60 26 C60 12, 74 8, 78 16 C82 24, 68 28, 60 26Z" fill="#74c69d"/>
+        <path d="M60 36 L60 24" stroke="#2d6a4f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Badan Bumi -->
+        <circle cx="60" cy="68" r="42" fill="#52b788" filter="url(#ecoMascotGlow)"/>
+        <!-- Pulau pada Bumi -->
+        <path d="M30 58 C38 52, 45 62, 52 56 C58 50, 66 54, 72 48 C78 54, 88 56, 94 62 C88 78, 80 92, 60 98 C42 94, 32 82, 30 58 Z" fill="#40916c" opacity="0.45"/>
+        <circle cx="36" cy="74" r="7" fill="#74c69d" opacity="0.6"/>
+        <circle cx="82" cy="76" r="6" fill="#74c69d" opacity="0.6"/>
+        <!-- Pipi Merona -->
+        <ellipse cx="44" cy="74" rx="5" ry="3.5" fill="#f48c96" opacity="0.65"/>
+        <ellipse cx="76" cy="74" rx="5" ry="3.5" fill="#f48c96" opacity="0.65"/>
+        <!-- Mata Lucu Berkilau -->
+        <ellipse cx="48" cy="64" rx="4" ry="5.5" fill="#10351f"/>
+        <circle cx="46.5" cy="62" r="1.8" fill="#ffffff"/>
+        <ellipse cx="72" cy="64" rx="4" ry="5.5" fill="#10351f"/>
+        <circle cx="70.5" cy="62" r="1.8" fill="#ffffff"/>
+        <!-- Mulut Senyum -->
+        <path d="M54 73 Q60 80 66 73" stroke="#10351f" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </svg>
+
+      <!-- 2. Mascot Error (Ekspresi Cemas dengan Plester & Keringat) -->
+      <svg class="eco-mascot-svg eco-mascot-error" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Karakter Bumi Menghadapi Masalah">
+        <!-- Tunas agak miring -->
+        <path d="M58 28 C56 18, 44 16, 42 22 C40 28, 50 30, 58 28Z" fill="#a7c957"/>
+        <path d="M60 36 L58 26" stroke="#4a572c" stroke-width="3" stroke-linecap="round"/>
+        <!-- Badan Bumi -->
+        <circle cx="60" cy="68" r="42" fill="#68bb76"/>
+        <!-- Plester Lucu di Dahi Kanan -->
+        <rect x="70" y="44" width="18" height="8" rx="3" transform="rotate(25 79 48)" fill="#fed7aa" stroke="#f97316" stroke-width="1.2"/>
+        <circle cx="79" cy="48" r="1.5" fill="#ea580c"/>
+        <!-- Tetes Keringat Dingin -->
+        <path d="M26 50 C26 46, 31 40, 31 40 C31 40, 36 46, 36 50 C36 53, 33.5 56, 31 56 C28.5 56, 26 53, 26 50 Z" fill="#38bdf8"/>
+        <!-- Alis Cemas -->
+        <path d="M43 54 Q48 57 53 55" stroke="#10351f" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M67 55 Q72 57 77 54" stroke="#10351f" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <!-- Mata Khawatir -->
+        <circle cx="48" cy="65" r="4.5" fill="#10351f"/>
+        <circle cx="47" cy="63.5" r="1.3" fill="#ffffff"/>
+        <circle cx="72" cy="65" r="4.5" fill="#10351f"/>
+        <circle cx="71" cy="63.5" r="1.3" fill="#ffffff"/>
+        <!-- Pipi pucat -->
+        <ellipse cx="44" cy="74" rx="4" ry="2.5" fill="#fda4af" opacity="0.5"/>
+        <ellipse cx="76" cy="74" rx="4" ry="2.5" fill="#fda4af" opacity="0.5"/>
+        <!-- Mulut Goyang Khawatir -->
+        <path d="M53 77 Q60 72 67 77" stroke="#10351f" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </svg>
+
+      <!-- 3. Mascot Success (Bumi Semangat Ceria dengan Bintang) -->
+      <svg class="eco-mascot-svg eco-mascot-success" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Karakter Bumi Senang Berhasil">
+        <!-- Tunas segar berkilau -->
+        <path d="M60 24 C60 10, 44 8, 40 16 C36 24, 52 26, 60 24Z" fill="#52b788"/>
+        <path d="M60 24 C60 10, 76 8, 80 16 C84 24, 68 26, 60 24Z" fill="#74c69d"/>
+        <path d="M60 36 L60 22" stroke="#2d6a4f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Badan Bumi -->
+        <circle cx="60" cy="68" r="42" fill="#52b788"/>
+        <!-- Bintang Berkilau di Sekitar -->
+        <path d="M22 42 L24 46 L28 47 L24 49 L23 53 L21 49 L17 48 L21 46 Z" fill="#f59e0b"/>
+        <path d="M98 44 L99 48 L103 49 L99 51 L98 55 L96 51 L92 50 L96 48 Z" fill="#f59e0b"/>
+        <!-- Pipi Merona Bahagia -->
+        <ellipse cx="42" cy="74" rx="6" ry="4" fill="#f48c96" opacity="0.8"/>
+        <ellipse cx="78" cy="74" rx="6" ry="4" fill="#f48c96" opacity="0.8"/>
+        <!-- Mata Melengkung Bahagia (Tertawa Lebar) -->
+        <path d="M42 63 Q48 55 54 63" stroke="#10351f" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M66 63 Q72 55 78 63" stroke="#10351f" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <!-- Mulut Tertawa Lebar dengan Lidah -->
+        <path d="M52 71 C52 71, 54 82, 60 82 C66 82, 68 71, 68 71 Z" fill="#b91c1c"/>
+        <path d="M55 77 C57 75, 63 75, 65 77 C63 81, 57 81, 55 77 Z" fill="#f48c96"/>
+      </svg>
+    </div>
+
+    <!-- Teks Judul & Keterangan -->
+    <h3 id="ecoLoadingTitle" class="eco-loading-title">Data anda sedang diproses</h3>
+    <p id="ecoLoadingDesc" class="eco-loading-desc">Mohon tunggu sebentar, sistem sedang memproses data...</p>
+
+    <!-- Animated Loading Dots -->
+    <div id="ecoLoadingDots" class="eco-loading-dots" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Error Detail Box (Tampil saat status error) -->
+    <div id="ecoLoadingErrorBox" class="eco-loading-error-box" role="alert">
+      <b>⚠️ Rincian Kendala:</b>
+      <span id="ecoLoadingErrorText">Koneksi bermasalah.</span>
+    </div>
+
+    <!-- Tombol Aksi (Tutup dialog saat error) -->
+    <div id="ecoLoadingActions" class="eco-loading-actions">
+      <button id="ecoLoadingCloseBtn" type="button" class="eco-loading-btn btn-error" onclick="hideLoading()">
+        <span>Tutup Layar Ini</span>
+        <span>✕</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+  <!-- koneksi ke API -->
+  <script src="js/api.js"></script>
+  <!-- Modular JavaScript Architecture -->
+  <!-- 1. Data Layer -->
+  <script src="js/data/materi-read.js"></script>
+  <script src="js/data/create-data.js"></script>
+  <script src="js/data/discuss-data.js"></script>
+  <script src="js/data/soal-essay.js"></script>
+  <script src="js/data/ecoliterasi.js"></script>
+  <script src="js/data/templates.js"></script>
+
+  <!-- 2. Core Modules -->
+  <script src="js/store.js"></script>
+  <script src="js/loading.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/router.js"></script>
+
+  <!-- 3. Feature Modules -->
+  <script src="js/read.js"></script>
+  <script src="js/answer.js"></script>
+  <script src="js/discuss.js"></script>
+  <script src="js/explain.js"></script>
+  <script src="js/create.js"></script>
+  <script src="js/ecomedia-lens.js"></script>
+  <script src="js/finish.js"></script>
+  <script src="js/report.js"></script>
+
+  <!-- 4. Application Entry Point -->
+  <script src="js/app.js"></script>
+</body>
+</html>
