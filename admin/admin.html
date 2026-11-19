@@ -147,6 +147,7 @@
     </nav>
 
     <div class="eco-sidebar-footer">
+      <button type="button" class="eco-btn-sidebar-profile" onclick="openProfileModal()">✏️ Ubah Profil</button>
       <button class="eco-btn-logout" onclick="doAdminLogout()">🚪 Keluar</button>
     </div>
   </aside>
@@ -161,9 +162,6 @@
         <p id="pageSub" class="admin-subtitle">Kelola informasi dan akun siswa yang terdaftar.</p>
       </div>
       <div class="eco-admin-profile">
-        <button type="button" class="eco-btn-edit-profile" onclick="openProfileModal()">
-          ✏️ Ubah Profil
-        </button>
         <span id="profileBadgeName">👨‍🏫 Halo, Guru</span>
       </div>
     </header>
@@ -199,12 +197,11 @@
                   <th>Nama Siswa</th>
                   <th style="width: 100px;">Kelas</th>
                   <th>Sekolah</th>
-                  <th style="text-align: center; width: 150px;">Aksi</th>
                 </tr>
               </thead>
               <tbody id="siswaTableBody">
                 <tr>
-                  <td colspan="6" style="text-align: center; padding: 28px; color: var(--text3);">
+                  <td colspan="5" style="text-align: center; padding: 28px; color: var(--text3);">
                     Memuat data siswa...
                   </td>
                 </tr>
@@ -297,8 +294,8 @@
           <!-- Header Detail Siswa -->
           <div class="admin-card read-detail-header-card">
             <div class="read-detail-header-bar">
-              <button type="button" class="eco-btn-secondary" onclick="closeDetailTanggapan()" style="display: inline-flex; align-items: center; gap: 6px;">
-                ⬅️ Kembali ke Menu Tanggapan Siswa (Ecomedia)
+              <button type="button" class="eco-btn-secondary eco-btn-back" onclick="closeDetailTanggapan()">
+                ⬅️ <span class="back-text-full">Kembali ke Menu Tanggapan Siswa (Ecomedia)</span><span class="back-text-short">Kembali</span>
               </button>
               <div class="read-student-info">
                 <h3 id="tanggapanDetailStudentName" style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.25rem; color: var(--text);">Nama Siswa</h3>
@@ -375,8 +372,8 @@
           <!-- Header Detail Siswa -->
           <div class="admin-card read-detail-header-card">
             <div class="read-detail-header-bar">
-              <button type="button" class="eco-btn-secondary" onclick="closeDetailRead()" style="display: inline-flex; align-items: center; gap: 6px;">
-                ⬅️ Kembali ke Menu Pertanyaan Siswa (READ)
+              <button type="button" class="eco-btn-secondary eco-btn-back" onclick="closeDetailRead()">
+                ⬅️ <span class="back-text-full">Kembali ke Menu Pertanyaan Siswa (READ)</span><span class="back-text-short">Kembali</span>
               </button>
               <div class="read-student-info">
                 <h3 id="readDetailStudentName" style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.25rem; color: var(--text);">Nama Siswa</h3>
