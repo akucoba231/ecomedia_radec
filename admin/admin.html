@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Guru - EcoMedia RADEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ══════════ HALAMAN LOGIN GURU ══════════ -->
+<section id="adminLogin" class="eco-login-section">
+  <!-- Elemen Latar Belakang Lingkungan / Eco Ambient -->
+  <div class="eco-login-bg" aria-hidden="true">
+    <div class="eco-bubble b1"></div>
+    <div class="eco-bubble b2"></div>
+    <div class="eco-bubble b3"></div>
+    <span class="eco-leaf l1">🌿</span>
+    <span class="eco-leaf l2">🍃</span>
+    <span class="eco-leaf l3">🌱</span>
+  </div>
+
+  <div class="eco-login-container">
+    <!-- Kolom Kiri: Informasi Aplikasi & Identitas Halaman Guru -->
+    <div class="eco-login-hero">
+      <div class="eco-brand-badge">
+        <span class="icon">🌱</span>
+        <span>ECOMEDIA RADEC : BUMI KITA &amp; PERUBAHAN IKLIM</span>
+      </div>
+      
+      <h1 class="eco-hero-title">
+        Portal Guru &amp;<br>
+        <span class="text-gradient">Dashboard Monitoring</span>
+      </h1>
+      
+      <p class="eco-hero-desc">
+        Pusat kendali pembelajaran terpadu untuk mendampingi siswa memahami fenomena perubahan iklim melalui 5 tahapan model <strong>RADEC</strong>, memantau kemajuan belajar secara langsung, dan mengevaluasi respon penalaran siswa.
+      </p>
+
+      <div class="eco-hero-badges">
+        <span>👨‍🏫 Halaman Guru</span>
+        <span>🧠 Model RADEC</span>
+        <span>🌍 Ecoliteracy</span>
+        <span>📊 Evaluasi Pembelajaran</span>
+      </div>
+
+      <div class="eco-journey-preview">
+        <div class="journey-header">
+          <span>🧭 5 Tahapan Model Belajar RADEC</span>
+        </div>
+        <div class="journey-steps">
+          <div class="j-step"><span class="j-badge read">READ</span><small>Literasi Teks</small></div>
+          <span class="j-arr">→</span>
+          <div class="j-step"><span class="j-badge answer">ANSWER</span><small>Tantangan Mandiri</small></div>
+          <span class="j-arr">→</span>
+          <div class="j-step"><span class="j-badge discuss">DISCUSS</span><small>Diskusi Kelompok</small></div>
+          <span class="j-arr">→</span>
+          <div class="j-step"><span class="j-badge explain">EXPLAIN</span><small>Konseptualisasi</small></div>
+          <span class="j-arr">→</span>
+          <div class="j-step"><span class="j-badge create">CREATE</span><small>Aksi Nyata</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kolom Kanan: Kartu Login Guru -->
+    <div class="eco-login-card">
+      <div class="card-accent-bar"></div>
+      
+      <div class="card-header-group">
+        <div class="icon-wrap">🌍</div>
+        <div>
+          <span class="card-kicker">AUTENTIKASI PENDIDIK</span>
+          <h2>Halo, Bapak/Ibu Guru!</h2>
+        </div>
+      </div>
+      <p class="card-subtext">Silakan masuk ke Dashboard Admin EcoMedia untuk memantau progres belajar siswa.</p>
+
+      <div class="form-group">
+        <label for="guruName">Nama Guru <em>*</em></label>
+        <input type="text" id="guruName" class="eco-input" placeholder="Contoh: Pak Hasan, S.Pd." autocomplete="name">
+      </div>
+      
+      <div class="form-group">
+        <label for="guruClass">Kelas yang Diampu</label>
+        <input type="text" id="guruClass" class="eco-input" placeholder="Contoh: 5-A (pisahkan dengan strip)">
+      </div>
+
+      <div class="form-group">
+        <label for="guruSchool">Asal Sekolah</label>
+        <input type="text" id="guruSchool" class="eco-input" placeholder="Contoh: SDN 1 Pidie">
+      </div>
+
+      <button type="button" class="eco-btn-primary eco-login-btn" onclick="doAdminLogin()">
+        Masuk Dashboard Admin →
+      </button>
+      <div id="loginErrorMsg" class="msg-error"></div>
+
+      <div class="card-footer-note">
+        🌱 EcoMedia RADEC — Media Pembelajaran Ecoliteracy Kelas V SD
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DASHBOARD GURU (Tersembunyi Awalnya) ══════════ -->
+<div id="adminDashboard" class="eco-admin-wrapper">
+  
+  <!-- Overlay untuk menutup sidebar di Mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- ════ SIDEBAR ════ -->
+  <aside class="eco-sidebar" id="ecoSidebar">
+    <div class="eco-sidebar-brand">
+      <span class="icon">🌍</span>
+      <h3>GURU ECOMEDIA</h3>
+    </div>
+    
+    <nav class="eco-sidebar-nav">
+      <button class="eco-nav-item active" onclick="switchPanel('siswa', this)">
+        <span class="icon">👤</span> Data Siswa
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('akses', this)">
+        <span class="icon">🔑</span> Izin Akses
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('read', this)">
+        <span class="icon">📖</span> Pertanyaan Siswa (READ)
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('tanggapan', this)">
+        <span class="icon">💬</span> Tanggapan Siswa (Ecomedia)
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('answer', this)">
+        <span class="icon">✍️</span> Jawaban Siswa (Answer)
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('discuss', this)">
+        <span class="icon">🗣️</span> Diskusi Siswa (Discuss)
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('explain', this)">
+        <span class="icon">📢</span> Penjelasan Siswa (Explain)
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('create', this)">
+        <span class="icon">🎨</span> Karya Siswa (Create)
+      </button>
+      <button class="eco-nav-item" onclick="switchPanel('laporan', this)">
+        <span class="icon">📊</span> Laporan Progres
+      </button>
+    <!-- </nav> -->
+
+    <div class="eco-sidebar-footer">
+      <button type="button" class="eco-btn-sidebar-profile" onclick="openProfileModal()">✏️ Ubah Profil</button>
+      <button class="eco-btn-logout" onclick="doAdminLogout()">🚪 Keluar</button>
+    </div>
+    </nav>
+  </aside>
+
+  <!-- ════ KONTEN UTAMA ════ -->
+  <main class="eco-admin-main">
+    
+    <header class="eco-admin-header">
+      <button class="eco-mobile-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="header-title-group">
+        <h2 id="pageTitle" class="admin-title">Data Siswa</h2>
+        <p id="pageSub" class="admin-subtitle">Kelola informasi dan akun siswa yang terdaftar.</p>
+      </div>
+      <div class="eco-admin-profile">
+        <span id="profileBadgeName">👨‍🏫 Halo, Guru</span>
+      </div>
+    </header>
+
+    <div class="eco-admin-content">
+      
+      <!-- PANEL 1: DATA SISWA -->
+      <div class="admin-panel active" id="panel-siswa">
+        <div class="admin-card">
+          <div class="card-action-bar">
+            <input type="text" id="searchSiswaInput" class="eco-input eco-input-search" placeholder="🔍 Cari nama atau absen siswa...">
+            <div style="display: flex; gap: 8px;">
+              <button class="eco-btn-secondary" id="btnRefreshSiswa" onclick="loadDataSiswa(true)" title="Segarkan Data Siswa">🔄 Segarkan</button>
+              <button class="eco-btn-primary" style="display: none;">+ Tambah Siswa</button>
+            </div>
+          </div>
+
+          <div class="siswa-filter-info" id="siswaFilterInfo">
+            <div>
+              📍 Menampilkan siswa kelas: <strong id="siswaInfoKelas">-</strong> | Sekolah: <strong id="siswaInfoSekolah">-</strong>
+            </div>
+            <div>
+              Total: <strong id="siswaInfoCount">0</strong> siswa
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="eco-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">No</th>
+                  <th style="width: 80px;">Absen</th>
+                  <th>Nama Siswa</th>
+                  <th style="width: 100px;">Kelas</th>
+                  <th>Sekolah</th>
+                  <th style="text-align: center; width: 140px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="siswaTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 28px; color: var(--text3);">
+                    Memuat data siswa...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: IZIN AKSES -->
+      <div class="admin-panel" id="panel-akses">
+        <div class="admin-card">
+          <p style="margin-bottom: 20px; color: var(--text3); font-size: 0.9rem; line-height: 1.6;">
+            Berikan atau cabut izin akses siswa untuk melanjutkan ke tahapan RADEC berikutnya. Siswa yang aksesnya dimatikan tidak dapat membuka materi tahap tersebut di aplikasinya.
+          </p>
+          <div class="table-responsive">
+            <table class="eco-table">
+              <thead>
+                <tr>
+                  <th>Nama Siswa</th>
+                  <th style="text-align: center;">Akses READ</th>
+                  <th style="text-align: center;">Akses ANSWER</th>
+                  <th style="text-align: center;">Akses DISCUSS</th>
+                  <th style="text-align: center;">Akses EXPLAIN</th>
+                  <th style="text-align: center;">Akses CREATE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Aisyah</strong><br><small style="color:var(--text3)">V-A</small></td>
+                  <td style="text-align: center;"><label class="eco-switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                  <td style="text-align: center;"><label class="eco-switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                  <td style="text-align: center;"><label class="eco-switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+                  <td style="text-align: center;"><label class="eco-switch"><input type="checkbox"><span class="slider"></span></label></td>
+                  <td style="text-align: center;"><label class="eco-switch"><input type="checkbox"><span class="slider"></span></label></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: TANGGAPAN SISWA (ECOMEDIA) -->
+      <div class="admin-panel" id="panel-tanggapan">
+        
+        <!-- SUB-VIEW 1: DAFTAR SISWA -->
+        <div id="tanggapanListView">
+          <div class="admin-card">
+            <div class="card-action-bar">
+              <input type="text" id="searchTanggapanSiswaInput" class="eco-input eco-input-search" placeholder="🔍 Cari nama siswa...">
+              <div style="display: flex; gap: 8px;">
+                <button class="eco-btn-secondary" onclick="loadTanggapanSiswaTable(true)" title="Segarkan Data Siswa">🔄 Segarkan</button>
+              </div>
+            </div>
+
+            <div class="siswa-filter-info">
+              <div>
+                💬 Pilih siswa untuk melihat riwayat <strong>Tanggapan Ecomedia</strong> yang telah dikirimkan
+              </div>
+              <div>
+                Total: <strong id="tanggapanSiswaCount">0</strong> siswa
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="eco-table">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">No</th>
+                    <th>Nama</th>
+                    <th style="width: 120px;">Kelas</th>
+                    <th>Sekolah</th>
+                    <th style="text-align: center; width: 120px;">Opsi</th>
+                  </tr>
+                </thead>
+                <tbody id="tanggapanSiswaTableBody">
+                  <tr>
+                    <td colspan="5" style="text-align: center; padding: 28px; color: var(--text3);">
+                      Memuat daftar siswa...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-VIEW 2: DETAIL TANGGAPAN ECOMEDIA SISWA -->
+        <div id="tanggapanDetailView" style="display: none;">
+          <!-- Header Detail Siswa -->
+          <div class="admin-card read-detail-header-card">
+            <div class="read-detail-header-bar">
+              <button type="button" class="eco-btn-secondary eco-btn-back" onclick="closeDetailTanggapan()">
+                ⬅️ <span class="back-text-full">Kembali ke Menu Tanggapan Siswa (Ecomedia)</span><span class="back-text-short">Kembali</span>
+              </button>
+              <div class="read-student-info">
+                <h3 id="tanggapanDetailStudentName" style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.25rem; color: var(--text);">Nama Siswa</h3>
+                <p id="tanggapanDetailStudentMeta" style="margin: 4px 0 0; font-size: 0.88rem; color: var(--text3);">Kelas • Sekolah</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1 Blok Card: Daftar Tanggapan Ecomedia -->
+          <div class="admin-card read-block-card">
+            <div class="read-block-header">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="badge badge-green" style="margin: 0;">Ecomedia</span>
+                <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.05rem; color: var(--text);">Daftar Tanggapan Ecomedia</h4>
+              </div>
+              <span id="tanggapanCountBadge" class="absen-badge" style="background: #DCFCE7; color: #166534; border-color: #BBF7D0;">0 Tanggapan</span>
+            </div>
+            <div id="tanggapanList" class="read-items-container" style="margin-top: 16px;">
+              <!-- Diisi secara dinamis -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PANEL 4: PERTANYAAN SISWA (READ) -->
+      <div class="admin-panel" id="panel-read">
+        
+        <!-- SUB-VIEW 1: DAFTAR SISWA -->
+        <div id="readListView">
+          <div class="admin-card">
+            <div class="card-action-bar">
+              <input type="text" id="searchReadSiswaInput" class="eco-input eco-input-search" placeholder="🔍 Cari nama siswa...">
+              <div style="display: flex; gap: 8px;">
+                <button class="eco-btn-secondary" onclick="loadReadSiswaTable(true)" title="Segarkan Data Siswa">🔄 Segarkan</button>
+              </div>
+            </div>
+
+            <div class="siswa-filter-info">
+              <div>
+                📖 Pilih siswa untuk melihat riwayat <strong>Pertanyaan</strong> dan <strong>Tanggapan Tantangan</strong> tahap READ
+              </div>
+              <div>
+                Total: <strong id="readSiswaCount">0</strong> siswa
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="eco-table">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">No</th>
+                    <th>Nama</th>
+                    <th style="width: 120px;">Kelas</th>
+                    <th>Sekolah</th>
+                    <th style="text-align: center; width: 120px;">Opsi</th>
+                  </tr>
+                </thead>
+                <tbody id="readSiswaTableBody">
+                  <tr>
+                    <td colspan="5" style="text-align: center; padding: 28px; color: var(--text3);">
+                      Memuat daftar siswa...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-VIEW 2: DETAIL PERTANYAAN & TANTANGAN SISWA -->
+        <div id="readDetailView" style="display: none;">
+          <!-- Header Detail Siswa -->
+          <div class="admin-card read-detail-header-card">
+            <div class="read-detail-header-bar">
+              <button type="button" class="eco-btn-secondary eco-btn-back" onclick="closeDetailRead()">
+                ⬅️ <span class="back-text-full">Kembali ke Menu Pertanyaan Siswa (READ)</span><span class="back-text-short">Kembali</span>
+              </button>
+              <div class="read-student-info">
+                <h3 id="readDetailStudentName" style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.25rem; color: var(--text);">Nama Siswa</h3>
+                <p id="readDetailStudentMeta" style="margin: 4px 0 0; font-size: 0.88rem; color: var(--text3);">Kelas • Sekolah</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 Blok Card: Pertanyaan Siswa & Tanggapan Siswa -->
+          <div class="read-detail-grid">
+            
+            <!-- BLOK 1: DAFTAR PERTANYAAN SISWA -->
+            <div class="admin-card read-block-card">
+              <div class="read-block-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge badge-blue" style="margin: 0;">Tahap READ</span>
+                  <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.05rem; color: var(--text);">Daftar Pertanyaan Siswa</h4>
+                </div>
+                <span id="readPertanyaanCountBadge" class="absen-badge" style="background: #E0F2FE; color: #0369A1; border-color: #BAE6FD;">0 Pertanyaan</span>
+              </div>
+              <div id="readPertanyaanList" class="read-items-container" style="margin-top: 16px;">
+                <!-- Diisi secara dinamis -->
+              </div>
+            </div>
+
+            <!-- BLOK 2: DAFTAR TANGGAPAN SISWA -->
+            <div class="admin-card read-block-card">
+              <div class="read-block-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge badge-purple" style="margin: 0;">Tantangan READ</span>
+                  <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.05rem; color: var(--text);">Daftar Tanggapan Siswa</h4>
+                </div>
+                <span id="readTantanganCountBadge" class="absen-badge" style="background: #F3E8FF; color: #6B21A8; border-color: #DDD6FE;">0 Tanggapan</span>
+              </div>
+              <div id="readTantanganList" class="read-items-container" style="margin-top: 16px;">
+                <!-- Diisi secara dinamis -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PANEL 5: JAWABAN SISWA (ANSWER) -->
+      <div class="admin-panel" id="panel-answer">
+        
+        <!-- SUB-VIEW 1: DAFTAR SISWA -->
+        <div id="answerListView">
+          <div class="admin-card">
+            <div class="card-action-bar">
+              <input type="text" id="searchAnswerSiswaInput" class="eco-input eco-input-search" placeholder="🔍 Cari nama siswa...">
+              <div style="display: flex; gap: 8px;">
+                <button class="eco-btn-secondary" onclick="loadAnswerSiswaTable(true)" title="Segarkan Data Siswa">🔄 Segarkan</button>
+              </div>
+            </div>
+
+            <div class="siswa-filter-info">
+              <div>
+                ✍️ Pilih siswa untuk melihat rincian <strong>Jawaban Siswa</strong> pada tahap ANSWER
+              </div>
+              <div>
+                Total: <strong id="answerSiswaCount">0</strong> siswa
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="eco-table">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">No</th>
+                    <th>Nama</th>
+                    <th style="width: 120px;">Kelas</th>
+                    <th>Sekolah</th>
+                    <th style="text-align: center; width: 120px;">Opsi</th>
+                  </tr>
+                </thead>
+                <tbody id="answerSiswaTableBody">
+                  <tr>
+                    <td colspan="5" style="text-align: center; padding: 28px; color: var(--text3);">
+                      Memuat daftar siswa...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-VIEW 2: DETAIL JAWABAN SISWA (ANSWER) -->
+        <div id="answerDetailView" style="display: none;">
+          <!-- Header Detail Siswa -->
+          <div class="admin-card read-detail-header-card">
+            <div class="read-detail-header-bar">
+              <button type="button" class="eco-btn-secondary eco-btn-back" onclick="closeDetailAnswer()">
+                ⬅️ <span class="back-text-full">Kembali ke Menu Jawaban Siswa (ANSWER)</span><span class="back-text-short">Kembali</span>
+              </button>
+              <div class="read-student-info">
+                <h3 id="answerDetailStudentName" style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.25rem; color: var(--text);">Nama Siswa</h3>
+                <p id="answerDetailStudentMeta" style="margin: 4px 0 0; font-size: 0.88rem; color: var(--text3);">Kelas • Sekolah</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1 Blok Card: Jawaban Siswa (ANSWER) -->
+          <div class="admin-card read-block-card">
+            <div class="read-block-header">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="badge badge-purple" style="margin: 0;">Tahap 2 • ANSWER</span>
+                <h4 style="margin: 0; font-family: 'Sora', sans-serif; font-size: 1.05rem; color: var(--text);">Jawaban Siswa (ANSWER)</h4>
+              </div>
+              <span id="answerCountBadge" class="absen-badge" style="background: #F3E8FF; color: #6B21A8; border-color: #DDD6FE;">0 Jawaban</span>
+            </div>
+            <div id="answerList" class="read-items-container" style="margin-top: 16px;">
+              <!-- Diisi secara dinamis -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PANEL 6: DISKUSI SISWA (DISCUSS) -->
+      <div class="admin-panel" id="panel-discuss">
+        <div class="admin-card">
+          <div class="filter-group">
+            <select class="eco-select"><option>Pilih Kelompok Diskusi...</option><option>Kelompok 1 (Bumi Lestari)</option><option>Kelompok 2 (Sahabat Ozon)</option></select>
+            <select class="eco-select"><option>Pilih Topik Diskusi...</option><option>Topik 1: Mengapa Suhu Bumi Semakin Panas?</option><option>Topik 2: Solusi Sampah Plastik di Sekolah</option></select>
+            <button class="eco-btn-primary">🔍 Filter Data</button>
+          </div>
+        </div>
+
+        <div class="admin-card response-card discuss">
+          <div class="response-header">
+            <span class="badge badge-amber">Tahap 3 • DISCUSS</span>
+            <h4>Topik 1: Mengapa Suhu Bumi Semakin Panas dan Apa Dampaknya?</h4>
+            <span class="student-meta">Kelompok 1 (Bumi Lestari) • Anggota: Aisyah, Umar, Ali | Materi 1</span>
+          </div>
+          <div class="response-box" style="background: #FFFBEB; border-color: #FDE68A;">
+            <strong>Hasil Kesepakatan Kelompok:</strong><br>
+            "Setelah berdiskusi bersama, kelompok kami menyimpulkan bahwa gas rumah kaca menjebak panas matahari seperti selimut tebal di atmosfer. Dampak nyatanya di sekitar kita adalah musim hujan dan kemarau menjadi tidak menentu, serta banjir lebih sering terjadi."
+          </div>
+          <div class="card-action-bar" style="margin-bottom:0; margin-top: 12px; align-items: center;">
+            <span class="status-yakin" style="background:#FEF3C7; border-color:#FCD34D; color:#92400E;">🤝 Kesepakatan Dicapai</span>
+            <button class="btn-action">💬 Evaluasi Kelompok</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 7: PENJELASAN SISWA (EXPLAIN) -->
+      <div class="admin-panel" id="panel-explain">
+        <div class="admin-card">
+          <div class="filter-group">
+            <select class="eco-select"><option>Pilih Siswa / Presenter...</option><option>Aisyah (V-A)</option><option>Khadijah (V-A)</option></select>
+            <select class="eco-select"><option>Pilih Materi Pemaparan...</option><option>Materi 1: Penjelasan Konsep Efek Rumah Kaca</option></select>
+            <button class="eco-btn-primary">🔍 Filter Data</button>
+          </div>
+        </div>
+
+        <div class="admin-card response-card explain">
+          <div class="response-header">
+            <span class="badge badge-green">Tahap 4 • EXPLAIN</span>
+            <h4>Pemaparan Konsep: Proses Terjadinya Pemanasan Global</h4>
+            <span class="student-meta">Presenter: Khadijah (V-A) | Materi 1</span>
+          </div>
+          <div class="response-box">
+            "Sinar matahari masuk menyinari bumi, sebagian panas diserap tanah dan sebagian dipantulkan kembali ke luar angkasa. Namun karena ada polusi gas CO2 yang banyak, panas tersebut dipantulkan balik ke permukaan bumi sehingga suhu bumi terus memanas."
+          </div>
+          <div class="card-action-bar" style="margin-bottom:0; margin-top: 12px; align-items: center;">
+            <span class="status-yakin">🎯 Konsep Sangat Tepat</span>
+            <button class="btn-action">⭐ Beri Nilai Penjelasan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 8: KARYA SISWA (CREATE) -->
+      <div class="admin-panel" id="panel-create">
+        <div class="admin-card">
+          <div class="filter-group">
+            <select class="eco-select"><option>Pilih Jenis Karya...</option><option>Semua Jenis (Poster, Video, Proyek Aksi)</option><option>Poster Infografis</option><option>Proyek Aksi Nyata</option></select>
+            <select class="eco-select"><option>Pilih Siswa / Kelompok...</option><option>Aisyah & Umar (Kelompok 1)</option><option>Usman (V-A)</option></select>
+            <button class="eco-btn-primary">🔍 Filter Karya</button>
+          </div>
+        </div>
+
+        <div class="admin-card response-card create">
+          <div class="response-header">
+            <span class="badge badge-red">Tahap 5 • CREATE</span>
+            <h4>Karya Proyek: Poster Edukasi "Hemat Listrik, Selamatkan Bumi"</h4>
+            <span class="student-meta">Dibuat oleh: Usman (V-A) | Kategori: Poster Digital</span>
+          </div>
+          <div class="response-box" style="background: #FEF2F2; border-color: #FECACA;">
+            <strong>Deskripsi Ide Solusi / Karya:</strong><br>
+            "Poster digital yang mengajak teman-teman sekelas mematikan lampu dan kipas angin kelas saat jam istirahat atau pulang sekolah. Terdapat ilustrasi bumi tersenyum saat lampu dimatikan."
+            <div style="margin-top: 10px; padding: 10px; background: #fff; border-radius: 8px; border: 1px dashed #FCA5A5; display: inline-flex; align-items: center; gap: 8px;">
+              <span>🖼️</span> <strong>poster-hemat-listrik-usman.jpg</strong> <small style="color:var(--text3);">(Pratinjau File)</small>
+            </div>
+          </div>
+          <div class="card-action-bar" style="margin-bottom:0; margin-top: 12px; align-items: center;">
+            <span class="status-yakin" style="background:#FEE2E2; border-color:#FCA5A5; color:#991B1B;">🌟 Menunggu Penilaian Guru</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-action">👁️ Lihat Pratinjau</button>
+              <button class="btn-action" style="background: var(--c-accent-l); border-color: var(--c-accent); color: var(--c-accent-d);">⭐ Beri Nilai Karya</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 4: LAPORAN PROGRES -->
+      <div class="admin-panel" id="panel-laporan">
+        
+        <div class="stat-grid">
+          <div class="admin-card stat-card">
+            <h3>85%</h3>
+            <p>Rata-rata Penyelesaian Kelas</p>
+          </div>
+          <div class="admin-card stat-card">
+            <h3>12</h3>
+            <p>Siswa Sampai Tahap CREATE</p>
+          </div>
+          <div class="admin-card stat-card">
+            <h3 style="color:#D97706;">4</h3>
+            <p>Tandai Kesulitan (🔖)</p>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="card-action-bar">
+            <h4>📊 Grafik Penyelesaian (Kelas V-A)</h4>
+            <button class="btn-action">📥 Unduh Laporan (Excel)</button>
+          </div>
+          
+          <div class="progress-list" style="margin-top: 20px;">
+            <div class="prog-row">
+              <span class="prog-name">Aisyah</span>
+              <div class="prog-track"><div class="prog-fill" style="width: 100%;"></div></div>
+              <span class="prog-val">100%</span>
+            </div>
+            <div class="prog-row">
+              <span class="prog-name">Umar</span>
+              <div class="prog-track"><div class="prog-fill" style="width: 60%; background: linear-gradient(90deg, #F59E0B, #D97706);"></div></div>
+              <span class="prog-val">60%</span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ══════════ OVERLAY PROSES & ERROR (SPA) ══════════ -->
+<div id="adminOverlay" class="eco-overlay-backdrop" aria-hidden="true" style="display: none;">
+  <div class="eco-overlay-modal" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+    
+    <!-- Karakter Maskot SVG EcoMedia (Dua Ekspresi: Ceria saat Memproses & Khawatir saat Error) -->
+    <div class="eco-mascot-wrapper" id="mascotWrapper">
+      <!-- Cincin Putar Loading (Otomatis Hilang saat Error) -->
+      <div class="eco-mascot-spinner" aria-hidden="true"></div>
+
+      <svg class="eco-mascot-svg" viewBox="0 0 160 160" width="130" height="130" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="earthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#56CCF2"/>
+            <stop offset="100%" stop-color="#2D9CDB"/>
+          </linearGradient>
+          <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6FCF97"/>
+            <stop offset="100%" stop-color="#27AE60"/>
+          </linearGradient>
+          <linearGradient id="blushGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFB4C2" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#FF8A9E" stop-opacity="0.6"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Daun / Seedling di Kepala -->
+        <g class="mascot-sprout">
+          <path d="M80,38 C80,24 94,14 104,18 C104,30 92,38 80,38 Z" fill="url(#leafGrad)"/>
+          <path d="M80,38 C75,26 62,20 54,26 C54,37 68,40 80,38 Z" fill="url(#leafGrad)"/>
+          <path d="M80,48 C80,36 80,34 80,34" stroke="#219653" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <!-- Tubuh Bumi Bulat -->
+        <circle cx="80" cy="95" r="52" fill="url(#earthGrad)"/>
+        
+        <!-- Benua Hijau Alami -->
+        <path d="M42,82 C46,72 58,74 62,80 C66,86 58,96 50,98 C42,100 38,90 42,82 Z" fill="#6FCF97" opacity="0.95"/>
+        <path d="M98,68 C110,66 122,76 120,88 C118,94 108,98 102,92 C96,86 92,72 98,68 Z" fill="#6FCF97" opacity="0.95"/>
+        <path d="M68,124 C76,120 90,126 88,136 C80,142 66,134 68,124 Z" fill="#6FCF97" opacity="0.9"/>
+
+        <!-- Pipi Merona / Blush Lucu -->
+        <ellipse cx="56" cy="104" rx="8" ry="4.5" fill="url(#blushGrad)"/>
+        <ellipse cx="104" cy="104" rx="8" ry="4.5" fill="url(#blushGrad)"/>
+
+        <!-- EKSPRESI WAJAH 1: PROSES / NORMAL (SENYUM CERIA) -->
+        <g class="mascot-face-normal">
+          <!-- Mata Kiri Berbinar -->
+          <circle cx="64" cy="94" r="6" fill="#1C382B"/>
+          <circle cx="66" cy="92" r="2.2" fill="#FFFFFF"/>
+          <circle cx="62.5" cy="96" r="1.1" fill="#FFFFFF"/>
+          <!-- Mata Kanan Berbinar -->
+          <circle cx="96" cy="94" r="6" fill="#1C382B"/>
+          <circle cx="98" cy="92" r="2.2" fill="#FFFFFF"/>
+          <circle cx="94.5" cy="96" r="1.1" fill="#FFFFFF"/>
+          <!-- Senyum Manis -->
+          <path d="M72,103 Q80,113 88,103" fill="none" stroke="#1C382B" stroke-width="3.2" stroke-linecap="round"/>
+        </g>
+
+        <!-- EKSPRESI WAJAH 2: ERROR (BINGUNG / KHAWATIR) -->
+        <g class="mascot-face-error">
+          <!-- Alis Mengerut Khawatir -->
+          <path d="M57,83 Q64,88 71,84" fill="none" stroke="#7A1D1D" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M89,84 Q96,88 103,83" fill="none" stroke="#7A1D1D" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Mata "> <" Lucu Menahan Masalah -->
+          <path d="M59,91 L69,96 L59,101" fill="none" stroke="#7A1D1D" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M101,91 L91,96 L101,101" fill="none" stroke="#7A1D1D" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Mulut O Bingung -->
+          <ellipse cx="80" cy="110" rx="5" ry="6" fill="#7A1D1D"/>
+          <!-- Tetes Keringat Dingin -->
+          <path d="M116,84 C116,84 122,90 122,94 C122,97 119.5,100 116,100 C112.5,100 110,97 110,94 C110,90 116,84 116,84 Z" fill="#56CCF2"/>
+        </g>
+
+        <!-- Tangan Mungil -->
+        <ellipse class="mascot-hand-left" cx="26" cy="98" rx="7" ry="6" fill="#47AFD9"/>
+        <ellipse class="mascot-hand-right" cx="134" cy="98" rx="7" ry="6" fill="#47AFD9"/>
+      </svg>
+    </div>
+
+    <!-- Teks Judul Utama -->
+    <h3 id="overlayTitle" class="eco-overlay-title">Data anda sedang diproses</h3>
+    
+    <!-- Teks Penjelas (Kondisi Normal) -->
+    <p id="overlaySub" class="eco-overlay-sub">Mohon tunggu sebentar, sistem sedang memproses data...</p>
+
+    <!-- Kotak Keterangan Error (Hanya Tampil Saat Terjadi Error) -->
+    <div id="overlayErrorBox" class="eco-overlay-error-box" style="display: none;">
+      <span class="eco-error-badge">⚠️ Masalah Terdeteksi</span>
+      <p id="overlayErrorMsg" class="eco-error-desc">Terjadi kendala saat menghubungkan ke server.</p>
+    </div>
+
+    <!-- Tombol Tutup (Hanya Tampil Saat Terjadi Error) -->
+    <div id="overlayActionArea" class="eco-overlay-actions" style="display: none;">
+      <button type="button" class="eco-btn-overlay-close" onclick="hideOverlay()">
+        ✕ Tutup Jendela Ini
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ MODAL EDIT PROFIL GURU (DASHBOARD) ══════════ -->
+<div id="profileEditModal" class="eco-overlay-backdrop" aria-hidden="true" style="display: none;">
+  <div class="eco-overlay-modal eco-modal-edit-profile" role="dialog" aria-modal="true" aria-labelledby="editProfileTitle">
+    <div class="eco-modal-header">
+      <div class="eco-modal-icon">👨‍🏫</div>
+      <div>
+        <span class="card-kicker">MANAJEMEN IDENTITAS</span>
+        <h3 id="editProfileTitle" class="eco-overlay-title" style="margin: 0; text-align: left;">Ubah Profil Guru</h3>
+      </div>
+    </div>
+    <p class="eco-modal-desc">Perbarui identitas, kelas yang diampu, atau asal sekolah Anda. Perubahan akan disinkronkan ke server.</p>
+    
+    <div class="form-group">
+      <label for="editGuruName">Nama Guru <em>*</em></label>
+      <input type="text" id="editGuruName" class="eco-input" placeholder="Contoh: Pak Hasan, S.Pd.">
+    </div>
+    
+    <div class="form-group">
+      <label for="editGuruClass">Kelas yang Diampu</label>
+      <input type="text" id="editGuruClass" class="eco-input" placeholder="Contoh: 5-A">
+    </div>
+
+    <div class="form-group">
+      <label for="editGuruSchool">Asal Sekolah</label>
+      <input type="text" id="editGuruSchool" class="eco-input" placeholder="Contoh: SDN 1 Pidie">
+    </div>
+
+    <div id="editProfileErrorMsg" class="msg-error" style="margin-bottom: 12px;"></div>
+
+    <div class="eco-modal-button-group">
+      <button type="button" class="eco-btn-secondary" onclick="closeProfileModal()">
+        Batal
+      </button>
+      <button type="button" class="eco-btn-primary" onclick="saveProfileChanges()">
+        💾 Simpan Perubahan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL EDIT DATA SISWA ══════════ -->
+<div id="editSiswaModal" class="eco-overlay-backdrop" aria-hidden="true" style="display: none;">
+  <div class="eco-overlay-modal eco-modal-edit-profile" role="dialog" aria-modal="true" aria-labelledby="editSiswaTitle">
+    <div class="eco-modal-header">
+      <div class="eco-modal-icon">🎒</div>
+      <div>
+        <span class="card-kicker">MANAJEMEN DATA SISWA</span>
+        <h3 id="editSiswaTitle" class="eco-overlay-title" style="margin: 0; text-align: left;">Edit Data Siswa</h3>
+      </div>
+    </div>
+    <p class="eco-modal-desc">Perbarui identitas, nomor absen, kelas, atau asal sekolah siswa. Perubahan akan disinkronkan ke server.</p>
+    
+    <input type="hidden" id="editSiswaId">
+
+    <div class="form-group">
+      <label for="editSiswaNama">Nama Siswa <em>*</em></label>
+      <input type="text" id="editSiswaNama" class="eco-input" placeholder="Contoh: Aisyah Putri">
+    </div>
+
+    <div class="form-group">
+      <label for="editSiswaAbsen">Nomor Absen <em>*</em></label>
+      <input type="number" id="editSiswaAbsen" class="eco-input" placeholder="Contoh: 1" min="1">
+    </div>
+    
+    <div class="form-group">
+      <label for="editSiswaKelas">Kelas <em>*</em></label>
+      <input type="text" id="editSiswaKelas" class="eco-input" placeholder="Contoh: 5-A">
+    </div>
+
+    <div class="form-group">
+      <label for="editSiswaSekolah">Asal Sekolah</label>
+      <input type="text" id="editSiswaSekolah" class="eco-input" placeholder="Contoh: SDN 1 Pidie">
+    </div>
+
+    <div id="editSiswaErrorMsg" class="msg-error" style="margin-bottom: 12px;"></div>
+
+    <div class="eco-modal-button-group">
+      <button type="button" class="eco-btn-secondary" onclick="closeEditSiswaModal()">
+        Batal
+      </button>
+      <button type="button" class="eco-btn-primary" onclick="saveEditSiswa()">
+        💾 Simpan Perubahan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL KONFIRMASI HAPUS SISWA ══════════ -->
+<div id="confirmDeleteSiswaModal" class="eco-overlay-backdrop" aria-hidden="true" style="display: none;">
+  <div class="eco-overlay-modal" role="dialog" aria-modal="true" aria-labelledby="confirmDeleteSiswaTitle">
+    
+    <!-- Karakter Maskot Vektor Sedih / Khawatir untuk Konfirmasi Hapus -->
+    <div class="eco-mascot-wrapper">
+      <svg class="eco-mascot-svg" viewBox="0 0 160 160" width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="deleteEarthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F87171"/>
+            <stop offset="100%" stop-color="#DC2626"/>
+          </linearGradient>
+          <linearGradient id="deleteLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6FCF97"/>
+            <stop offset="100%" stop-color="#27AE60"/>
+          </linearGradient>
+        </defs>
+
+        <g class="mascot-sprout">
+          <path d="M80,38 C80,24 94,14 104,18 C104,30 92,38 80,38 Z" fill="url(#deleteLeafGrad)"/>
+          <path d="M80,38 C75,26 62,20 54,26 C54,37 68,40 80,38 Z" fill="url(#deleteLeafGrad)"/>
+          <path d="M80,48 C80,36 80,34 80,34" stroke="#219653" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <circle cx="80" cy="95" r="52" fill="url(#deleteEarthGrad)"/>
+        <path d="M42,82 C46,72 58,74 62,80 C66,86 58,96 50,98 C42,100 38,90 42,82 Z" fill="#EF4444" opacity="0.95"/>
+        <path d="M98,68 C110,66 122,76 120,88 C118,94 108,98 102,92 C96,86 92,72 98,68 Z" fill="#EF4444" opacity="0.95"/>
+        <ellipse cx="56" cy="104" rx="7" ry="4" fill="#FCA5A5" opacity="0.75"/>
+        <ellipse cx="104" cy="104" rx="7" ry="4" fill="#FCA5A5" opacity="0.75"/>
+
+        <!-- Wajah Sedih / Khawatir Lucu Menahan Hapus -->
+        <circle cx="64" cy="94" r="5.5" fill="#450A0A"/>
+        <circle cx="66" cy="92" r="2" fill="#FFFFFF"/>
+        <circle cx="96" cy="94" r="5.5" fill="#450A0A"/>
+        <circle cx="98" cy="92" r="2" fill="#FFFFFF"/>
+        <path d="M57,83 Q64,88 71,84" fill="none" stroke="#450A0A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M89,84 Q96,88 103,83" fill="none" stroke="#450A0A" stroke-width="2.5" stroke-linecap="round"/>
+        <ellipse cx="80" cy="108" rx="5" ry="6" fill="#450A0A"/>
+
+        <!-- Tangan -->
+        <ellipse cx="28" cy="98" rx="6.5" ry="5.5" fill="#F87171"/>
+        <ellipse cx="132" cy="88" rx="6.5" ry="5.5" fill="#F87171"/>
+      </svg>
+    </div>
+
+    <h3 id="confirmDeleteSiswaTitle" class="eco-overlay-title" style="color: #DC2626;">Hapus Data Siswa?</h3>
+    <p id="confirmDeleteSiswaMsg" class="eco-overlay-sub" style="margin: 10px 0 22px; line-height: 1.6; font-size: 0.92rem; color: #2D4A35;">
+      Apakah Anda yakin ingin menghapus data siswa <strong id="deleteTargetSiswaName">-</strong>? Tindakan ini akan menghapus data siswa dari database server.
+    </p>
+
+    <div class="eco-modal-button-group" style="flex-direction: column; gap: 10px;">
+      <button type="button" id="btnExecuteDeleteSiswa" class="btn-action delete" onclick="executeDeleteSiswa()" style="width: 100%; padding: 13px; font-size: 0.92rem; font-weight: 800; border-radius: 10px;">
+        🗑️ Ya, Hapus Siswa Ini
+      </button>
+      <button type="button" class="eco-btn-secondary" onclick="closeConfirmDeleteSiswaModal()" style="width: 100%; padding: 12px; font-size: 0.88rem;">
+        Batal
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ MODAL KONFIRMASI GANTI KELAS SAAT LOGIN ══════════ -->
+<div id="confirmClassModal" class="eco-overlay-backdrop" aria-hidden="true" style="display: none;">
+  <div class="eco-overlay-modal" role="dialog" aria-modal="true" aria-labelledby="confirmClassTitle">
+    
+    <!-- Karakter Maskot Vektor Bertanya / Konfirmasi -->
+    <div class="eco-mascot-wrapper">
+      <svg class="eco-mascot-svg" viewBox="0 0 160 160" width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="confirmEarthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#56CCF2"/>
+            <stop offset="100%" stop-color="#2D9CDB"/>
+          </linearGradient>
+          <linearGradient id="confirmLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6FCF97"/>
+            <stop offset="100%" stop-color="#27AE60"/>
+          </linearGradient>
+        </defs>
+
+        <g class="mascot-sprout">
+          <path d="M80,38 C80,24 94,14 104,18 C104,30 92,38 80,38 Z" fill="url(#confirmLeafGrad)"/>
+          <path d="M80,38 C75,26 62,20 54,26 C54,37 68,40 80,38 Z" fill="url(#confirmLeafGrad)"/>
+          <path d="M80,48 C80,36 80,34 80,34" stroke="#219653" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <circle cx="80" cy="95" r="52" fill="url(#confirmEarthGrad)"/>
+        <path d="M42,82 C46,72 58,74 62,80 C66,86 58,96 50,98 C42,100 38,90 42,82 Z" fill="#6FCF97" opacity="0.95"/>
+        <path d="M98,68 C110,66 122,76 120,88 C118,94 108,98 102,92 C96,86 92,72 98,68 Z" fill="#6FCF97" opacity="0.95"/>
+        <ellipse cx="56" cy="104" rx="7" ry="4" fill="#FF8A9E" opacity="0.75"/>
+        <ellipse cx="104" cy="104" rx="7" ry="4" fill="#FF8A9E" opacity="0.75"/>
+
+        <!-- Wajah Bertanya / Konfirmasi Lucu -->
+        <circle cx="64" cy="94" r="5.5" fill="#1C382B"/>
+        <circle cx="66" cy="92" r="2" fill="#FFFFFF"/>
+        <circle cx="96" cy="94" r="5.5" fill="#1C382B"/>
+        <circle cx="98" cy="92" r="2" fill="#FFFFFF"/>
+        <path d="M57,85 Q64,81 71,86" fill="none" stroke="#1C382B" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M89,86 Q96,81 103,85" fill="none" stroke="#1C382B" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M73,105 Q80,111 87,105" fill="none" stroke="#1C382B" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Tangan Menunjuk -->
+        <ellipse cx="28" cy="98" rx="6.5" ry="5.5" fill="#47AFD9"/>
+        <ellipse cx="132" cy="88" rx="6.5" ry="5.5" fill="#47AFD9"/>
+      </svg>
+    </div>
+
+    <h3 id="confirmClassTitle" class="eco-overlay-title">Konfirmasi Profil Akun Guru</h3>
+    <p id="confirmClassMsg" class="eco-overlay-sub" style="margin: 10px 0 22px; line-height: 1.6; font-size: 0.92rem; color: #2D4A35;">
+      Kami menemukan profil Anda di kelas <strong>5-A</strong> dari <strong>SDN 1 Pidie</strong>. Apakah Anda ingin mengubah kelas?
+    </p>
+
+    <div class="eco-modal-button-group" style="flex-direction: column; gap: 10px;">
+      <button type="button" id="btnConfirmChangeClass" class="eco-btn-primary" style="width: 100%; padding: 13px; font-size: 0.92rem;">
+        ✓ Ya, Ubah Menjadi Kelas Baru
+      </button>
+      <button type="button" id="btnCancelChangeClass" class="eco-btn-secondary" style="width: 100%; padding: 12px; font-size: 0.88rem;">
+        + Bukan, Buat Akun Baru
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ TOMBOL SCROLL OTOMATIS KE ATAS ══════════ -->
+<button type="button" id="btnScrollTop" class="eco-btn-scroll-top" onclick="scrollToTop()" aria-label="Kembali ke atas" title="Scroll ke atas">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 15l-6-6-6 6"/>
+  </svg>
+</button>
+
+<script src="api.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
