@@ -5,6 +5,169 @@ Catatan disusun secara **descending** (perubahan terbaru selalu berada di paling
 
 ---
 
+### [2026-11-23 00:30:00] — Tahap DISCUSS: Standarisasi Prefix id_soal Wondering, Pembagian Peran Kelompok, Migrasi Alert ke Overlay Loading, & Integrasi Tabel ecomedia_discuss
+* **Deskripsi Perubahan:**
+  * **Standarisasi Prefix `id_soal` Pertanyaan Tambahan ([js/discuss.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/discuss.js)):**
+    * Mencegah konflik `id_soal` antara soal kurikulum utama (nomor 1..25) dan pertanyaan rasa ingin tahu dari tahap READ (tabel `pertanyaan`).
+    * Memastikan fungsi `fetchWonderQuestionsFromDB()` langsung membubuhkan prefix eksplisit `id_soal: 'pertanyaan-' + rawId` sebelum data digabungkan ke daftar pembahasan.
+    * Menghapus kueri fallback tanpa prefix di `saveWonderDiscussItem` guna menjamin konsistensi integrasi dengan skema database `discuss.id_soal` ber-tipe `VARCHAR(50)`.
+  * **Fitur Pembagian Peran Kelompok (Group Roles) ([index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html), [css/discuss.css](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/css/discuss.css), [js/discuss.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/discuss.js)):**
+    * Memindahkan modul pembagian peran ke bawah card Identitas Kelompok sebagai card tersendiri (`.discuss-roles-card`).
+    * Menyediakan Modal Pembagian Peran (`#modalPembagianPeran`) dengan antarmuka baris anggota: nama dengan pemangkasan teks (*text-ellipsis*) dan combo-box pemilihan peran (`--Pilih--` [nilai `anggota`], `Ketua`, `Notulis`, `Juru Bicara`, `Penguji Gagasan`, `Anggota`).
+    * Menambahkan Modal Info Peran (`#modalInfoPeran`) yang menjelaskan fungsi masing-masing peran secara jelas dan mudah dipahami.
+    * Menerapkan tata letak responsif: format satu baris pada desktop dan model dua baris bertumpuk (*stacked*) pada tampilan perangkat bergerak/mobile (`@media (max-width: 640px)`).
+    * Menyimpan data pembagian peran via operasi `PATCH` ke tabel `kelompok_discuss` pada kolom `keterangan` dalam format JSON mapping `{ [id_siswa]: role }`, serta merender ulang badge peran pada card secara instan.
+  * **Penggantian Pop-up `alert()` ke Loading Overlay Interaktif ([js/discuss.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/discuss.js)):**
+    * Mengganti seluruh pop-up browser bawaan (`alert()`) pada alur pembagian peran, validasi nama kelompok, dan penanganan galat server ke modal overlay terpadu `showLoadingError()` dan `showLoadingSuccess()` dari modul [js/loading.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/loading.js).
+    * Menyediakan fungsi penolong terpusat `notifyDiscussError(message, title)` dan `notifyDiscussSuccess(title, subtitle)` dengan maskot Bumi Eco Media, pesan penjelasan kendala yang informatif, dan tombol tutup.
+  * **Integrasi Tabel `ecomedia_discuss` & Tombol Kirim Jawaban ([index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html), [css/discuss.css](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/css/discuss.css), [js/api.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/api.js), [js/discuss.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/discuss.js), [js/ecomedia-lens.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/ecomedia-lens.js)):**
+    * Mendaftarkan tabel `ecomedia_discuss` ke dalam whitelist API `CONFIG.allowedTables` pada [js/api.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/api.js).
+    * Menambahkan tombol *"🚀 Kirim Jawaban"* (`#btnSubmitEcoDiscuss`) di kanan bawah card refleksi Lensa Ecomedia (`#ecomedia-discuss-card`) dan status penyimpanan draf otomatis di sebelah kiri (`#ecoDiscussStatus`).
+    * Mengimplementasikan fungsi `saveEcoDiscussLens()`, `loadEcoDiscussData(materi, group)`, dan `kirimEcoDiscuss()`:
+      * Menyimpan draf lokal di `store`/`localStorage` berdasar kombinasi `id_kelompok` dan `id_materi`.
+      * Memeriksa keberadaan data kelompok pada materi aktif di tabel `ecomedia_discuss`; mengeksekusi `POST` jika belum ada atau `PATCH` jika data sudah tersimpan di server.
+      * Muat otomatis data refleksi server saat pergantian materi pembelajaran 1 s.d. 5 (`showDiscussAllMaterial`) maupun saat inisialisasi tahap DISCUSS (`initRadecDiscuss`).
+  * **Verifikasi & Pengujian Komprehensif ([scratch/test_discuss_workflow.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_discuss_workflow.js)):**
+    * Menambahkan Uji 11 (Alur Pembagian Peran Kelompok, Modal, PATCH keterangan, & Modal Info).
+    * Menambahkan Uji 12 (Verifikasi seluruh penanganan error & validasi menggunakan `showLoadingError`, tanpa `alert()`).
+    * Menambahkan Uji 13 (Integrasi tabel `ecomedia_discuss`, validasi form kosong, transmisi POST/PATCH, sinkronisasi materi, dan pemulihan data).
+    * Seluruh 13 skenario pengujian unit lolos 100% (`13/13 PASSED`).
+* **Blok / Fungsi / Elemen yang Terkena Dampak:**
+  * `index.html` — Card `.discuss-roles-card`, `#modalPembagianPeran`, `#modalInfoPeran`, `.eco-discuss-footer`, tombol `#btnSubmitEcoDiscuss`.
+  * `css/discuss.css` — Styling `.discuss-roles-card`, grid roles modal desktop & mobile view, modal info peran, `.eco-discuss-footer`, dan `.btn-eco-discuss-save`.
+  * `js/api.js` — Penambahan `'ecomedia_discuss'` pada `CONFIG.allowedTables`.
+  * `js/discuss.js` — Standarisasi prefix `fetchWonderQuestionsFromDB`, implementasi peran (`parseGroupRoles`, `renderGroupRolesCard`, `openModalPembagianPeran`, `savePembagianPeran`, `openModalInfoPeran`), jembatan notifikasi overlay (`notifyDiscussError`, `notifyDiscussSuccess`), integrasi lensa ecomedia (`saveEcoDiscussLens`, `loadEcoDiscussData`, `kirimEcoDiscuss`), serta integrasi lazy load materi.
+  * `js/ecomedia-lens.js` — Penyelarasan fungsi `saveEcoDiscussLens` dan `loadEcoDiscussLens` dengan konteks materi & kelompok.
+  * `scratch/test_discuss_workflow.js` — Penambahan mock DOM/API dan Uji 11 s.d. 13.
+
+---
+
+### [2026-11-21 13:30:00] — Implementasi Persistent Model Cache (IndexedDB + localStorage), Retensi Permanen Opsi B, Self-Healing Failsafe, & Optimisasi Main-Thread Login
+* **Deskripsi Perubahan:**
+  * **Penyimpanan Persisten Model AI di IndexedDB ([js/answer.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/answer.js)):**
+    * Mengintegrasikan skema penyimpanan persisten TensorFlow.js ke media fisik lokal komputer siswa via `model.save('indexeddb://eco-use-model')` dan `indexeddb://eco-use-lite-model`.
+    * Model bobot biner (~30 MB) kini tersimpan permanen di media penyimpanan (SSD/HDD) peramban, sehingga tidak hilang saat tab ditutup, browser di-refresh (`Ctrl+R`), ataupun laptop dimatikan.
+  * **Metadata Model di `localStorage` ([js/answer.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/answer.js)):**
+    * Menambahkan helper `getNlpModelMeta()`, `saveNlpModelMeta()`, dan `clearNlpModelMeta()` dengan kunci penyimpanan `eco_use_model_meta` dan `eco_use_model_meta_<mode>`.
+    * Menyimpan struktur data JSON: `{ modelName, modelMode, indexedDbKey, savedAt, version }` untuk verifikasi instan ketersediaan model sebelum menghubungi jaringan eksternal.
+  * **Penerapan Kebijakan Retensi Opsi B (Permanen di Disk, 2 Jam di RAM/GPU):**
+    * **Di Disk (IndexedDB):** File bobot biner dipertahankan permanen antar-sesi, mengeliminasi kebutuhan mengunduh ulang 30 MB dari CDN setiap kali aplikasi dibuka.
+    * **Di Memori Aktif (RAM/VRAM WebGL):** Masa kedaluwarsa 2 jam (`USE_CACHE_DURATION_MS`) difokuskan murni untuk membebaskan alokasi memori RAM/GPU (`destroyUSEModelCache()`) guna mencegah *memory leak* dan *browser freeze* akibat penumpukan *texture* WebGL pada sesi belajar yang panjang.
+    * Saat siswa kembali memerlukan evaluasi setelah 2 jam, sistem langsung memuat ulang model dari IndexedDB lokal ke RAM tanpa perlu koneksi internet CDN.
+  * **Self-Healing Failsafe & Pemulihan Mandiri (`purgeNlpModelStorage`):**
+    * Mengimplementasikan fungsi asinkron `purgeNlpModelStorage(mode)` yang membersihkan cache RAM, menghapus model rusak dari IndexedDB via `tf.io.removeModel()`, dan menghapus metadata di `localStorage`.
+    * Pada `periksaJawabanEssay(idx)`, jika evaluasi NLP melempar error atau menghasilkan nilai `NaN`/`null`, sistem secara otomatis memicu pembersihan total ini, mengunduh salinan model segar dari CDN, menyimpannya kembali ke IndexedDB, dan mengulang penilaian secara transparan tanpa mengganggu siswa.
+  * **Optimisasi Main-Thread Login (Pencegahan Freeze pada Perangkat Berspesifikasi Rendah):**
+    * Berdasarkan analisis performa komputasi prosesor lawas (seperti AMD APU A8-7xxx / arsitektur lawas pra-Gen 10 dengan single-thread IPC terbatas dan iGPU Radeon R5), kompilasi *shader* WebGL dan deserialisasi array Float32Array pada *main thread* JavaScript dapat menyebabkan antarmuka tersendat (*lag/freeze*).
+    * **Logika Pasca-Login (`preloadUSEModelBackground`):** Jika model sudah ada di IndexedDB, pramuat latar belakang pasca-login di-*bypass* (0% pemakaian CPU/GPU saat login), menjamin proses login tetap instan dan lancar.
+    * **Logika Tahap ANSWER (`initAnswerStage`):**
+      * Jika model sudah ada di IndexedDB: Pemuatan dari disk lokal ke GPU dilakukan saat siswa membuka tahap ANSWER disertai tampilan *Loading Screen* edukatif ramah anak selama 1–2 detik.
+      * Jika model belum ada di IndexedDB (pertama kali buka): Jika unduhan CDN latar belakang masih berjalan, *Loading Screen* tahap ANSWER secara mulus menyambung (*attach/join*) proses tersebut tanpa membatalkan atau mengulang dari nol.
+  * **Verifikasi & Pengujian Unit Komprehensif ([scratch/test_answer_nlp_sync.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_answer_nlp_sync.js)):**
+    * Memperluas suite pengujian unit menjadi 19 skenario pengujian lengkap:
+      * **Test 15:** Unduh pertama kali dari CDN & penyimpanan otomatis ke IndexedDB + metadata `localStorage`.
+      * **Test 16:** Simulasi *Ctrl+R* / browser refresh (RAM dibersihkan, pemuatan cepat dari IndexedDB tanpa menyentuh CDN).
+      * **Test 17:** Opsi B (Kedaluwarsa RAM 2 jam membebaskan memori aktif, file IndexedDB tetap permanen).
+      * **Test 18:** *Self-healing failsafe* otomatis memulihkan model korup/NaN, menghapus IndexedDB, dan mengunduh ulang model segar.
+      * **Test 19 Skenario A:** Model sudah di IndexedDB $\rightarrow$ pramuat pasca-login otomatis di-*bypass* (UI login bebas beban), tahap ANSWER memuat via *Loading Screen*.
+      * **Test 19 Skenario B:** Model belum di IndexedDB $\rightarrow$ unduhan CDN latar belakang dilanjutkan secara mulus oleh *Loading Screen* tahap ANSWER.
+    * Seluruh 19 skenario pengujian dan seluruh tes regresi autentikasi/overlay berhasil lulus 100%.
+* **Blok / Fungsi / Elemen yang Terkena Dampak:**
+  * `js/answer.js` — Penambahan konstanta `ECO_NLP_MODEL_META_KEY`, fungsi `getIndexedDbModelUrl()`, `getNlpModelMeta()`, `saveNlpModelMeta()`, `clearNlpModelMeta()`, `removeModelFromIndexedDB()`, `purgeNlpModelStorage()`, pembaruan `getOrLoadUSEModel()`, `preloadUSEModelBackground()`, `initAnswerStage()`, `computeSemanticSimilarity()`, `periksaJawabanEssay()`, `getEcoUseModelCacheState()`, serta ekspor modul.
+  * `scratch/test_answer_nlp_sync.js` — Penambahan mock TensorFlow.js `tf.io` & in-memory IndexedDB storage, serta penambahan Test 15 s.d. Test 19.
+
+---
+
+### [2026-11-20 22:25:00] — Optimasi Tahap ANSWER: Normalisasi Opsi Confident, Pre-load Model NLP Ramah Anak, Caching 2 Jam, & Auto-Reload Failsafe
+* **Deskripsi Perubahan:**
+  * **Normalisasi Opsi Nilai Confident ke Bahasa Indonesia ([js/answer.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/answer.js)):**
+    * Mengubah nilai tingkat keyakinan yang disimpan pada `answerMetaState[idx].confidence` dan server (tabel `answer`, kolom `confident`) menjadi format Bahasa Indonesia eksplisit: `'belum yakin'`, `'cukup yakin'`, dan `'yakin'` (menggantikan format legacy `'low'`, `'mid'`, `'high'`).
+    * Menyediakan normalisasi *backward-compatibility* dua arah pada `renderAnswerEssay()`, `syncAnswerFromServer()`, dan `periksaJawabanEssay()` sehingga data yang sebelumnya tersimpan dengan nilai lama tetap terbaca dan otomatis terpetakan ke format baru.
+    * Memperbarui penghitungan progres pada `updateAnswerEssayProgress()` agar mendeteksi keyakinan rendah berbasis `'belum yakin'` maupun legacy `'low'`.
+  * **Pre-Load Model Universal Sentence Encoder (USE) saat Buka Halaman ANSWER:**
+    * Mengimplementasikan fungsi baru `initAnswerStage(showLoadingOverlay = true)` di [js/answer.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/answer.js).
+    * Dipicu otomatis saat siswa membuka tahap ANSWER (`goStep(1)` pada [js/router.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/router.js) maupun via `ecoEnterLearning(1)`).
+    * Menampilkan loading screen edukatif yang ramah anak:
+      > *"Mempersiapkan Halaman ANSWER..."* — *"Sebentar ya, halaman sedang dipersiapkan untukmu"*
+    * Kartu soal langsung dirender (`renderAnswerEssay()`) dan data server disinkronkan (`syncAnswerFromServer()`) terlebih dahulu sebelum pemuatan model sehingga antarmuka tidak terhambat.
+  * **Pesan Loading Screen Error Ramah Anak & Resiliensi Pembelajaran:**
+    * Jika model NLP gagal dimuat saat pre-load (misal akibat koneksi internet terputus atau CDN diblokir), sistem menampilkan dialog kesalahan yang menenangkan:
+      > *"Waduh, ada sedikit kesalahan, tapi kamu masih bisa melanjutkan pembelajaranmu di sini"*
+    * Siswa tetap dapat melanjutkan membaca soal esai, menuliskan jawaban, memilih tingkat keyakinan, dan menandai diskusi kelompok secara normal tanpa terganggu.
+    * Saat siswa menekan *"Periksa Jawaban"*, sistem akan mencoba memuat ulang model USE atau memanfaatkan engine semantik fallback cerdas berbasis TF-IDF + Jaccard + Kata Kunci.
+  * **Sistem Caching Model NLP Selama Maksimal 2 Jam:**
+    * Menambahkan konstanta `USE_CACHE_DURATION_MS = 2 * 60 * 60 * 1000` (7.200.000 ms) dan variabel penanda waktu `_ecoUseModelLoadedAt`.
+    * Fungsi `getOrLoadUSEModel(forceReload = false)` memeriksa masa berlaku cache; jika model sudah termuat dan belum melewati 2 jam, model langsung digunakan kembali dari memori tanpa melakukan pengunduhan ulang dari jaringan.
+    * Menyediakan helper `destroyUSEModelCache()` untuk membersihkan alokasi memori tensor model lama (`dispose()`) dan mereset status cache.
+  * **Auto Invalidation & Reload Cache Saat Nilai Evaluasi Gagal / Error:**
+    * Pada `periksaJawabanEssay(idx)`, jika komputasi semantik USE melempar galat komputasi tensor atau menghasilkan nilai `NaN`/`null`, sistem secara otomatis memanggil `destroyUSEModelCache()`, memuat ulang model fresh dengan `getOrLoadUSEModel(true)`, memperbarui *timestamp* cache baru, dan mengulang evaluasi.
+    * Jika panggilan ulang jaringan tetap gagal, sistem beralih ke komputasi kesamaan fallback cerdas sehingga siswa tidak pernah terhalang untuk menyelesaikan dan menyimpan evaluasi ke server.
+  * **Verifikasi & Pengujian:**
+    * Memperbarui berkas pengujian [scratch/test_answer_nlp_sync.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_answer_nlp_sync.js) menjadi 10 skenario pengujian komprehensif:
+      1. Validasi jawaban kosong (< 5 karakter).
+      2. Validasi siswa belum login.
+      3. Formula evaluasi NLP (70% semantik + 30% kata kunci).
+      4. Skenario POST saat jawaban baru dengan confident `'yakin'`.
+      5. Skenario PATCH saat jawaban diperbarui dengan confident `'cukup yakin'`.
+      6. Resiliensi saat API server melempar error.
+      7. Normalisasi opsi confident (`'belum yakin'`, `'cukup yakin'`, `'yakin'`) dan *backward-compatibility*.
+      8. Pre-load loading screen ramah anak & caching model 2 jam tanpa pemanggilan berulang.
+      9. Pesan error ramah anak saat pre-load gagal dan ketahanan siswa untuk tetap belajar.
+      10. Penghancuran cache lama (`destroyUSEModelCache`) & auto-reload jika evaluasi bernilai tidak valid.
+    * Seluruh 10 skenario pengujian lulus 100%.
+    * Rangkaian tes regresi aplikasi di `scratch/` tetap berjalan hijau tanpa galat.
+* **Blok / Fungsi / Elemen yang Terkena Dampak:**
+  * `js/answer.js` — Penambahan konstanta `USE_CACHE_DURATION_MS`, variabel `_ecoUseModelLoadedAt`, fungsi `destroyUSEModelCache()`, `getEcoUseModelCacheState()`, `initAnswerStage()`, pembaruan `getOrLoadUSEModel()`, `computeSemanticSimilarity()`, `periksaJawabanEssay()`, `syncAnswerFromServer()`, `renderAnswerEssay()`, `updateAnswerEssayProgress()`, serta ekspor modul.
+  * `js/router.js` — Pembaruan fungsi `goStep(1)` untuk memicu `initAnswerStage(true)`.
+  * `scratch/test_answer_nlp_sync.js` — Penambahan skenario pengujian unit baru untuk Poin 1 s.d. 6.
+
+---
+
+### [2026-11-20 12:55:00] — Integrasi Penilaian NLP (Universal Sentence Encoder + Keyword Matching) & Sinkronisasi Tabel 'answer', serta Integrasi 4 Lensa Ecomedia (Tabel 'ecomedia')
+* **Deskripsi Perubahan:**
+  * **Master Data Acuan NLP Soal Esai ([js/data/soal-essay.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/data/soal-essay.js)):**
+    * Menambahkan properti identitas eksplisit `id_soal: 1` s.d. `25` pada setiap butir soal di `ANSWER_ESSAY25` untuk memudahkan pemetaan relasional dinamis hingga 50 soal atau lebih.
+    * Menyusun dataset baru `KUNCI_JAWABAN_ESSAY` yang memuat 25 butir kunci rujukan dan kata kunci penilaian yang disarikan langsung dari konsep ilmiah bacaan tahap READ ([js/data/materi-read.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/data/materi-read.js)).
+    * Struktur data acuan dibuat dinamis: `id_jawaban`, `id_soal`, `jawaban_ideal` (teks rujukan komprehensif), dan `kata_kunci` (array frasa/kata kunci berbobot).
+    * Menyediakan helper dinamis `getKunciJawaban(idSoal)` untuk pencarian instan berdasarkan nomor soal, serta mengeksposnya ke `window` dan `module.exports`.
+  * **Penyempurnaan Antarmuka Kartu Soal ANSWER ([css/answer.css](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/css/answer.css) & [js/answer.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/answer.js)):**
+    * **Radio Box Tingkat Keyakinan (`confident`):** Diubah menjadi radio pill interaktif yang dilengkapi bulatan radio (`.ans-radio-circle`). Saat dipilih, statusnya langsung terlihat sangat kontras dengan aksen warna khusus per tingkat keyakinan (low=jingga/oranye, mid=biru, high=hijau) disertai ring shadow.
+    * **Checkbox Penanda Diskusi (`flag_discuss`):** Desain tata letak dipertahankan namun visualisasi status `true` vs `false` dibuat jauh lebih tegas (latar kuning-emas `#fef3c7`, border `#f59e0b`, kotak terisi oranye gelap `#d97706` dengan centang tebal `✓`, serta teks *"✓ Ditandai untuk dibahas saat DISCUSS"* vs status nonaktif abu-abu netral).
+    * **Tombol "🔍 Periksa Jawaban":** Ditempatkan di sebelah kanan bawah setiap kartu soal, lengkap dengan wadah status nilai AI di sebelah kirinya (`🎯 Nilai AI: xx/100`).
+  * **Engine Evaluasi Jawaban Semantik NLP ([js/answer.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/answer.js)):**
+    * Memuat model **TensorFlow.js Universal Sentence Encoder (USE)** langsung di sisi klien peramban (in-browser client-side inference via CDN `@tensorflow/tfjs` & `@tensorflow-models/universal-sentence-encoder`).
+    * Mengimplementasikan fungsi asinkron `getOrLoadUSEModel()` dengan arsitektur Singleton caching untuk menjamin efisiensi memori (model hanya dimuat satu kali).
+    * **Formula Penilaian Komposit:** `Skor Akhir = (70% × Skor Semantik USE) + (30% × Skor Kata Kunci Kunci Jawaban)`.
+    * Dilengkapi algoritma fallback cerdas (TF-IDF vector cosine + Jaccard similarity token + Keyword matching) jika model USE CDN tidak dapat diakses offline/jaringan lambat.
+  * **Sinkronisasi Otomatis REST API Tabel `answer` (Post When Not Exist, Patch When Exist):**
+    * Mendaftarkan tabel `'answer'` pada whitelist `CONFIG.allowedTables` di [js/api.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/api.js).
+    * Mengintegrasikan transmisi data otomatis saat siswa mengklik *"🔍 Periksa Jawaban"*:
+      1. Cek keberadaan jawaban via `EcoApi.getWhere('answer', { id_siswa, id_materi, id_soal })`.
+      2. Jika belum ada: lakukan `POST` data baru `{ id_answer: '', id_siswa, id_materi, id_soal, jawaban, confident, flag_discuss, nilai, feedback, keterangan: '' }`.
+      3. Jika sudah ada: lakukan `PATCH` pembaruan berdasarkan `id_answer`.
+    * Mengimplementasikan `syncAnswerFromServer(materi)` yang dipicu otomatis saat siswa membuka tahap ANSWER untuk memulihkan jawaban, status confident, flag diskusi, dan skor AI yang tersimpan di server.
+  * **Integrasi Lembar Analisis 4 Lensa Ecomedia ([js/ecomedia-lens.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/ecomedia-lens.js)):**
+    * Mengimplementasikan fungsi `kirimEcoLens()` dengan loading overlay interaktif (`showLoading`), tombol kirim responsif, validasi input, serta dukungan dua mode: `append` (selalu `POST` riwayat baru) dan `upsert` (`POST` jika belum ada, `PATCH` jika sudah ada).
+    * Payload mencakup: `id_ecomedia`, `id_siswa`, `sumber`, `cerita_nilai`, `siapa_berperan`, `bahan_energi_limbah`, `pengalaman_kita`, dan `keterangan`.
+    * Mengimplementasikan `loadEcoLens()` untuk sinkronisasi otomatis dari server dan cache lokal saat membuka tahap READ.
+  * **Verifikasi & Pengujian:**
+    * Berkas live API test [scratch/test_live_answer_api.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_live_answer_api.js) sukses menguji siklus POST (201), GET WHERE (200), PATCH (200), dan DELETE (200) langsung ke endpoint `https://ecomedia.pjokserver.my.id/public/api/answer`.
+    * Berkas live API test [scratch/test_live_ecomedia.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_live_ecomedia.js) sukses menguji endpoint `https://ecomedia.pjokserver.my.id/public/api/ecomedia`.
+    * Berkas unit test [scratch/test_soal_essay_rubric.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_soal_essay_rubric.js) lolos seluruh 4 skenario.
+    * Berkas unit test [scratch/test_ecomedia_lens_sync.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_ecomedia_lens_sync.js) lolos seluruh 7 skenario.
+    * Berkas unit test [scratch/test_answer_nlp_sync.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_answer_nlp_sync.js) lolos seluruh 6 skenario.
+    * Seluruh 15 berkas suite pengujian unit aplikasi berjalan sukses dan lolos 100%.
+* **Blok / Fungsi / Elemen yang Terkena Dampak:**
+  * `index.html` — Penambahan script CDN TensorFlow.js & Universal Sentence Encoder (Baris 1297–1300), penambahan tombol submit ecomedia lens (Baris 439–446).
+  * `js/data/soal-essay.js` — Penambahan `id_soal: 1..25` pada `ANSWER_ESSAY25`, pembuatan dataset `KUNCI_JAWABAN_ESSAY`, helper `getKunciJawaban()`, dan ekspor modul.
+  * `css/answer.css` — Penambahan styling `.ans-selfcheck`, radio pill `.ans-confidence-btn`, checkmark `.ans-discuss-flag`, tombol `.btn-periksa-jawaban`, dan badge `.ans-nlp-badge`.
+  * `js/answer.js` — Implementasi `periksaJawabanEssay()`, `getOrLoadUSEModel()`, `computeSemanticSimilarity()`, `computeKeywordScore()`, `computeFallbackSimilarity()`, `syncAnswerFromServer()`, pembaruan template HTML kartu soal, dan ekspor modul.
+  * `js/ecomedia-lens.js` — Implementasi `kirimEcoLens()`, `loadEcoLens()`, konstanta konfigurasi `ECOMEDIA_MODE`, dan ekspor modul.
+  * `js/router.js` — Pemicu otomatis `loadEcoLens()` pada `step === 0` dan `renderAnswerEssay()` serta `syncAnswerFromServer()` pada `step === 1`.
+  * `scratch/test_soal_essay_rubric.js`, `scratch/test_ecomedia_lens_sync.js`, `scratch/test_answer_nlp_sync.js`, `scratch/test_live_answer_api.js`, `scratch/test_live_ecomedia.js` — Berkas pengujian unit dan live API baru.
+
+---
+
 ### [2026-11-19 13:05:00] — Integrasi Modal Input Tantangan Berpikir (Tabel 'tantangan') & Sinkronisasi Progress Map RADEC ke Database (Tabel 'progress')
 * **Deskripsi Perubahan:**
   * **Modal Input Tantangan Berpikir & Integrasi REST API (Tabel `tantangan`):**
@@ -98,282 +261,3 @@ Catatan disusun secara **descending** (perubahan terbaru selalu berada di paling
   * `js/api.js` — Pendaftaran tabel `'pertanyaan'` ke `CONFIG.allowedTables` (Baris 28).
   * `js/discuss.js` — Penambahan label kunci materi baru pada `WONDER_LABELS` (Baris 237–248).
   * `scratch/test_save_wonder.js` & `scratch/test_inline_notes.js` — Berkas unit test baru.
-
----
-
-### [2026-11-18 23:40:00] — Penambahan Modal Konfirmasi Pengaman Gulung Kartu READ (#ecoCloseReadModal) & Tombol "Tampilkan Semua"
-* **Deskripsi Perubahan:**
-  * **Modal Konfirmasi Pengaman `toggleRead()` (#ecoCloseReadModal):**
-    * Mencegah insiden kartu materi bacaan tertutup / menggulung (*collapse*) secara tidak sengaja ketika siswa sedang membaca.
-    * Menghadirkan dialog modal responsif di [index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html) menggunakan basis kartu loading overlay `.eco-loading-card` dengan maskot SVG Bumi Cilik memegang buku edukatif biru.
-    * Teks konfirmasi dinamis menampilkan nomor dan judul materi yang sedang dibuka.
-    * Dua tombol aksi: **"Ya, Tutup Materi"** (`#btnConfirmCloseRead`) untuk menggulung kartu dan **"Lanjut Membaca"** (`#btnCancelCloseRead`) untuk mempertahankan kartu tetap terbuka.
-    * Pada [js/read.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/read.js):
-      * Saat kartu tertutup: klik langsung membuka kartu (*expand*) seketika tanpa modal.
-      * Saat kartu terbuka: interaksi di dalam teks/body materi (`.read-card-body`) tidak akan menutup kartu atau memunculkan modal.
-      * Klik header kartu (`.read-card-head`) atau tombol tutup di footer materi memicu modal `#ecoCloseReadModal`.
-      * Menambahkan tombol aksi cepat *"🔼 Selesai Membaca & Tutup Materi"* di bagian bawah setiap kartu materi.
-  * **Tombol Toolbar "Tampilkan Semua" pada Tahap READ:**
-    * Menambahkan tombol **"📚 Tampilkan Semua"** pada toolbar `.read-tool-row` di [index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html).
-    * Memperbarui fungsi `openReadTool(kind, btn)` di [js/read.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/read.js) untuk mendukung `kind === 'all'`.
-    * Ketika dipilih, ketiga kartu konten (`teks-bacaan-card`, `infografis-card`, `ecomedia-video-card`) tampil secara bersamaan mengalir dari atas ke bawah sesuai urutan dokumen awal: Teks Bacaan ➔ Data Infografis ➔ Ecomedia Video.
-    * Failsafe pada `openReadMaterial(n)` untuk otomatis mengaktifkan mode teks bacaan jika sedang tersembunyi.
-  * **Penyusunan Dokumen Perencanaan (Arsitektur):**
-    * Menyusun [rencana_permission_control.md](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/rencana_permission_control.md) untuk sistem pembatasan materi & tahap RADEC oleh guru.
-    * Menyusun [PR_migrasi_progressRADEC.md](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/PR_migrasi_progressRADEC.md) untuk rencana migrasi penyimpanan progres RADEC ke database.
-  * **Verifikasi & Pengujian:**
-    * Berkas pengujian [scratch/test_toggle_read_modal.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_toggle_read_modal.js) (6 skenario alur buka, klik teks aman, modal tutup, konfirmasi, batal) lolos 100%.
-    * Berkas pengujian [scratch/test_read_tools.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_read_tools.js) (4 skenario tab READ dan Tampilkan Semua) lolos 100%.
-    * Seluruh 7 suite regresi aplikasi lolos 100%.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `index.html` — Penambahan tombol toolbar *"Tampilkan Semua"* (Baris 337–342), penambahan kontainer dialog modal `#ecoCloseReadModal` (Baris 1060–1136).
-  * `js/read.js` — Pembaruan `openReadTool()` untuk opsi `'all'`, penambahan `showCloseReadModal()`, `closeCloseReadModal()`, `confirmCloseRead()`, perbaikan logika `toggleRead()`, penambahan tombol tutup di footer materi pada `renderReadMaterials()`, dan ekspor fungsi ke `window` & `module.exports`.
-  * `rencana_permission_control.md` & `PR_migrasi_progressRADEC.md` — Berkas dokumen perencanaan arsitektur.
-  * `scratch/test_read_tools.js` & `scratch/test_toggle_read_modal.js` — Berkas pengujian unit otomatis.
-
----
-
-### [2026-11-18 18:55:00] — Penambahan Modal Konfirmasi Interaktif Konflik Perubahan Kelas saat Login (#ecoConfirmClassModal)
-* **Deskripsi Perubahan:**
-  * **Perbaikan Alur Konfirmasi (Menggantikan Silent Patching):**
-    * Memperbaiki logika `ecoLogin()` di mana sebelumnya perubahan kelas siswa lama tertangani secara otomatis (*silent patch*) tanpa persetujuan siswa.
-    * Kini jika siswa login dengan nama, sekolah, dan no. absen yang sama namun kelasnya berbeda, sistem menghentikan loading screen dan menampilkan dialog konfirmasi interaktif `#ecoConfirmClassModal`.
-  * **Desain Modal Menarik & Edukatif Serupa Loading Screen Overlay:**
-    * Menggunakan layout overlay kartu `.eco-loading-card` yang bersih, ramah anak, dan responsif di [index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html).
-    * Dilengkapi karakter maskot SVG Bumi Cilik berekspresi penasaran (`.eco-mascot-curious`) memegang kaca pembesar dan tanda tanya berkilau.
-    * Teks konfirmasi dinamis: *"Halo {nama}, kami menemukan data kamu terdaftar di {kelas_lama} ({sekolah}). Apakah kamu ingin mengubah kelasmu menjadi {kelas_baru}?"*.
-  * **Dua Opsi Tindakan Tegas & Failsafe:**
-    1. **"Ya, Ubah Kelasku"** (`#btnConfirmChangeClass`): Mengirim `EcoApi.patch()` ke server untuk memperbarui kelas siswa. `id_siswa` lama dipertahankan utuh sehingga seluruh riwayat belajar (READ, ANSWER, DISCUSS, EXPLAIN, CREATE) tetap tersambung.
-    2. **"Bukan, Buat Akun Baru"** (`#btnConfirmNewAccount`): Mengirim `EcoApi.post()` ke server dengan ID siswa baru (`S-xxxxx`), untuk kasus siswa berbeda yang kebetulan memiliki nama, nomor absen, dan sekolah yang sama.
-    3. **Tombol Batal / Tutup** (`#btnConfirmCancel`, `#ecoConfirmCloseBtn`): Menutup modal konfirmasi dan kembali ke formulir login tanpa mengubah apapun di server.
-  * **Sentralisasi `finishLogin()`:**
-    * Mengekstraksi alur penyimpanan sesi siswa (`localStorage`), inisialisasi state `ecoStudent`, pembaruan UI identitas (`ecoRenderIdentity()`), notifikasi sukses `showLoadingSuccess()`, dan navigasi ke panduan belajar ke dalam fungsi `finishLogin()` di [js/auth.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/auth.js).
-  * **Verifikasi & Pengujian:**
-    * Berkas pengujian unit [scratch/test_confirm_class_modal.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_confirm_class_modal.js) memverifikasi 4 skenario (exact login langsung tanpa modal, kemunculan modal saat konflik kelas, aksi konfirmasi PATCH mempertahankan ID, dan aksi akun baru POST dengan ID baru). Lolos 100%.
-    * Seluruh 5 rangkaian test script terintegrasi (`test_loading_overlay.js`, `test_sanitasi_failsafe.js`, `test_login_api_integration.js`, `test_edit_profile_modal.js`, `test_confirm_class_modal.js`) lulus verifikasi tanpa galat.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `index.html` — Penambahan dialog modal `#ecoConfirmClassModal` beserta karakter SVG Bumi Cilik penasaran (Baris 985–1063).
-  * `js/auth.js` — Penambahan fungsi `showConfirmClassModal()`, `closeConfirmClassModal()`, `finishLogin()`, serta pengikatan event handler pada tombol konfirmasi modal.
-  * `scratch/test_confirm_class_modal.js` — Berkas pengujian unit alur modal konfirmasi perubahan kelas.
-  * `scratch/test_edit_profile_modal.js` — Penyesuaian mock objek modal konfirmasi.
-
----
-
-### [2026-11-18 18:42:00] — Penambahan Fitur Modal Ubah Profil Siswa (Opsi 3) & Smart Matching Mencegah Akun Ganda
-* **Deskripsi Perubahan:**
-  * **Tombol & Badge Info Profil di Halaman Orientasi (`#ecoHome`):**
-    * Menambahkan tombol **"✏️ Ubah Profilku"** (`.eco-home-edit-btn`) di bawah ucapan selamat datang `h2` pada [index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html) (`.eco-home-welcome`).
-    * Menambahkan badge pil informasi siswa (`#ecoHomeProfileBadge`) yang menampilkan ringkasan kelas, no. absen, dan sekolah siswa secara dinamis.
-  * **Modal Interaktif Ubah Profil (`#ecoEditProfileModal`):**
-    * Menghadirkan dialog modal responsif lengkap dengan maskot SVG Bumi Cilik memegang pensil, formulir 2-kolom (Nama, Kelas, No. Absen, Sekolah), tombol Simpan dan Batal.
-    * Terhubung dengan fungsi `openEditProfileModal()`, `closeEditProfileModal()`, dan `saveEditProfile()` di [js/auth.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/auth.js).
-    * Pembaruan data dikirim langsung ke server via `EcoApi.patch('siswa', 'id_siswa', studentId, data)` sehingga `id_siswa` dan riwayat progres belajar siswa tidak pernah hilang atau ter-reset.
-  * **Smart Matching Pencegahan Akun Ganda di `ecoLogin()` (Opsi 3):**
-    * Jika siswa login dari halaman awal dengan mengetik kelas berbeda (misal sebelumnya `5-B` lalu mengetik `5-A`):
-      1. Sistem mendeteksi keberadaan siswa yang sama di server berdasarkan kecocokan `nama`, `sekolah`, dan `absen`.
-      2. Sistem otomatis memperbarui data kelas siswa via `EcoApi.patch()` ke `id_siswa` yang sudah ada, alih-alih membuat akun baru via `POST`.
-      3. Akun di server tetap tunggal (*single account*) dan tidak membebani database guru dengan duplikasi data.
-  * **Styling & Verifikasi:**
-    * Penambahan aturan CSS pada [css/welcome.css](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/css/welcome.css) untuk badge profil, tombol ubah profil, dan modal dialog kartu.
-    * Seluruh 4 pengujian unit pada [scratch/test_edit_profile_modal.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_edit_profile_modal.js) serta seluruh regression test (`test_sanitasi_failsafe.js`, `test_login_api_integration.js`, `test_loading_overlay.js`) terverifikasi lolos 100%.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `index.html` — Penambahan tombol `.eco-home-edit-btn` & `#ecoHomeProfileBadge` (Baris 152–159), kontainer dialog `#ecoEditProfileModal` beserta SVG maskot cilik (Baris 904–982).
-  * `css/welcome.css` — Penambahan styling tombol profil home dan modal kartu (Baris 707–855).
-  * `js/auth.js` — Penambahan `openEditProfileModal()`, `closeEditProfileModal()`, `saveEditProfile()`, pembaruan `ecoRenderIdentity()`, dan smart matching pada `ecoLogin()`.
-  * `scratch/test_edit_profile_modal.js` — Berkas pengujian unit alur modal ubah profil dan smart matching login.
-
----
-
-### [2026-11-18 18:08:00] — Penyempurnaan Failsafe Sanitasi Kelas (Dukungan Format Tanpa Strip: 5A, VA, Spasi, dsb.)
-* **Deskripsi Perubahan:**
-  * **Penyempurnaan Fungsi `sanitasiKelas(inputKelas)` di [js/auth.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/auth.js):**
-    1. *Failsafe Format Tanpa Strip:* Menambahkan pemecahan pintar (*smart regex parsing*) untuk mengenali input siswa yang tidak menyertakan tanda strip:
-       * Angka desimal langsung disambung huruf rombel (contoh: `5A` atau `5a` ➔ otomatis disanitasi menjadi `5-A`).
-       * Angka Romawi langsung disambung huruf rombel (contoh: `VA` atau `va` ➔ `5-A`, `VIA` ➔ `6-A`, `IVC` ➔ `4-C`). Menggunakan pengurutan Romawi panjang lebih dahulu agar `VIA` tidak terpotong menjadi `V` dan `IA`.
-    2. *Normalisasi Pemisah Alternatif:* Mengubah variasi karakter pemisah yang sering diketik siswa seperti spasi (`5 A`, `V A`), titik (`5.A`, `V.A`), atau slash (`5/B`, `V/B`) menjadi tanda hubung strip `-`.
-    3. *Penanganan Angka Romawi Tunggal:* Memastikan input tingkat kelas tanpa huruf rombel tetap terkonversi sempurna (contoh: `V` ➔ `5`, `VI` ➔ `6`, `XII` ➔ `12`).
-  * **Verifikasi & Pengujian:**
-    * Berkas pengujian [scratch/test_sanitasi_failsafe.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/scratch/test_sanitasi_failsafe.js) menguji 30 variasi input ekstrim (desimal, romawi, spasi, titik, slash, lowercase) dan terverifikasi lolos 100%.
-    * Pengujian integrasi alur login `scratch/test_login_api_integration.js` tetap lolos 100%.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `js/auth.js` — Fungsi `sanitasiKelas()` (Baris 27–66).
-  * `scratch/test_sanitasi_failsafe.js` — Berkas pengujian unit 30 variasi kasus input kelas.
-
----
-
-### [2026-11-18 14:05:00] — Integrasi Login Siswa ke REST API Server, Sanitasi Kelas Romawi, & Penanganan id_siswa Acak
-* **Deskripsi Perubahan:**
-  * **Sanitasi Angka Romawi pada Kelas (`sanitasiKelas`):** Menambahkan fungsi pembersih input kelas di [js/auth.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/auth.js) yang otomatis mengonversi angka Romawi (I s.d. XII) menjadi angka desimal (1 s.d. 12) serta merapikan tanda pemisah strip (misal `V - A` menjadi `5-A`). Dijalankan saat submit login dan saat event `blur` pada input kelas.
-  * **Generator ID Siswa Acak (`generateStudentId`):** Menghasilkan ID siswa unik 5 karakter acak base64 dengan awalan `S-` (contoh: `S-tUvWX`) untuk pendaftaran siswa baru.
-  * **Kunci Penyimpanan ID Siswa (`ecoRadecStudentID`):** Menambahkan kunci `studentId: 'ecoRadecStudentID'` pada `STORAGE_KEYS` dan `ECO_KEYS` di [js/store.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/store.js) serta membacanya di `ecoReadState()`.
-  * **Alur Login Terintegrasi REST API & Loading Screen (`ecoLogin`):**
-    1. Mengaktifkan layar loading `showLoading('Data anda sedang diproses', ...)` saat proses validasi form berhasil.
-    2. Mencari data siswa pada tabel `siswa` di backend melalui `EcoApi.getWhere('siswa', criteria)`.
-    3. Jika data ditemukan, mengambil `id_siswa` yang tersimpan di server.
-    4. Jika data kosong (belum terdaftar), otomatis membuat `id_siswa` acak baru dan mengirim pendaftaran data login siswa via `EcoApi.post('siswa', postData)`.
-    5. Menyimpan `id_siswa`, nama, kelas, absen, dan sekolah ke `localStorage` dan objek global `ecoStudent`.
-    6. Menampilkan notifikasi sukses `showLoadingSuccess()` yang otomatis tertutup dalam 1 detik sebelum membuka halaman panduan belajar.
-    7. Menangkap seluruh galat server / jaringan pada blok `catch` dan menampilkannya secara interaktif pada dialog error `showLoadingError()` dengan tombol tutup.
-  * **Integrasi UI Profil Siswa:** Menambahkan baris informasi ID Siswa (`#flowProfileId`) pada panel profil `#flowProfileHelp` di [index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html) dan memperbarui fungsi `flowShowProfile()`.
-  * **Verifikasi & Pengujian:** Seluruh 6 skenario pengujian pada `scratch/test_login_api_integration.js` terverifikasi lolos 100% dan bebas galat sintaksis.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `js/auth.js` — Penambahan fungsi `sanitasiKelas()`, `generateStudentId()`, pembaruan `ecoLogin()` menjadi async terhubung `EcoApi`, pembaruan `ecoReadState()` dan `flowShowProfile()`.
-  * `js/store.js` — Penambahan `studentId: 'ecoRadecStudentID'` pada `STORAGE_KEYS` (Baris 7) dan `ECO_KEYS` (Baris 112).
-  * `index.html` — Penambahan elemen `#flowProfileId` pada panel profil pengguna (Baris 44).
-  * `scratch/test_login_api_integration.js` — Berkas pengujian unit & integrasi simulasi API login siswa.
-
----
-
-### [2026-11-18 13:10:00] — Pembuatan Overlay Layar Penuh (Loading Screen, Error Handling, & Maskot SVG Cilik)
-* **Deskripsi Perubahan:**
-  * **Overlay Layar Penuh (`#ecoLoadingOverlay`):** Menghadirkan dialog layar penuh di tengah layar berlatar *backdrop blur* gelap lembut yang ramah untuk siswa kelas V SD.
-  * **Karakter Maskot Lucu (Bumi Cilik Sahabat RADEC):** Menyediakan 3 wujud visual SVG bertema lingkungan yang interaktif dan ramah anak:
-    1. *Status Memproses (`ecoMascotLoading`):* Bumi cilik ceria dengan tunas daun bergoyang lembut (*floating animation*) saat data dikirim ke server.
-    2. *Status Kendala (`ecoMascotError`):* Bumi cilik cemas dengan plester di kening, tetesan keringat, dan animasi getar (*wobble animation*) saat terjadi galat jaringan atau penolakan server.
-    3. *Status Berhasil (`ecoMascotSuccess`):* Bumi cilik tersenyum lebar dengan kerlipan bintang (*pop animation*).
-  * **Pesan & Rincian Galat Interaktif:**
-    * Teks default pemrosesan: *"Data anda sedang diproses"* dengan animasi tiga titik denyut (*pulse dots*).
-    * Penanganan galat otomatis (*catch block*): Judul berubah menjadi *"Mohon maaf ada masalah"*, deskripsi menampilkan rincian error di dalam kotak peringatan (`#ecoLoadingErrorBox`), serta memunculkan tombol **"Tutup Layar Ini ✕"** (`#ecoLoadingCloseBtn`) untuk menutup overlay.
-    * Penutupan otomatis (*auto-close*): Berjalan otomatis saat proses berhasil (`hideLoading()` atau `showLoadingSuccess()`).
-  * **Modul JavaScript `js/loading.js` & API Debug:**
-    * Menyediakan fungsi global `showLoading()`, `hideLoading()`, `showLoadingError()`, `showLoadingSuccess()`, dan `debugLoading()`.
-    * Mempermudah pengujian langsung melalui Console Pengembang (DevTools).
-  * **Pengujian Unit & Integritas:**
-    * Seluruh 5 skenario pengujian pada `scratch/test_loading_overlay.js` terverifikasi lolos 100% dan bebas galat sintaksis `node -c`.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `css/loading.css` — Penambahan aturan styling overlay, dialog card, animasi maskot (float, wobble, pop), display toggle berbasis kelas state (`state-loading`, `state-error`, `state-success`), serta tombol tutup error.
-  * `js/loading.js` — Berkas baru berisi fungsi `showLoading`, `hideLoading`, `showLoadingError`, `showLoadingSuccess`, dan `debugLoading`.
-  * `index.html` — Penambahan tautan `css/loading.css` (Baris 21), kontainer markup `#ecoLoadingOverlay` beserta SVG maskot cilik, title, desc, dots, error box, dan tombol aksi (Baris 890–1004), serta pemuatan script `js/loading.js` (Baris 1016).
-  * `scratch/test_loading_overlay.js` — Berkas pengujian unit simulasi DOM untuk modul overlay loading.
-
----
-
-### [2026-11-18 12:42:00] — Penambahan Kolom Nomor Absen Siswa (Side-by-Side) dan Validasi Form Login
-* **Deskripsi Perubahan:**
-  * Menambahkan kolom input No. Absen (`#ecoStudentNumber`) berdampingan di samping Kelas (`#ecoStudentClass`) pada formulir login `#ecoWelcome`.
-  * Mengimplementasikan grid layout 2 kolom (`.eco-form-row-2col`) pada [css/welcome.css](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/css/welcome.css) agar posisi field No. Absen tetap berada di samping Kelas secara konsisten, bahkan pada tampilan layar mobile.
-  * Menambahkan validasi kekosongan field absen pada fungsi `ecoLogin()` di [js/auth.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/auth.js) dengan animasi *shake* dan pesan peringatan: `Tuliskan nomor absenmu dulu ya, Sahabat Bumi! 🌱`.
-  * Menyimpan nomor absen ke `localStorage` dengan kunci `ecoRadecStudentNumber` melalui `STORAGE_KEYS.number` dan `ECO_KEYS.number` pada [js/store.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/store.js).
-  * Memperbarui `ecoReadState()` untuk memulihkan nilai `ecoStudent.absen`, `ecoRenderIdentity()` untuk melampirkan nomor absen pada teks poster/ikrar, `flowShowProfile()` untuk menampilkan no. absen pada panel profil, serta pendaftaran event listener Enter pada input absen di `ecoInit()`.
-  * Lolos seluruh 7 skenario pengujian unit pada `scratch/test_login_absen.js` dan verifikasi sintaksis `node -c`.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `index.html` — Penambahan field No. Absen berdampingan dengan Kelas (Baris 101–112) dan baris info profil (Baris 43).
-  * `css/welcome.css` — Penambahan aturan styling `.eco-form-row-2col` (Baris 361–373).
-  * `js/store.js` — Penambahan kunci `number: 'ecoRadecStudentNumber'` pada `STORAGE_KEYS` (Baris 9) dan `ECO_KEYS` (Baris 114).
-  * `js/auth.js` — Penambahan `absen` pada `ecoStudent` (Baris 6), validasi & penyimpanan di `ecoLogin()` (Baris 31–75), pemulihan di `ecoReadState()` (Baris 24), dan integrasi profil/listener (Baris 100–190).
-  * `informasi_data.md` — Pembaruan kamus data profil siswa.
-
----
-
-### [2026-11-18 12:20:00] — Inisiasi Pengembangan Bertahap (Sesi per Sesi) & Persiapan Modul Login Siswa
-* **Deskripsi Perubahan:**
-  * Menyelaraskan roadmap arsitektur pengembangan aplikasi menjadi bertahap **sesi per sesi** dengan fokus utama pada pengalaman siswa (alur *client*), sembari menyiapkan struktur data yang *server-ready* untuk integrasi panel guru/admin di masa depan.
-  * **Fokus Sesi 1 (Login & Identitas Siswa):**
-    1. Penguatan struktur identitas siswa di [js/auth.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/auth.js) dan [index.html](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/index.html) (`#ecoWelcome`).
-    2. Perancangan ID unik siswa (`student_id` / UUID / kode acak berbasis timestamp) agar seluruh jawaban siswa (mulai dari READ, ANSWER, DISCUSS, EXPLAIN, CREATE, hingga EVALUASI) memiliki relasi identitas yang valid dan siap dikirim ke server.
-    3. Penyimpanan terstruktur profil siswa (`id`, `name`, `kelas`, `school`, `loginAt`) di `localStorage` melalui [js/store.js](file:///c:/Users/Admin/Documents/Anti%20Gravity%202/Ecomedia%20Radec/js/store.js).
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `log_dev.md` — Pencatatan inisiasi rencana pengembangan bertahap sesi per sesi.
-  * Modul target berikutnya: `js/auth.js` (`ecoLogin`, `ecoReadState`, `ecoStudent`), `js/store.js` (`STORAGE_KEYS.studentId`, `ECO_KEYS`), `index.html` (formulir `#ecoWelcome`).
-
----
-
-### [2026-11-18 12:05:00] — Perbaikan Persistensi Tahap Aktif (Kuning) dan Pengingat Posisi Belajar Siswa
-* **Deskripsi Perubahan:**
-  * Memperbaiki masalah hilangnya status kuning "sedang dikerjakan" / `.ready` pada tahap ANSWER ketika aplikasi di-refresh atau dibuka kembali setelah pengguna berhenti belajar:
-    1. **Penyimpanan Status Tahap Aktif:** Menambahkan kunci penyimpanan `currentStep: 'ecoRadecCurrentStep'` pada `STORAGE_KEYS` dan `ECO_KEYS` di `js/store.js`. Fungsi `goStep(n)` dan `showFinish()` pada `js/router.js` kini secara otomatis menyimpan indeks tahap belajar ke `localStorage`.
-    2. **Pemulihan Tahap Belajar Saat Reload:** Menambahkan logika pemulihan `currentStep` tersimpan pada `js/router.js` dan fungsi `trackerReadState()` di `js/tracker.js` agar nilai tahap aktif tidak selalu ter-reset ke `0`.
-    3. **Penentuan Pintar `activeStep` di Peta Petualangan:** Memperbaiki fungsi `ecoRenderProgress()` di `js/tracker.js` agar secara cerdas memprioritaskan `firstOpen` (tahap pertama yang belum selesai) jika tahap `currentStep` sudah tuntas diselesaikan (misalnya tahap 0 READ sudah selesai, maka tahap 1 ANSWER otomatis ditandai kuning).
-    4. **Penyempurnaan Indikator Header Tracker:** Memperbarui fungsi `buildTracker()` di `js/tracker.js` agar mengecek himpunan `ecoCompleted` secara langsung untuk penandaan tanda centang (`✓`) dan kelas `.t-done`.
-  * Seluruh alur transisi dan persistensi teruji lolos 100% pada simulasi siklus hidup browser di `scratch/test_progress_persistence.js` serta bebas galat sintaksis.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `js/store.js` — Penambahan kunci `currentStep` di `STORAGE_KEYS` dan `ECO_KEYS` (Baris 28, 114).
-  * `js/router.js` — Inisialisasi awal membaca `savedStep` (Baris 6–19), penyimpanan `currentStep` di `goStep(n)` (Baris 41–44) dan `showFinish()` (Baris 70–73).
-  * `js/tracker.js` — Pemulihan `currentStep` di `trackerReadState()` (Baris 21–32), logika pintar penentuan `activeStep` di `ecoRenderProgress()` (Baris 92–109), dan sinkronisasi `ecoCompleted` di `buildTracker()` (Baris 55–61).
-
----
-
-### [2026-11-17 23:35:00] — Pemisahan Penuh Seluruh Data Hardcoded dari index.html ke Modul Data Dinamis
-* **Deskripsi Perubahan:**
-  * Memenuhi instruksi pemisahan mutlak data hardcoded dari berkas markup `index.html`: bukan sekadar ekstraksi, melainkan mencabut seluruh blok HTML statis dan menggantinya dengan kontainer target yang dirender secara dinamis oleh JavaScript.
-  * Ukuran `index.html` berhasil dipangkas drastis dari **1.607 baris menjadi 908 baris** (~700 baris kode statis dibersihkan).
-  * **Peta Petualangan RADEC (`#ecoMap`):** Kartu tahapan petualangan dipisahkan ke `RADEC_ADVENTURE_STAGES` pada `js/data/templates.js` dan dirender dinamis melalui fungsi `renderAdventureMap()` pada `js/router.js`.
-  * **Tahap 1 READ (`#sec-0`):** 5 materi bacaan dan 4 data infografis dipisahkan ke `js/data/materi-read.js` dan dirender dinamis via `renderReadMaterials()` dan `renderReadInfographics()` pada `js/read.js`.
-  * **Tahap 3 DISCUSS (`#sec-2`):** 4 Peran kelompok (`DISCUSS_ROLES`) dan 3 lensa evaluasi media (`DISCUSS_LENSES`) dipisahkan ke berkas baru `js/data/discuss-data.js` dan dirender dinamis via `renderDiscussRoles()` dan `renderDiscussLenses()` pada `js/discuss.js`.
-  * **Tahap 5 CREATE (`#sec-4`):** 6 Prinsip media (`CREATE_PRINCIPLES`), 6 kategori ikrar (`CREATE_PLEDGE_CATS`), 6 kategori aksi (`CREATE_ACTION_CATS`), dan palet emoji (`CREATE_POSTER_EMOJIS`) dipisahkan ke berkas baru `js/data/create-data.js` dan dirender dinamis via `renderCreateComponents()` pada `js/create.js`.
-  * **Siklus Hidup Aplikasi (`js/app.js`):** Mengorkestrasi pemanggilan seluruh fungsi render dinamis baru di dalam `appInit()` sebelum inisialisasi modul dan pemuatan status tersimpan.
-  * Seluruh fungsi render teruji valid melalui simulasi Node.js dan validasi sintaksis bebas galat (`node -c`).
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `index.html` — Pangkas 699 baris markup hardcoded (Baris 250–267 Peta RADEC, Baris 350–975 READ, Baris 558–585 DISCUSS, Baris 658–775 CREATE) dan pendaftaran skrip data baru.
-  * `js/data/materi-read.js` — Master data materi, infografis, dan ecomedia.
-  * `js/data/create-data.js` — Master data prinsip, ikrar, aksi, dan emoji create.
-  * `js/data/discuss-data.js` — Berkas master data baru untuk peran kelompok dan lensa diskusi.
-  * `js/data/templates.js` — Konfigurasi `RADEC_ADVENTURE_STAGES` untuk Peta RADEC.
-  * `js/read.js` — Fungsi `renderReadMaterials()` dan `renderReadInfographics()`.
-  * `js/discuss.js` — Fungsi `renderDiscussRoles()` dan `renderDiscussLenses()`.
-  * `js/create.js` — Fungsi `renderCreatePrinciples()`, `renderPosterEmojis()`, `renderPledgeCategories()`, `renderActionCategories()`, dan `renderCreateComponents()`.
-  * `js/router.js` — Fungsi `renderAdventureMap()`.
-  * `js/app.js` — Integrasi pemanggilan fungsi render dinamis dalam `appInit()`.
-  * `informasi_data.md` — Pembaruan matriks audit komponen dari hardcoded menjadi dinamis 100%.
-
----
-
-### [2026-11-17 22:30:00] — Pencatatan Daftar Pekerjaan Rumah (PR) Tahap READ
-* **Deskripsi Perubahan:**
-  * Mendokumentasikan 3 item Pekerjaan Rumah (PR) yang belum dikerjakan terkait interaktivitas dan atribusi profil siswa pada Tahap READ ke dalam berkas `PR_update_READ.md`:
-    1. **PR 1:** Ketiadaan formulir input interaktif dan fungsi penyimpanan untuk respon ajakan (*Ayo Berpikir*) dan tantangan (*Tantangan Berpikir/Tantangan Umar*) di materi bacaan.
-    2. **PR 2:** Kewajiban penyertaan identitas data siswa (`ecoStudent.name`, `ecoStudent.school`) dan relasi `target_id_materi` pada setiap tanggapan yang disimpan ke `localStorage`.
-    3. **PR 3:** Pembaruan fungsi `saveEcoLens()` pada modul Ecomedia (`js/ecomedia-lens.js`) agar tidak hanya menyimpan hasil analisis 4 lensa melainkan juga mengikatkan profil data siswa.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `PR_update_READ.md` — Pembuatan dokumen spesifikasi PR baru (Baris 1–95)
-  * Rencana modul terdampak berikutnya: `js/read.js`, `js/ecomedia-lens.js`, `index.html`
-
----
-
-### [2026-11-17 22:15:00] — Master Data JSON READ & Perombakan UI Tab Navigasi Sub-Bagian
-* **Deskripsi Perubahan:**
-  * Pembuatan berkas master data baru `js/data/materi-read.js` yang memuat data terstruktur 5 materi teks bacaan (dengan array tanggapan ber-ID target dan jenis respon), 4 metrik numerasi infografis, dan video ecomedia beserta 4 lensa Antonio López.
-  * Implementasi sistem Tabbed View eksklusif pada tahap READ: toolbar atas (`openReadTool`) mengaktifkan hanya satu sub-bagian pada satu waktu (Teks Bacaan, Ecomedia, atau Data Infografis) dan menyembunyikan dua sub-bagian lainnya untuk memangkas panjang halaman dan beban kognitif siswa.
-  * Penanganan otomatis jeda pemutaran video (`video.pause()`) saat siswa beralih dari tab Ecomedia ke tab lain.
-  * Inisialisasi awal tampilan tab ke Teks Bacaan (`initReadSubTabs()`) saat aplikasi dimuat.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `js/data/materi-read.js` — Pembuatan berkas master data baru (Baris 1–567)
-  * `js/read.js` — Fungsi `openReadTool(kind, btn)` (Baris 6–46) dan `initReadSubTabs()` (Baris 48–50)
-  * `js/app.js` — Fungsi `appInit()` pemanggilan inisialisasi tab READ (Baris 21)
-  * `css/read.css` — Selector `.read-tab-active` dan animasi `@keyframes readTabFadeIn` (Baris 6–13)
-  * `index.html` — Tag `<script src="js/data/materi-read.js">` (Baris 1584), penandaan kelas aktif tombol & kartu (Baris 336, 344), serta status tersembunyi awal `#infografis-card` (Baris 985) & `#ecomedia-video-card` (Baris 1020)
-
----
-
-### [2026-11-17 21:15:00] — Penyesuaian Logika Progres Petualangan (In-Progress vs Selesai)
-* **Deskripsi Perubahan:**
-  * Menyesuaikan alur pedagogis progres belajar: tahap yang sedang dibuka/dipelajari (misalnya READ) berstatus kuning (`.ready` / `.active`, label `🟡 Siap / sedang dipelajari`), bukan langsung berstatus hijau (`✅ Selesai`).
-  * Tahap sebelumnya baru ditandai selesai (`ecoCompleted.add(currentStep)`) dan berubah warna menjadi hijau (`.done`) ketika siswa melangkah maju ke tahap berikutnya (melalui `goStep(n)`).
-  * Memperbaiki sinkronisasi global `window.currentStep` dan penanganan `showFinish()`.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `js/tracker.js` — Fungsi `ecoRenderProgress()` (Baris 70–109) dan fungsi `ecoOnStep(step)` (Baris 111–117)
-  * `js/router.js` — Fungsi `goStep(n)` (Baris 17–26) dan fungsi `showFinish()` (Baris 44–61)
-
----
-
-### [2026-11-17 19:56:49] — Perbaikan Sinkronisasi Label Warna Progress Map
-* **Deskripsi Perubahan:**
-  * Memperbaiki pembaruan status titik huruf `R`, `A`, `D`, `E`, `C` dan kartu tahapan petualangan agar menampilkan warna hijau (`.done`) pada tahap selesai dan kuning (`.ready` / `.active`) pada tahap berikutnya yang siap dipelajari.
-  * Menambahkan atribut ID `eco-map-progress` pada elemen kontainer progress petualangan.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `js/tracker.js` — Fungsi `ecoRenderProgress()` (Baris ~70–95)
-  * `css/adventure-map.css` — Selector `.eco-progress-dots span.done` dan `.eco-progress-dots span.ready` (Baris ~6–10)
-  * `css/welcome.css` — Selector `.eco-progress-dots span.ready` (Baris ~36)
-  * `index.html` — Elemen `<section id="eco-map-progress" class="eco-map-progress">` (Baris ~242)
-
----
-
-### [2026-11-17 19:04:46] — Refaktorisasi Modular Aplikasi (HTML, CSS, JS)
-* **Deskripsi Perubahan:**
-  * Pemecahan berkas monolitik `index.html` (349 KB) menjadi arsitektur modular terpisah: 12 berkas CSS dan 16 berkas JS.
-  * Pencadangan berkas monolitik asli ke `index.monolith.html`.
-  * Deduplikasi aturan CSS pada soal esai dan konsolidasi modul storage `store.js`.
-* **Blok / Fungsi / Elemen yang Terkena Dampak:**
-  * `index.html` — Pembersihan style dan script inline menjadi tag `<link>` dan `<script src>` (Baris 1–1606)
-  * `css/*.css` — 12 berkas stylesheet baru pada folder `css/`
-  * `js/*.js` dan `js/data/*.js` — 16 berkas skrip modular baru pada folder `js/`
