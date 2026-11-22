@@ -39,7 +39,7 @@
 <!-- ══════════ FLOWCHART · PROFIL & BANTUAN ══════════ -->
 <section id="flowProfileHelp" class="flow-screen eco-hidden" aria-label="Profil dan Bantuan">
   <div class="flow-shell">
-    <div class="flow-topbar"><div class="flow-brand">👤 Profil &amp; Bantuan</div><button class="flow-back" onclick="ecoShowHome()">← Panduan &amp; Tujuan</button></div>
+    <div class="flow-topbar"><div class="flow-brand">👨‍🎓👩‍🎓 Profil &amp; Bantuan</div><button class="flow-back" onclick="ecoShowHome()">← Panduan &amp; Tujuan</button></div>
     <div class="flow-two-col">
       <div class="flow-panel"><h3>Profil Pengguna</h3><div class="flow-profile-row"><span>ID Siswa</span><strong id="flowProfileId">-</strong></div><div class="flow-profile-row"><span>Nama</span><strong id="flowProfileName">Sahabat Bumi</strong></div><div class="flow-profile-row"><span>Kelas</span><strong id="flowProfileClass">-</strong></div><div class="flow-profile-row"><span>No. Absen</span><strong id="flowProfileNumber">-</strong></div><div class="flow-profile-row"><span>Sekolah</span><strong id="flowProfileSchool">-</strong></div><div class="flow-profile-row"><span>Mode</span><strong id="flowProfileRole">Siswa</strong></div><div class="flow-action-row"><button class="flow-btn secondary" onclick="ecoEditIdentity()">✏️ Edit Identitas</button><button class="flow-btn" onclick="ecoShowMap()">🗺️ Buka RADEC</button></div></div>
       <div class="flow-panel"><h3>Bantuan Singkat</h3><div class="flow-help-list"><div class="flow-help-item"><b>1. READ</b><br>Baca dan amati materi satu per satu, lalu tuliskan hal yang membuatmu penasaran.</div><div class="flow-help-item"><b>2. ANSWER</b><br>Jawab pertanyaan secara mandiri berdasarkan materi READ.</div><div class="flow-help-item"><b>3. DISCUSS &amp; EXPLAIN</b><br>Bandingkan pemikiran dan susun penjelasan bersama.</div><div class="flow-help-item"><b>4. CREATE</b><br>Ubah pengetahuan menjadi karya, keputusan, atau aksi lingkungan.</div><div class="flow-help-item"><b>5. Evaluasi</b><br>Isi refleksi dengan jujur dan lihat perkembangan ecoliterasimu.</div></div></div>
@@ -288,7 +288,7 @@
     <button class="eco-nav-step" style="--nc:var(--c-discuss)" onclick="goStep(2)">💬 Discuss</button>
     <button class="eco-nav-step" style="--nc:var(--c-explain)" onclick="goStep(3)">🗣️ Explain</button>
     <button class="eco-nav-step" style="--nc:var(--c-create)" onclick="goStep(4)">🎨 Create</button>
-    <span class="eco-student-mini">👤 <span data-eco-name>Sahabat Bumi</span></span>
+    <span class="eco-student-mini">👨‍🎓👩‍🎓 <span data-eco-name>Sahabat Bumi</span></span>
   </div>
 </nav>
 <div id="ecoPersonalGreet" class="eco-personal-greet eco-hidden"><div id="ecoGreetingText">🌱 Selamat belajar!</div></div>
@@ -550,10 +550,44 @@
       <div class="card-title"><span class="icon">👥</span>Hasil Diskusi untuk Semua Jawaban ANSWER</div>
       <p class="discuss-help">Selesaikan kelima soal pada setiap materi. Total ada <strong>25 jawaban hasil diskusi</strong> yang akan dibawa ke tahap EXPLAIN.</p>
 
-      <div class="discuss-group-meta discuss-group-meta-simple">
-        <label>Nama kelompok / anggota
-          <input id="discussGroupNameAll" type="text" placeholder="Contoh: Kelompok Mangrove — Ali, Aisyah, Umar" oninput="saveDiscussMeta()">
-        </label>
+      <!-- Header Tampilan Kelompok & Anggota (Terpisah) -->
+      <div class="discuss-group-display" id="discussGroupDisplay">
+        <div class="dgd-content">
+          <div class="dgd-row">
+            <span class="dgd-label">🏷️ Nama Kelompok:</span>
+            <strong class="dgd-title" id="discussGroupDisplayTitle">Belum dibentuk</strong>
+          </div>
+          <div class="dgd-row">
+            <span class="dgd-label">👥 Anggota:</span>
+            <span class="dgd-members" id="discussGroupDisplayMembers">-</span>
+          </div>
+        </div>
+        <button type="button" class="btn-edit-group" id="btnEditDiscussGroup" onclick="openModalKelompokDiscuss(true)">
+          <span>✏️ Ubah Anggota Kelompok</span>
+        </button>
+      </div>
+      <input id="discussGroupNameAll" type="hidden" oninput="saveDiscussMeta()">
+
+      <!-- Card Pembagian Tugas Kelompok (Baru: di bawah Identitas Kelompok) -->
+      <div class="discuss-roles-card" id="discussRolesCard">
+        <div class="drc-header">
+          <div class="drc-title-wrap">
+            <span class="drc-icon">👥</span>
+            <strong>Pembagian Peran Kelompok</strong>
+          </div>
+          <span class="drc-badge" id="discussRolesBadge">Opsional</span>
+        </div>
+        <div class="drc-body" id="discussRolesContent">
+          <p class="drc-empty-text">Atur pembagian tugas (Opsional)</p>
+        </div>
+        <div class="drc-actions-footer">
+          <button type="button" class="btn-role-info" onclick="openModalInfoPeran()">
+            <span>ℹ️ Info Peran</span>
+          </button>
+          <button type="button" class="btn-role-manage" id="btnManageRoles" onclick="openModalPembagianPeran()">
+            <span>👥 Pembagian Peran</span>
+          </button>
+        </div>
       </div>
 
       <div class="radec-all-progress">
@@ -578,27 +612,22 @@
       </div>
     </div>
 
-    <details class="card discuss-optional-card">
-      <summary>👥 Pembagian Peran Kelompok <span>Opsional</span></summary>
-      <p class="discuss-help">Jika diperlukan, bagi peran agar semua anggota mendapat kesempatan terlibat.</p>
-      <div class="group-roles" id="discussGroupRoles"></div>
-    </details>
-
     <details class="card wonder-discuss-bridge discuss-optional-card" id="wonder-discuss-bridge">
       <summary>💭 Pertanyaan Tambahan dari READ <span>Opsional</span></summary>
-      <p style="font-size:.88rem;line-height:1.7;color:var(--text2);margin-bottom:12px">Jika kelompok masih memiliki waktu, pilih satu pertanyaan rasa ingin tahu yang muncul pada READ untuk memperkaya dialog.</p>
+      <p style="font-size:.88rem;line-height:1.7;color:var(--text2);margin-bottom:12px; padding: 15px;">Jika kelompok masih memiliki waktu, bahas pertanyaan rasa ingin tahu yang muncul pada tahap READ berikut ini untuk memperkaya dialog kelompok.</p>
       <div id="wonderDiscussList" class="wonder-discuss-list"></div>
-      <div class="wonder-discuss-selected"><strong>Pertanyaan yang dipilih:</strong><div id="wonderDiscussSelectedText">Belum ada pertanyaan yang dipilih.</div></div>
-      <label for="wonderDiscussNote" style="display:block;font-size:.8rem;font-weight:800;color:var(--c-discuss-d);margin:12px 0 6px">Apa dugaan, bukti, atau sudut pandang baru dari kelompokmu?</label>
-      <textarea id="wonderDiscussNote" class="q-wonder-area" placeholder="Temanku berpendapat... Bukti yang kami temukan..."></textarea>
-      <div class="q-wonder-actions"><button type="button" class="q-wonder-btn wonder-discuss-save" onclick="saveWonderDiscuss()">💾 Simpan Diskusi Tambahan</button><span class="q-wonder-msg" id="wonder-discuss-msg" role="status" aria-live="polite"></span></div>
     </details>
 
-    <details class="card ecomedia-discuss-card discuss-optional-card">
+    <details class="card ecomedia-discuss-card discuss-optional-card" id="ecomedia-discuss-card">
       <summary>🌿 Uji dengan Lensa Ecomedia <span>Opsional</span></summary>
       <p class="discuss-help">Gunakan bagian ini jika jawabanmu berkaitan dengan video, gambar, bacaan, atau media yang dipelajari.</p>
       <div class="eco-discuss-grid" id="discussLensesContainer"></div>
-      <div class="eco-discuss-status" id="ecoDiscussStatus">💾 Refleksi ecomedia tersimpan otomatis.</div>
+      <div class="eco-discuss-footer">
+        <div class="eco-discuss-status" id="ecoDiscussStatus">💾 Refleksi ecomedia tersimpan otomatis.</div>
+        <button type="button" id="btnSubmitEcoDiscuss" class="btn btn-save btn-eco-discuss-save" onclick="kirimEcoDiscuss()">
+          <span>🚀 Kirim Jawaban</span>
+        </button>
+      </div>
     </details>
 
     <div class="step-nav">
@@ -1051,7 +1080,7 @@
 
       <!-- Tombol 2: Bukan Saya, Buat Akun Baru (POST) -->
       <button id="btnConfirmNewAccount" type="button" class="eco-loading-btn" style="background:#f8fafc;color:#334155;border:1.5px solid #cbd5e1;box-shadow:none;">
-        <span>👤 Bukan, Buat Akun Baru</span>
+        <span>👨‍🎓👩‍🎓 Bukan, Buat Akun Baru</span>
       </button>
 
       <!-- Tombol 3: Batal / Cek Lagi -->
@@ -1178,6 +1207,206 @@
 </div>
 
 
+
+<!-- ══════════ MODAL BENTUK / UBAH KELOMPOK DISCUSS ══════════ -->
+<div id="modalKelompokDiscuss" class="eco-loading-overlay discuss-group-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalKelompokTitle" style="z-index: 1050;" onclick="if(event.target === this) closeModalKelompokDiscuss()">
+  <div class="eco-loading-card discuss-modal-card discuss-modal-blue-theme" style="text-align: left; position: relative;">
+    <button type="button" class="discuss-modal-close-btn" onclick="closeModalKelompokDiscuss()" aria-label="Tutup Dialog">✕</button>
+
+    <!-- Header Modal dengan Maskot SVG Sahabat Bumi -->
+    <div class="discuss-modal-header">
+      <div class="dmh-mascot-box">
+        <svg class="discuss-mascot-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Sahabat Bumi Diskusi Kelompok">
+          <defs>
+            <filter id="mascotGlowModal" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0284c7" flood-opacity="0.18"/>
+            </filter>
+          </defs>
+          <!-- Daun / Tunas segar di kepala -->
+          <path d="M60 22 C60 10, 44 8, 40 16 C36 24, 52 26, 60 22Z" fill="#38bdf8"/>
+          <path d="M60 22 C60 10, 76 8, 80 16 C84 24, 68 26, 60 22Z" fill="#0284c7"/>
+          <path d="M60 32 L60 20" stroke="#0369a1" stroke-width="2.8" stroke-linecap="round"/>
+          <!-- Badan Sahabat Bumi Ceria -->
+          <circle cx="60" cy="66" r="40" fill="#38bdf8" filter="url(#mascotGlowModal)"/>
+          <!-- Benua / Pulau Tropis Hijau -->
+          <path d="M32 56 C39 50, 46 60, 53 54 C59 48, 67 52, 73 46 C79 52, 88 54, 94 60 C88 76, 80 89, 60 95 C43 91, 33 80, 32 56 Z" fill="#4ade80" opacity="0.85"/>
+          <circle cx="38" cy="72" r="6" fill="#22c55e" opacity="0.7"/>
+          <circle cx="82" cy="74" r="5" fill="#22c55e" opacity="0.7"/>
+          <!-- Bintang Berkilau Kolaborasi -->
+          <path d="M20 40 L22 44 L26 45 L22 47 L21 51 L19 47 L15 46 L19 44 Z" fill="#facc15"/>
+          <path d="M100 42 L101 45 L104 46 L101 47 L100 50 L99 47 L96 46 L99 45 Z" fill="#facc15"/>
+          <!-- Pipi Merona Pink Manis -->
+          <ellipse cx="44" cy="72" rx="5" ry="3.2" fill="#f472b6" opacity="0.8"/>
+          <ellipse cx="76" cy="72" rx="5" ry="3.2" fill="#f472b6" opacity="0.8"/>
+          <!-- Mata Ceria Berbinar -->
+          <ellipse cx="48" cy="62" rx="3.8" ry="5.2" fill="#0c4a6e"/>
+          <circle cx="46.5" cy="60" r="1.6" fill="#ffffff"/>
+          <ellipse cx="72" cy="62" rx="3.8" ry="5.2" fill="#0c4a6e"/>
+          <circle cx="70.5" cy="60" r="1.6" fill="#ffffff"/>
+          <!-- Senyum Semangat Belajar -->
+          <path d="M53 71 Q60 78 67 71" stroke="#0c4a6e" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="dmh-info">
+        <div class="dmh-badge">Materi <span id="modalKelompokMateriNo">1</span></div>
+        <h3 id="modalKelompokTitle">Bentuk Kelompok Diskusi</h3>
+        <p id="modalKelompokDesc">Pilih teman sekelas untuk mendiskusikan Materi <span id="modalKelompokMateriNoDesc">1</span> bersama!</p>
+      </div>
+    </div>
+
+    <!-- Body Modal: 2 Kolom Seimbang di Layar Komputer / Tablet -->
+    <div class="discuss-modal-grid">
+      <!-- Kolom Kiri: Nama Kelompok & Anggota Terpilih -->
+      <div class="discuss-modal-col">
+        <!-- 1. Input Nama Kelompok -->
+        <div class="discuss-form-group">
+          <label for="inputNamaKelompok" class="discuss-form-label">
+            <span class="dfl-icon">🏷️</span>
+            <span>Nama Kelompok <em class="req-star">*</em></span>
+          </label>
+          <input type="text" id="inputNamaKelompok" class="discuss-input" placeholder="Contoh: Tim Cendrawasih / Harimau Sumatera" required autocomplete="off">
+          <span class="discuss-field-hint">Beri nama kelompokmu yang menarik dan kompak.</span>
+        </div>
+
+        <!-- 2. Anggota Terpilih (Pill Chips) -->
+        <div class="discuss-form-group flex-col-grow">
+          <div class="label-row-between">
+            <label class="discuss-form-label" style="margin:0;">
+              <span class="dfl-icon">👥</span>
+              <span>Anggota Terpilih:</span>
+            </label>
+            <span id="selectedMembersCount" class="selected-badge">1 terpilih</span>
+          </div>
+          <div id="selectedMembersChips" class="members-chips-container">
+            <!-- Rendered dynamically -->
+          </div>
+          <span class="discuss-field-hint">Klik tanda ✕ pada nama untuk membatalkan pilihan.</span>
+          <span class="discuss-field-hint" style="color: #b45309; font-weight: 500; display: block; margin-top: 4px;">⚠️ Pastikan nama anggota sudah benar.</span>
+        </div>
+      </div>
+
+      <!-- Kolom Kanan: Cari Teman Sekelas & Failsafe Manual -->
+      <div class="discuss-modal-col">
+        <!-- 3. Pencarian Teman Sekelas -->
+        <div class="discuss-form-group flex-col-grow" style="margin-bottom:0;">
+          <div class="label-row-between">
+            <label for="inputSearchClassmate" class="discuss-form-label" style="margin:0;">
+              <span class="dfl-icon">🔍</span>
+              <span>Cari Teman Sekelas:</span>
+            </label>
+            <span id="searchClassInfo" class="class-info-badge">Kelas -</span>
+          </div>
+          <div class="search-input-wrap">
+            <input type="text" id="inputSearchClassmate" class="discuss-input search-input-field" placeholder="Ketik nama atau no absen teman..." oninput="filterClassmatesList(this.value)">
+          </div>
+          
+          <!-- Daftar Teman -->
+          <div id="classmatesListContainer" class="classmates-list-box">
+            <div class="classmates-loading">Memuat daftar teman sekelas...</div>
+          </div>
+          
+          <!-- Failsafe Manual -->
+          <div class="manual-add-wrap">
+            <button type="button" class="btn-text-manual" onclick="toggleManualClassmateInput()">
+              <span style="display: none;">+ Teman belum ada di daftar? Tambah nama manual</span>
+            </button>
+            <div id="manualClassmateForm" class="manual-classmate-form" style="display:none;">
+              <input type="text" id="inputManualName" class="discuss-input manual-input" placeholder="Nama temanmu...">
+              <button type="button" class="btn-manual-add" onclick="addManualClassmate()">+ Tambah</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tombol Aksi Proporsional -->
+    <div class="discuss-modal-actions">
+      <button type="button" class="btn-modal-cancel" onclick="closeModalKelompokDiscuss()">Batal</button>
+      <button type="button" id="btnSubmitKelompok" class="btn-modal-submit" onclick="submitKelompokDiscuss()">
+        <span>🚀 Mulai Diskusi Kelompok</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL PEMBAGIAN PERAN KELOMPOK ══════════ -->
+<div id="modalPembagianPeran" class="eco-loading-overlay discuss-group-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalRolesTitle" style="z-index: 1050; display: none;" onclick="if(event.target === this) closeModalPembagianPeran()">
+  <div class="eco-loading-card discuss-modal-card discuss-modal-blue-theme" style="text-align: left; position: relative; max-width: 560px;">
+    <button type="button" class="discuss-modal-close-btn" onclick="closeModalPembagianPeran()" aria-label="Tutup Dialog">✕</button>
+
+    <div class="discuss-modal-header">
+      <div class="dmh-mascot-box" style="background: #e0f2fe;">
+        <span style="font-size: 1.8rem;" aria-hidden="true">👥</span>
+      </div>
+      <div class="dmh-info">
+        <div class="dmh-badge">Pembagian Tugas</div>
+        <h3 id="modalRolesTitle">Atur Peran Anggota Kelompok</h3>
+        <p>Tentukan peran setiap anggota agar diskusi kelompok berjalan tertib dan kolaboratif.</p>
+      </div>
+    </div>
+
+    <!-- Daftar Anggota & Pemilihan Tugas -->
+    <div style="margin: 14px 0 6px; width: 100%;">
+      <div class="label-row-between" style="margin-bottom: 8px;">
+        <span style="font-weight: 800; font-size: 0.8rem; color: #475569; letter-spacing: 0.5px;">DAFTAR ANGGOTA</span>
+        <span style="font-weight: 800; font-size: 0.8rem; color: #475569; letter-spacing: 0.5px;">PILIH PERAN</span>
+      </div>
+      <div id="rolesMemberListContainer" style="max-height: 280px; overflow-y: auto; padding-right: 4px;">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <div class="discuss-modal-actions" style="margin-top: 18px;">
+      <button type="button" class="btn-modal-cancel" onclick="closeModalPembagianPeran()">Batal</button>
+      <button type="button" id="btnSaveRoles" class="btn-modal-submit" onclick="savePembagianPeran()">
+        <span>💾 Simpan Pembagian Peran</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODAL INFO FUNGSI PERAN ══════════ -->
+<div id="modalInfoPeran" class="eco-loading-overlay discuss-group-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalInfoTitle" style="z-index: 1060; display: none;" onclick="if(event.target === this) closeModalInfoPeran()">
+  <div class="eco-loading-card discuss-modal-card" style="text-align: left; position: relative; max-width: 520px;">
+    <button type="button" class="discuss-modal-close-btn" onclick="closeModalInfoPeran()" aria-label="Tutup Dialog">✕</button>
+
+    <div class="discuss-modal-header">
+      <div class="dmh-mascot-box" style="background: #fef3c7;">
+        <span style="font-size: 1.8rem;" aria-hidden="true">ℹ️</span>
+      </div>
+      <div class="dmh-info">
+        <div class="dmh-badge" style="background: #fef3c7; color: #92400e;">Panduan Kolaborasi</div>
+        <h3 id="modalInfoTitle">Fungsi Setiap Peran</h3>
+        <p>Setiap peran memiliki tanggung jawab khusus saat berdiskusi:</p>
+      </div>
+    </div>
+
+    <div class="role-info-grid">
+      <div class="role-info-item">
+        <span class="role-info-badge role-tag-ketua">👑 Ketua</span>
+        <p class="role-info-desc">Menjaga fokus dan kesempatan bicara</p>
+      </div>
+      <div class="role-info-item">
+        <span class="role-info-badge role-tag-notulis">✍️ Notulis</span>
+        <p class="role-info-desc">Mencatat hasil diskusi untuk setiap soal</p>
+      </div>
+      <div class="role-info-item">
+        <span class="role-info-badge role-tag-juru-bicara">📢 Juru Bicara</span>
+        <p class="role-info-desc">Menyiapkan hasil untuk tahap EXPLAIN</p>
+      </div>
+      <div class="role-info-item">
+        <span class="role-info-badge role-tag-penguji-gagasan">🔍 Penguji Gagasan</span>
+        <p class="role-info-desc">Menanyakan alasan dan memeriksa bukti</p>
+      </div>
+    </div>
+
+    <div class="discuss-modal-actions" style="justify-content: flex-end; margin-top: 14px;">
+      <button type="button" class="btn-modal-submit" onclick="closeModalInfoPeran()" style="background: #0284c7; min-width: 120px;">
+        <span>Mengerti</span>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════ ECOMEDIA FULL-SCREEN LOADING & PROCESSING OVERLAY ══════════ -->
 <div id="ecoLoadingOverlay" class="eco-loading-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ecoLoadingTitle">
