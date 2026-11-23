@@ -493,7 +493,7 @@
     <div class="ans-progress-card ans-progress-rev">
       <div class="ans-progress-row">
         <b>🌱 Progres Prapembelajaran</b>
-        <span id="ansEssayProgressText">0 dari 25 selesai</span>
+        <span id="ansEssayProgressText">0 dari 50 selesai</span>
       </div>
       <div class="ans-progress-bg"><div id="ansEssayProgressFill"></div></div>
       <div class="ans-progress-meta">
@@ -548,7 +548,7 @@
 
     <div class="card discuss-all-card">
       <div class="card-title"><span class="icon">👥</span>Hasil Diskusi untuk Semua Jawaban ANSWER</div>
-      <p class="discuss-help">Selesaikan kelima soal pada setiap materi. Total ada <strong>25 jawaban hasil diskusi</strong> yang akan dibawa ke tahap EXPLAIN.</p>
+      <p class="discuss-help">Selesaikan seluruh soal pada setiap materi. Total ada <strong>50 jawaban hasil diskusi</strong> yang akan dibawa ke tahap EXPLAIN.</p>
 
       <!-- Header Tampilan Kelompok & Anggota (Terpisah) -->
       <div class="discuss-group-display" id="discussGroupDisplay">
@@ -593,7 +593,7 @@
       <div class="radec-all-progress">
         <div class="radec-all-progress-top">
           <strong>💬 Progres Hasil Diskusi</strong>
-          <span id="discussAllProgressText">0 dari 25 selesai</span>
+          <span id="discussAllProgressText">0 dari 50 selesai</span>
         </div>
         <div class="radec-all-progress-track"><div id="discussAllProgressFill"></div></div>
         <small>Jawaban tersimpan otomatis pada perangkat ini.</small><div class="product-check-note">Mode pengecekan: Anda dapat melanjutkan tanpa mengisi semua kolom.</div>
@@ -606,7 +606,7 @@
       <div class="radec-all-review">
         <div>
           <b>🤝 Pastikan semua soal sudah dibahas</b>
-          <p id="discussAllStatus">Bahas satu materi demi satu materi sampai seluruh 25 jawaban terisi.</p>
+          <p id="discussAllStatus">Bahas satu materi demi satu materi sampai seluruh 50 jawaban terisi.</p>
         </div>
         <button type="button" onclick="findIncompleteDiscussAnswer()">🔎 Cari yang belum diisi</button>
       </div>
@@ -658,10 +658,24 @@
 
     <div class="card explain-all-card">
       <div class="card-title"><span class="icon">✍️</span>Jawaban Setelah Tahap EXPLAIN</div>
-      <p class="discuss-help">Selesaikan kelima soal pada setiap materi. Total ada <strong>25 jawaban hasil EXPLAIN</strong>.</p>
+      <p class="discuss-help">Selesaikan seluruh soal pada setiap materi. Total ada <strong>50 jawaban hasil EXPLAIN</strong>.</p>
+
+      <!-- Identitas Kelompok EXPLAIN (Tersinkronisasi dari DISCUSS) -->
+      <div class="discuss-group-display" id="explainGroupDisplay" style="display: none;">
+        <div class="dgd-content">
+          <div class="dgd-row">
+            <span class="dgd-label">Kelompok Diskusi:</span>
+            <span class="dgd-title" id="explainGroupDisplayTitle">-</span>
+          </div>
+          <div class="dgd-row">
+            <span class="dgd-label">Anggota:</span>
+            <span class="dgd-members" id="explainGroupDisplayMembers">-</span>
+          </div>
+        </div>
+      </div>
 
       <div class="radec-all-progress explain-all-progress">
-        <div class="radec-all-progress-top"><strong>🗣️ Progres Hasil EXPLAIN</strong><span id="explainAllProgressText">0 dari 25 selesai</span></div>
+        <div class="radec-all-progress-top"><strong>🗣️ Progres Hasil EXPLAIN</strong><span id="explainAllProgressText">0 dari 50 selesai</span></div>
         <div class="radec-all-progress-track"><div id="explainAllProgressFill"></div></div>
         <small>Gunakan hasil diskusi sebagai dasar, lalu perbaiki jawaban setelah memperoleh penjelasan dan umpan balik.</small>
       </div>
@@ -671,16 +685,21 @@
       <div id="explainAllAnswersContainer" class="radec-all-answer-list"></div>
 
       <div class="radec-all-review explain-review">
-        <div><b>💡 Pastikan semua jawaban sudah dijelaskan kembali</b><p id="explainAllStatus">Lengkapi jawaban hasil EXPLAIN untuk seluruh 25 soal.</p></div>
+        <div><b>💡 Pastikan semua jawaban sudah dijelaskan kembali</b><p id="explainAllStatus">Lengkapi jawaban hasil EXPLAIN untuk seluruh 50 soal.</p></div>
         <button type="button" onclick="findIncompleteExplainAnswer()">🔎 Cari yang belum diisi</button>
       </div>
     </div>
 
-    <details class="card explain-ecomedia-reflection discuss-optional-card">
+    <details class="card explain-ecomedia-reflection discuss-optional-card" id="explain-ecomedia-card">
       <summary>🌿 Refleksi Ecomedia <span>Penutup</span></summary>
       <p class="discuss-help">Setelah mengikuti penjelasan kelas, tuliskan satu hal yang kamu sadari tentang cara media memengaruhi pemahamanmu atau dampak penggunaan media/perangkat terhadap lingkungan.</p>
-      <textarea class="my-textarea" id="explainEcomediaReflectionAll" placeholder="Contoh: Setelah melihat video dan berdiskusi, saya menyadari bahwa..." oninput="saveExplainMeta()"></textarea>
-      <div id="explainMetaMsg" class="exp-save-msg" style="display:block">💾 Refleksi tersimpan otomatis.</div>
+      <textarea class="my-textarea" id="explainEcomediaReflectionAll" placeholder="Contoh: Setelah melihat video dan berdiskusi, saya menyadari bahwa..." oninput="handleExplainEcomediaInputLocal(this.value)"></textarea>
+      <div class="eco-discuss-footer">
+        <div id="explainMetaMsg" class="eco-discuss-status">💾 Refleksi tersimpan otomatis.</div>
+        <button type="button" id="btnSubmitEcoExplain" class="btn btn-save btn-eco-discuss-save" onclick="kirimEcoExplain()">
+          <span>🚀 Kirim Jawaban</span>
+        </button>
+      </div>
     </details>
 
     <div class="step-nav">
@@ -862,9 +881,9 @@
       <p class="card-lead">Bandingkan jawaban kelompok setelah <strong>DISCUSS</strong> dengan jawaban setelah <strong>EXPLAIN</strong>. Perhatikan bagian yang menjadi lebih lengkap, lebih jelas, atau berubah setelah memperoleh penjelasan dan umpan balik.</p>
 
       <div class="learning-report-summary">
-        <div><span>💬</span><b id="reportDiscussCount">0/25</b><small>Hasil DISCUSS</small></div>
+        <div><span>💬</span><b id="reportDiscussCount">0/50</b><small>Hasil DISCUSS</small></div>
         <div class="report-arrow">→</div>
-        <div><span>🗣️</span><b id="reportExplainCount">0/25</b><small>Hasil EXPLAIN</small></div>
+        <div><span>🗣️</span><b id="reportExplainCount">0/50</b><small>Hasil EXPLAIN</small></div>
       </div>
 
       <div class="report-material-tabs" id="reportMaterialTabs"></div>
