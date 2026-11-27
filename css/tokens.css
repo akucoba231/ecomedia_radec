@@ -1,0 +1,71 @@
+/**
+ * EcoMedia RADEC - Design Tokens & Global Resets
+ */
+
+/* ═══════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════ */
+:root {
+  --c-read:    #1B6FB5;  --c-read-l:   #DAEAF8;  --c-read-d:   #0D3E6E;
+  --c-answer:  #9C3BCF;  --c-answer-l: #EFD9FA;  --c-answer-d: #5B1A80;
+  --c-discuss: #D97706;  --c-discuss-l:#FEF0D1;  --c-discuss-d:#7C3E00;
+  --c-explain: #15803D;  --c-explain-l:#DCFCE7;  --c-explain-d:#074F22;
+  --c-create:  #DC2626;  --c-create-l: #FDDEDE;  --c-create-d: #7F1212;
+
+  --bg:        #F4F9F5;
+  --card:      #FFFFFF;
+  --border:    #E2EDE4;
+  --text:      #142018;
+  --text2:     #3D5740;
+  --text3:     #7A9A80;
+  --shadow:    0 2px 16px rgba(20,32,24,.09);
+  --shadow-lg: 0 6px 32px rgba(20,32,24,.13);
+  --r:         16px;
+  --r-lg:      24px;
+}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+
+
+/* ═══════════════════════════════════
+   ECOMEDIA APP SHELL — WELCOME + HOME
+═══════════════════════════════════ */
+:root{
+  --eco-ink:#10351f; --eco-green:#1a8c4a; --eco-green2:#78e6a0;
+  --eco-blue:#1b6fb5; --eco-sand:#fff8df;
+}
+body.eco-locked { overflow-x:hidden; overflow-y: auto;}
+.eco-hidden { display:none !important; }
+
+.eco-screen{
+  min-height:100vh; width:100%; position:relative; overflow:hidden;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(120,230,160,.24), transparent 24%),
+
+
+/* Universal Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
