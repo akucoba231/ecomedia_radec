@@ -128,6 +128,14 @@
           <span>CREATE</span>
         </div>
 
+        <div class="eco-open-teacher-wrap">
+          <span class="eco-open-teacher-label">Anda seorang guru?</span>
+          <button id="btnOpenTeacherPortal" type="button" class="eco-open-teacher-btn" onclick="openTeacherPortalConfirm()">
+            <span>👩‍🏫 Masuk ke Halaman Guru</span>
+            <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+
         <div class="eco-open-footer">🌱 Belajar hari ini, menjaga Bumi untuk masa depan.</div>
       </div>
     </div>
@@ -426,7 +434,6 @@
             <select id="ecoObjectSelect" class="eco-lab-select" onchange="saveEcoLens()">
               <option value="Video Ecomedia">Video Ecomedia</option>
               <option value="Infografis">Infografis</option>
-              <option value="HP/Tablet yang digunakan">HP/Tablet yang digunakan</option>
               <option value="Buku atau kertas">Buku atau kertas</option>
             </select>
 
@@ -725,13 +732,30 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title"><span class="icon">🌱</span>Pilih Cara Mewujudkan Aksimu</div>
-      <div class="ecomedia-create-principles">
-        <div class="ecp-head"><span>🌿</span><div><b>Buat Media yang Ramah Bumi dan Bertanggung Jawab</b><p>Media yang baik tidak hanya menyampaikan pesan lingkungan, tetapi juga dibuat dengan mempertimbangkan dampak, keadilan, dan penggunaan sumber daya.</p></div></div>
-        <div class="ecp-checks" id="ecpChecksContainer"></div>
-        <div class="ecp-progress"><span id="ecoCreateCheckText">0/6 prinsip terpenuhi</span><div><i id="ecoCreateCheckBar"></i></div></div>
+    <!-- CREATE BAGIAN A: Memilih ide kreatif dari tahap READ (tabel keterampilan_read) -->
+    <div class="card create-idea-card" id="createCreativeIdeaCard">
+      <div class="card-title"><span class="icon">💡</span>Pilih Ide dari Tahap READ untuk Diwujudkan</div>
+      <p class="create-idea-intro">Kamu sudah mencetuskan gagasan setelah membaca materi 1–5. Sekarang, <strong>pilih satu ide yang sudah kamu tulis pada tahap READ</strong> untuk diwujudkan menjadi karya atau tindakan pro-lingkungan.</p>
+      <label class="create-idea-question" for="createReadIdeaSelect">Ide dari materi mana yang ingin kamu wujudkan?</label>
+      <select class="create-read-select" id="createReadIdeaSelect" onchange="selectReadIdeaForCreate(this.value)">
+        <option value="">— Pilih satu ide yang telah kamu tulis pada READ —</option>
+      </select>
+      <div id="createReadIdeaPreview" class="create-read-preview placeholder" role="status" aria-live="polite">Belum ada ide yang dipilih. Isilah kolom ide di akhir bacaan READ, kemudian pilih idemu di sini.</div>
+      <div class="create-read-actions">
+        <button type="button" class="create-read-back" onclick="goStep(0)">📖 Kembali ke READ untuk melihat atau menulis ide</button>
       </div>
+      <label class="create-idea-question" for="createCreativeIdea">Bagaimana kamu akan mewujudkan ide pilihanmu?</label>
+      <textarea class="create-idea-area" id="createCreativeIdea" rows="6" aria-describedby="createCreativeIdeaHint" oninput="createCreativeIdeaTouch()" placeholder="Tuliskan langkah-langkah kegiatanmu, alat/bahan yang dibutuhkan, siapa yang dapat membantu, serta manfaatnya bagi lingkungan." disabled></textarea>
+      <div class="create-idea-actions">
+        <button type="button" id="saveCreateCreativeIdeaButton" class="create-idea-save" onclick="saveCreateCreativeIdea()" disabled>💾 Simpan Rencana Perwujudanku</button>
+        <span class="create-idea-msg" id="createCreativeIdeaStatus" role="status" aria-live="polite"></span>
+      </div>
+      <p class="create-idea-footnote" id="createCreativeIdeaHint">Jika kamu sudah menuliskan ide pada tahap READ, pilih satu ide untuk kamu wujudkan dan tuliskan rencananya di sini. Jika belum memiliki ide, kamu dapat memilih salah satu pilihan karya di bawah. Ide yang tampil berasal dari tahap READ dan rencanamu akan disimpan ke server pembelajaran.</p>
+    </div>
+
+    <!-- CREATE BAGIAN B: Pilihan karya alternatif / spontanitas -->
+    <div class="card">
+      <p class="create-fallback-instruction">Jika kamu belum memiliki ide, pilih salah satu ide berikut dan buatlah karya!</p>
 
       <div class="create-tabs">
         <button class="create-tab-btn active" onclick="switchCreate('poster',this)">🖼️ Poster Digital</button>
@@ -764,9 +788,15 @@
             <div class="pb-label">Nama Pembuat:</div>
             <input class="pb-input" type="text" id="posterName" placeholder="Nama &amp; Kelas">
           </div>
-          <button class="btn" style="background:#fff;color:#0A3D1F;font-weight:800;margin-top:4px;" onclick="generatePoster()">
-            ✨ Buat Poster!
-          </button>
+          <div class="create-partb-actions">
+            <button type="button" id="saveCreatePosterBtn" class="btn" style="background:#fff;color:#0A3D1F;font-weight:800;" onclick="generatePoster()">
+              ✨ Buat &amp; Simpan Poster!
+            </button>
+            <button type="button" id="downloadCreatePosterBtn" class="create-download-btn on-dark" onclick="downloadCreateArtifact('poster')">
+              ⬇️ Unduh Poster (PNG)
+            </button>
+            <span id="createPosterStatus" class="create-partb-msg on-dark" role="status" aria-live="polite"></span>
+          </div>
         </div>
 
         <div class="poster-preview" id="posterPreview">
@@ -792,9 +822,15 @@
             <label style="font-size:.85rem;font-weight:700;color:var(--c-create-d);display:block;margin-bottom:8px;">✍️ Tulis ikrarmu di sini:</label>
             <textarea class="my-textarea" id="pledgeText" style="border-color:#FFC0C0;" placeholder="Contoh: Aku, _______, berjanji mulai hari ini akan membawa botol minum sendiri ke sekolah setiap hari demi mengurangi sampah plastik dan menjaga Bumi kita tetap sehat!"></textarea>
             <input class="pb-input" type="text" id="pledgeName" placeholder="Nama &amp; Kelas" style="background:#fff;border:1.5px solid #FFC0C0;color:var(--text);margin-top:8px;border-radius:10px;padding:10px 14px;width:100%;font-family:'Nunito',sans-serif;font-size:.88rem;">
-            <button class="btn" style="background:var(--c-create);color:#fff;margin-top:12px;font-size:.88rem;" onclick="savePledgeFull()">
-              📜 Buat Ikrar Resmi!
-            </button>
+            <div class="create-partb-actions">
+              <button type="button" id="saveCreatePledgeBtn" class="btn" style="background:var(--c-create);color:#fff;font-size:.88rem;" onclick="savePledgeFull()">
+                📜 Buat &amp; Simpan Ikrar!
+              </button>
+              <button type="button" id="downloadCreatePledgeBtn" class="create-download-btn" onclick="downloadCreateArtifact('pledge')">
+                ⬇️ Unduh Ikrar (PNG)
+              </button>
+              <span id="createPledgeStatus" class="create-partb-msg" role="status" aria-live="polite"></span>
+            </div>
           </div>
           <div class="pledge-display" id="pledgeDisplay">
             <span class="pd-emoji" id="pd-emoji">🌍</span>
@@ -827,9 +863,15 @@
             <div id="newsMsg4" class="mm-msg"></div>
             <div id="newsMsg5" class="mm-msg"></div>
             <textarea class="my-textarea" id="newsText" style="min-height:140px;border:1.5px solid #FFC0C0;" placeholder="[JUDUL BERITA]&#10;&#10;Tulis beritamu di sini..."></textarea>
-            <button class="btn" style="background:var(--c-create);color:#fff;margin-top:12px;font-size:.88rem;" onclick="saveNews()">
-              📰 Publikasi Berita Mini!
-            </button>
+            <div class="create-partb-actions">
+              <button type="button" id="saveCreateNewsBtn" class="btn" style="background:var(--c-create);color:#fff;font-size:.88rem;" onclick="saveNews()">
+                📰 Simpan &amp; Publikasikan Berita!
+              </button>
+              <button type="button" id="downloadCreateNewsBtn" class="create-download-btn" onclick="downloadCreateArtifact('news')">
+                📄 Unduh Card (PDF)
+              </button>
+              <span id="createNewsStatus" class="create-partb-msg" role="status" aria-live="polite"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -838,7 +880,7 @@
       <div class="create-panel" id="cp-action">
         <div class="pledge-builder" style="background:linear-gradient(135deg,#F0FDF4,#ECFEFF);border:1.5px solid #86EFAC;">
           <h3 style="color:#14532D;">🌱 Proyek Aksi Sahabat Bumi</h3>
-          <p style="font-size:.85rem;color:#31543A;line-height:1.7;margin-bottom:16px;">Pilih satu masalah lingkungan yang benar-benar ada di rumah, sekolah, atau gampongmu. <strong>Buatlah satu aksi sederhana yang bisa kamu lakukan untuk membantu mengatasi masalah tersebut. Jika kamu belum memiliki ide, pilih salah satu contoh aksi yang tersedia di bawah ini.</strong> Lakukan aksimu, lalu catat bukti kegiatan dan perubahan yang kamu lihat.</p>
+          <p style="font-size:.85rem;color:#31543A;line-height:1.7;margin-bottom:16px;">Pilih satu masalah lingkungan yang benar-benar ada di rumah, sekolah, atau gampongmu. <strong>Buatlah satu aksi sederhana yang bisa kamu lakukan untuk membantu mengatasi masalah tersebut. Gunakan ide yang telah kamu pilih dari tahap READ di bagian atas. Contoh di bawah hanya membantu pelaksanaan.</strong> Lakukan aksimu, lalu catat bukti kegiatan dan perubahan yang kamu lihat.</p>
           <div class="pledge-cat" id="ecoActionCats"></div>
           <div class="pledge-area" style="border-color:#86EFAC;">
             <div class="pb-row"><label class="pb-label" style="color:#14532D;">1. Masalah yang kulihat</label><textarea class="my-textarea" id="actionProblem" placeholder="Contoh: Banyak lembar kosong pada buku semester lalu dibuang dan siswa membeli buku baru."></textarea></div>
@@ -852,7 +894,11 @@
             <div class="pb-row"><label class="pb-label" style="color:#14532D;">4. Bukti tindakan</label><textarea class="my-textarea" id="actionEvidence" placeholder="Tuliskan bukti: catatan sebelum-sesudah, jumlah sampah yang berkurang, tanda tangan guru/orang tua, atau deskripsi foto yang kamu ambil."></textarea></div>
             <div class="pb-row"><label class="pb-label" style="color:#14532D;">5. Apa yang berubah setelah aksi?</label><textarea class="my-textarea" id="actionChange" placeholder="Apa perubahan yang kamu lihat? Apakah aksimu berhasil? Apa yang belum berhasil?"></textarea></div>
             <div class="pb-row"><label class="pb-label" style="color:#14532D;">6. Langkah berikutnya</label><textarea class="my-textarea" id="actionNext" placeholder="Apa yang akan kamu pertahankan, perbaiki, atau ajak orang lain lakukan?"></textarea></div>
-            <button type="button" class="btn" style="background:#15803D;color:#fff;margin-top:6px;" onclick="saveEcoAction()">✅ Simpan Proyek Aksiku</button>
+            <div class="create-partb-actions">
+              <button type="button" id="saveCreateActionBtn" class="btn" style="background:#15803D;color:#fff;" onclick="saveEcoAction()">✅ Simpan Proyek Aksiku</button>
+              <button type="button" id="downloadCreateActionBtn" class="create-download-btn" onclick="downloadCreateArtifact('action')">📄 Unduh Flyer (PDF)</button>
+              <span id="createActionStatus" class="create-partb-msg" role="status" aria-live="polite"></span>
+            </div>
             <div id="actionFeedback" style="display:none;margin-top:12px;padding:12px 14px;border-radius:10px;background:#DCFCE7;color:#14532D;font-size:.84rem;font-weight:700;"></div>
           </div>
         </div>
@@ -891,12 +937,15 @@
 
       <div class="report-reflection-box">
         <label for="compareReflection"><strong>🔎 Setelah membandingkan keduanya, perubahan apa yang paling kamu sadari?</strong></label>
-        <textarea id="compareReflection" class="my-textarea" placeholder="Contoh: Saat DISCUSS saya berpikir..., setelah EXPLAIN saya menjadi paham bahwa..." oninput="saveCompareReflection()"></textarea>
-        <small id="compareReflectionStatus">💾 Refleksi perbandingan tersimpan otomatis.</small>
+        <textarea id="compareReflection" class="my-textarea" placeholder="Contoh: Saat DISCUSS saya berpikir..., setelah EXPLAIN saya menjadi paham bahwa..." oninput="compareReflectionTouch()"></textarea>
+        <div class="report-reflection-actions">
+          <button type="button" id="saveCompareReflectionBtn" class="btn btn-main btn-sm" onclick="saveCompareReflection()">💾 Simpan Tanggapan Refleksi</button>
+          <span id="compareReflectionStatus" class="report-reflection-msg" role="status" aria-live="polite"></span>
+        </div>
       </div>
 
       <div class="finish-actions report-actions">
-        <button class="btn btn-main btn-sm" type="button" onclick="finishPrintLearningReport()">🖨️ Cetak Laporan DISCUSS–EXPLAIN</button>
+        <button class="btn btn-main btn-sm" id="btnPrintLearningReport" type="button" onclick="finishPrintLearningReport()">🖨️ Cetak Laporan DISCUSS–EXPLAIN</button>
       </div>
     </div>
 
@@ -904,7 +953,10 @@
       <div class="card-head"><span class="ico">🌿</span>Seberapa jauh ekoliterasimu?</div>
       <p class="card-lead">Ekoliterasi bukan hanya soal <em>tahu</em>. Ada tiga bagian: <strong>apa yang kamu tahu</strong>, <strong>seberapa kamu peduli</strong>, dan <strong>apa yang benar-benar kamu lakukan</strong>. Jawab sejujurnya — ini bukan ulangan dan tidak ada nilai bagus atau jelek.</p>
       <div class="eco-scale" id="ecoScale"></div>
-      <button class="btn btn-main btn-sm" id="btnEco" type="button" style="margin-top:14px">📊 Lihat profil ekoliterasiku</button>
+      <div class="eco-action-row">
+        <button class="btn btn-main btn-sm" id="btnEco" type="button">📊 Lihat profil ekoliterasiku</button>
+        <span id="ecoProfileStatus" class="eco-profile-msg" role="status" aria-live="polite"></span>
+      </div>
       <div class="eco-result" id="ecoResult">
         <div class="eco-bars" id="ecoBars"></div>
         <div class="eco-verdict" id="ecoVerdict"></div>
@@ -919,14 +971,17 @@
         <button class="btn btn-ghost btn-sm" id="btnRestart" type="button">🔄 Mulai dari awal</button>
         <button class="btn btn-ghost btn-sm" id="btnClear" type="button">🗑️ Hapus semua jawabanku</button>
       </div>
-      <p class="hint" style="margin-top:11px">Jawabanmu tersimpan di perangkat ini saja, tidak dikirim ke mana pun.</p>
+      <div id="finishSaveActionMsg" class="finish-action-msg" role="status" aria-live="polite"></div>
     </div>
 
 
     <div class="card finish-card flow-cert-card">
       <div class="card-head"><span class="ico">🏅</span>Selesai / Sertifikat</div>
       <p class="card-lead">Setelah menyelesaikan perjalanan RADEC dan refleksi, tampilkan sertifikat penyelesaian sebagai bukti telah mengikuti pembelajaran.</p>
-      <button class="btn btn-main btn-sm" type="button" onclick="flowBuildCertificate()">🏅 Tampilkan Sertifikat</button>
+      <div class="flow-cert-actions">
+        <button class="btn btn-main btn-sm" id="flowBuildCertBtn" type="button" onclick="flowBuildCertificate()">🏅 Tampilkan Sertifikat</button>
+        <span id="flowCertStatus" class="flow-cert-msg" role="status" aria-live="polite"></span>
+      </div>
       <div id="flowCertificate" class="flow-certificate">
         <div style="font-size:.72rem;letter-spacing:2px;font-weight:900;color:#9a7419">SERTIFIKAT PENYELESAIAN</div>
         <h3>ECOMEDIA DIGITAL BERBASIS RADEC</h3>
@@ -934,7 +989,7 @@
         <p>telah menyelesaikan pembelajaran <strong>Perubahan Iklim</strong> melalui tahapan<br><strong>Read · Answer · Discuss · Explain · Create</strong></p>
         <div class="flow-cert-seal">🌍🏅🌱</div>
         <p id="flowCertMeta"></p>
-        <button class="btn btn-ghost btn-sm" type="button" style="margin-top:12px" onclick="flowPrintCertificate()">🖨️ Cetak Sertifikat</button>
+        <button class="btn btn-ghost btn-sm" id="flowPrintCertBtn" type="button" style="margin-top:12px" onclick="flowPrintCertificate()">🖨️ Cetak Sertifikat</button>
       </div>
     </div>
 
@@ -1081,30 +1136,23 @@
     
     <div id="ecoConfirmClassBox" style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:16px;padding:14px 16px;margin:8px 0 18px;text-align:left;font-size:0.88rem;color:#166534;line-height:1.6;">
       <p style="margin:0 0 8px;">
-        Kami menemukan nama <strong id="confirmStudentName" style="color:#14532d;">-</strong> sebelumnya terdaftar di 
-        <strong id="confirmOldClass" style="color:#b45309;background:#fef3c7;padding:2px 6px;border-radius:6px;">Kelas -</strong> 
-        dari <strong id="confirmSchoolName" style="color:#14532d;">-</strong>.
+        Nama kamu sudah terdaftar di kelas ini sebagai <strong id="confirmRegisteredName" style="color:#14532d;background:#fef3c7;padding:2px 6px;border-radius:6px;">-</strong>, apakah ingin mengganti nama ?
       </p>
       <p style="margin:0;font-weight:700;">
-        Apakah kamu ingin mengubah kelasmu menjadi <span id="confirmNewClass" style="color:#15803d;background:#dcfce7;padding:2px 6px;border-radius:6px;">Kelas -</span>?
+        Nama baru: <span id="confirmNewName" style="color:#15803d;background:#dcfce7;padding:2px 6px;border-radius:6px;">-</span>
       </p>
     </div>
 
     <!-- Tombol Aksi Pilihan -->
     <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
-      <!-- Tombol 1: Konfirmasi Update Kelas (PATCH) -->
+      <!-- Tombol 1: Konfirmasi Update Nama (PATCH) -->
       <button id="btnConfirmChangeClass" type="button" class="eco-loading-btn" style="background:#1a8c4a;box-shadow:0 4px 14px rgba(26,140,74,0.25);">
-        <span>✅ Ya, Ubah Kelasku</span>
+        <span>✅ Ya, Ganti Nama</span>
       </button>
 
-      <!-- Tombol 2: Bukan Saya, Buat Akun Baru (POST) -->
+      <!-- Tombol 2: Tutup Modal & Kembalikan Input Nama Terdaftar -->
       <button id="btnConfirmNewAccount" type="button" class="eco-loading-btn" style="background:#f8fafc;color:#334155;border:1.5px solid #cbd5e1;box-shadow:none;">
-        <span>👨‍🎓👩‍🎓 Bukan, Buat Akun Baru</span>
-      </button>
-
-      <!-- Tombol 3: Batal / Cek Lagi -->
-      <button type="button" onclick="closeConfirmClassModal()" style="appearance:none;background:none;border:none;color:#64748b;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;padding:6px;cursor:pointer;text-decoration:underline;">
-        Kembali periksa data login
+        <span>Tidak, saya akan memeriksanya kembali</span>
       </button>
     </div>
 
@@ -1163,12 +1211,18 @@
     <h3 id="ecoCloseReadTitle" class="eco-loading-title" style="margin-bottom: 8px;">Tutup Materi Bacaan?</h3>
     
     <div id="ecoCloseReadBox" style="background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:16px;padding:14px 16px;margin:8px 0 18px;text-align:left;font-size:0.88rem;color:#0369a1;line-height:1.6;">
-      <p style="margin:0 0 6px;">
-        Kamu sedang membuka <strong id="closeReadMaterialName" style="color:#0284c7;">Materi Bacaan</strong>.
-      </p>
-      <p style="margin:0;font-weight:700;color:#075985;">
-        Apakah kamu yakin ingin menutup dan menggulung materi ini kembali?
-      </p>
+      <div id="ecoCloseReadDefaultMsg">
+        <p style="margin:0 0 6px;">
+          Kamu sedang membuka <strong id="closeReadMaterialName" style="color:#0284c7;">Materi Bacaan</strong>.
+        </p>
+        <p style="margin:0;font-weight:700;color:#075985;">
+          Apakah kamu yakin ingin menutup dan menggulung materi ini kembali?
+        </p>
+      </div>
+      <div id="ecoCloseReadCustomMsg" style="display:none;">
+        <p id="ecoCloseReadCustomPrimary" style="margin:0 0 6px;"></p>
+        <p id="ecoCloseReadCustomSecondary" style="margin:0;font-weight:700;color:#075985;"></p>
+      </div>
     </div>
 
     <!-- Tombol Aksi Pilihan -->
@@ -1562,6 +1616,7 @@
   <script src="js/loading.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/tracker.js"></script>
+  <script src="js/access-control.js"></script>
   <script src="js/router.js"></script>
 
   <!-- 3. Feature Modules -->
@@ -1578,4 +1633,3 @@
   <script src="js/app.js"></script>
 </body>
 </html>
-
